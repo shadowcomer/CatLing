@@ -26,4 +26,10 @@ public:
   virtual void onUnitComplete(BWAPI::Unit unit);
   // Everything below this line is safe to modify.
 
+private:
+	BWAPI::Player self;
+	bool buildBarracks;
+
+	void initialize();
+	bool shouldBuildBarracks();
 };

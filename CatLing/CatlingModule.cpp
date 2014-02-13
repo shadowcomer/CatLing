@@ -9,6 +9,12 @@
 using namespace BWAPI;
 using namespace Filter;
 
+void CatlingModule::initialize()
+{
+	self = Broodwar->self();
+	buildBarracks = false;
+}
+
 void CatlingModule::onStart()
 {
   // Hello World!
@@ -29,7 +35,7 @@ void CatlingModule::onStart()
   Broodwar->setCommandOptimizationLevel(2);
 
   // Check if this is a replay
-  if ( Broodwar->isReplay() )
+  if (Broodwar->isReplay())
   {
     // Announce the players in the replay
     Broodwar << "The following players are in this replay:" << std::endl;
@@ -39,7 +45,7 @@ void CatlingModule::onStart()
     for(auto p = players.begin(); p != players.end(); ++p)
     {
       // Only print the player if they are not an observer
-      if ( !p->isObserver() )
+      if (!p->isObserver())
         Broodwar << p->getName() << ", playing as " << p->getRace() << std::endl;
     }
 
@@ -48,8 +54,11 @@ void CatlingModule::onStart()
   {
     // Retrieve you and your enemy's races. enemy() will just return the first enemy.
     // If you wish to deal with multiple enemies then you must use enemies().
-    if ( Broodwar->enemy() ) // First make sure there is an enemy
+    if (Broodwar->enemy()) // First make sure there is an enemy
       Broodwar << "The matchup is " << Broodwar->self()->getRace() << " vs " << Broodwar->enemy()->getRace() << std::endl;
+	
+	// Call for this class' initialization (can't call a constructor because we're injecting)
+	initialize();
   }
 
 }
@@ -57,7 +66,7 @@ void CatlingModule::onStart()
 void CatlingModule::onEnd(bool isWinner)
 {
   // Called when the game ends
-  if ( isWinner )
+  if (isWinner)
   {
     // Log your win here!
   }
@@ -72,33 +81,39 @@ void CatlingModule::onFrame()
   Broodwar->drawTextScreen(200, 20, "Average FPS: %f", Broodwar->getAverageFPS() );
 
   // Return if the game is a replay or is paused
-  if ( Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self() )
+  if(Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
     return;
 
   // Prevent spamming by only running our onFrame once every number of latency frames.
   // Latency frames are the number of frames before commands are processed.
-  if ( Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0 )
+  if(Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
     return;
+
+
+
 
   // Iterate through all the units that we own
   Unitset myUnits = Broodwar->self()->getUnits();
-  for ( Unitset::iterator u = myUnits.begin(); u != myUnits.end(); ++u )
+
+  // See if it's the appropiate time to build
+
+  for(Unitset::iterator u = myUnits.begin(); u != myUnits.end(); ++u)
   {
     // Ignore the unit if it no longer exists
     // Make sure to include this block when handling any Unit pointer!
-    if ( !u->exists() )
+    if(!u->exists())
       continue;
 
     // Ignore the unit if it has one of the following status ailments
-    if ( u->isLockedDown() || u->isMaelstrommed() || u->isStasised() )
+    if(u->isLockedDown() || u->isMaelstrommed() || u->isStasised())
       continue;
 
     // Ignore the unit if it is in one of the following states
-    if ( u->isLoaded() || !u->isPowered() || u->isStuck() )
+    if(u->isLoaded() || !u->isPowered() || u->isStuck())
       continue;
 
     // Ignore the unit if it is incomplete or busy constructing
-    if ( !u->isCompleted() || u->isConstructing() )
+    if(!u->isCompleted() || u->isConstructing())
       continue;
 
 
@@ -106,21 +121,21 @@ void CatlingModule::onFrame()
 
 
     // If the unit is a worker unit
-    if ( u->getType().isWorker() )
+    if(u->getType().isWorker())
     {
       // if our worker is idle
-      if ( u->isIdle() )
+      if(u->isIdle())
       {
         // Order workers carrying a resource to return them to the center,
         // otherwise find a mineral patch to harvest.
-        if ( u->isCarryingGas() || u->isCarryingMinerals() )
+        if(u->isCarryingGas() || u->isCarryingMinerals())
         {
           u->returnCargo();
         }
-        else if ( !u->getPowerUp() )  // The worker cannot harvest anything if it
+        else if(!u->getPowerUp())  // The worker cannot harvest anything if it
         {                             // is carrying a powerup such as a flag
           // Harvest from the nearest mineral patch or gas refinery
-          if ( !u->gather( u->getClosestUnit( IsMineralField || IsRefinery )) )
+          if(!u->gather(u->getClosestUnit(IsMineralField || IsRefinery)) )
           {
             // If the call fails, then print the last error message
             Broodwar << Broodwar->getLastError() << std::endl;
@@ -130,11 +145,10 @@ void CatlingModule::onFrame()
       } // closure: if idle
 
     }
-    else if ( u->getType().isResourceDepot() ) // A resource depot is a Command Center, Nexus, or Hatchery
+    else if(u->getType().isResourceDepot()) // A resource depot is a Command Center, Nexus, or Hatchery
     {
-
       // Order the depot to construct more workers! But only when it is idle.
-      if ( u->isIdle() && !u->train(u->getType().getRace().getWorker()) )
+      if(u->isIdle() && !u->train(u->getType().getRace().getWorker()) )
       {
         // If that fails, draw the error at the location so that you can visibly see what went wrong!
         // However, drawing the error once will only appear for a single frame
@@ -150,9 +164,9 @@ void CatlingModule::onFrame()
         static int lastChecked = 0;
 
         // If we are supply blocked and haven't tried constructing more recently
-        if (  lastErr == Errors::Insufficient_Supply &&
-              lastChecked + 400 < Broodwar->getFrameCount() &&
-              Broodwar->self()->incompleteUnitCount(supplyProviderType) == 0 )
+        if(lastErr == Errors::Insufficient_Supply &&
+           lastChecked + 400 < Broodwar->getFrameCount() &&
+           Broodwar->self()->incompleteUnitCount(supplyProviderType) == 0)
         {
           lastChecked = Broodwar->getFrameCount();
 
@@ -161,31 +175,31 @@ void CatlingModule::onFrame()
                                                     (IsIdle || IsGatheringMinerals) &&
                                                     IsOwned);
           // If a unit was found
-          if ( supplyBuilder )
+          if(supplyBuilder)
           {
-            if ( supplyProviderType.isBuilding() )
+            if(supplyProviderType.isBuilding())
             {
               TilePosition targetBuildLocation = Broodwar->getBuildLocation(supplyProviderType, supplyBuilder->getTilePosition());
-              if ( targetBuildLocation )
+              if(targetBuildLocation)
               {
                 // Register an event that draws the target build location
                 Broodwar->registerEvent([targetBuildLocation,supplyProviderType](Game*)
                                         {
-                                          Broodwar->drawBoxMap( Position(targetBuildLocation),
-                                                                Position(targetBuildLocation + supplyProviderType.tileSize()),
-                                                                Colors::Blue);
+                                          Broodwar->drawBoxMap(Position(targetBuildLocation),
+                                                               Position(targetBuildLocation + supplyProviderType.tileSize()),
+                                                               Colors::Blue);
                                         },
                                         nullptr,  // condition
-                                        supplyProviderType.buildTime() + 100 );  // frames to run
+                                        supplyProviderType.buildTime() + 100);  // frames to run
 
                 // Order the builder to construct the supply structure
-                supplyBuilder->build( supplyProviderType, targetBuildLocation );
+                supplyBuilder->build(supplyProviderType, targetBuildLocation);
               }
             }
             else
             {
               // Train the supply provider (Overlord) if the provider is not a structure
-              supplyBuilder->train( supplyProviderType );
+              supplyBuilder->train(supplyProviderType);
             }
           } // closure: supplyBuilder is valid
         } // closure: insufficient supply
@@ -225,7 +239,7 @@ void CatlingModule::onNukeDetect(BWAPI::Position target)
 {
 
   // Check if the target is a valid position
-  if ( target )
+  if(target)
   {
     // if so, print the location of the nuclear strike target
     Broodwar << "Nuclear Launch Detected at " << target << std::endl;
@@ -257,10 +271,10 @@ void CatlingModule::onUnitHide(BWAPI::Unit unit)
 
 void CatlingModule::onUnitCreate(BWAPI::Unit unit)
 {
-  if ( Broodwar->isReplay() )
+  if(Broodwar->isReplay())
   {
     // if we are in a replay, then we will print out the build order of the structures
-    if ( unit->getType().isBuilding() && !unit->getPlayer()->isNeutral() )
+    if(unit->getType().isBuilding() && !unit->getPlayer()->isNeutral())
     {
       int seconds = Broodwar->getFrameCount()/24;
       int minutes = seconds/60;
@@ -276,10 +290,10 @@ void CatlingModule::onUnitDestroy(BWAPI::Unit unit)
 
 void CatlingModule::onUnitMorph(BWAPI::Unit unit)
 {
-  if ( Broodwar->isReplay() )
+  if(Broodwar->isReplay())
   {
     // if we are in a replay, then we will print out the build order of the structures
-    if ( unit->getType().isBuilding() && !unit->getPlayer()->isNeutral() )
+    if(unit->getType().isBuilding() && !unit->getPlayer()->isNeutral())
     {
       int seconds = Broodwar->getFrameCount()/24;
       int minutes = seconds/60;
@@ -300,4 +314,13 @@ void CatlingModule::onSaveGame(std::string gameName)
 
 void CatlingModule::onUnitComplete(BWAPI::Unit unit)
 {
+}
+
+//TODO: Improve barracks building decision logic.
+bool CatlingModule::shouldBuildBarracks()
+{
+	if(self->minerals() >= UnitTypes::Terran_Barracks.mineralPrice() && self->gas() >= UnitTypes::Terran_Barracks.gasPrice())
+	{
+		buildBarracks = true;
+	}
 }
