@@ -12,7 +12,8 @@ using namespace Filter;
 void CatlingModule::initialize()
 {
 	self = Broodwar->self();
-	buildBarracks = false;
+	barracksRequested = false;
+	barracksBuilt = false;
 }
 
 void CatlingModule::onStart()
@@ -147,6 +148,9 @@ void CatlingModule::onFrame()
     }
     else if(u->getType().isResourceDepot()) // A resource depot is a Command Center, Nexus, or Hatchery
     {
+		if(shouldBuildBarracks())
+			barracksRequested = constructBarracks(getClosestBuilder(u));
+
       // Order the depot to construct more workers! But only when it is idle.
       if(u->isIdle() && !u->train(u->getType().getRace().getWorker()) )
       {
@@ -314,13 +318,36 @@ void CatlingModule::onSaveGame(std::string gameName)
 
 void CatlingModule::onUnitComplete(BWAPI::Unit unit)
 {
+	if(unit->getType() == UnitType::getType("Terran Barracks"))
+	{
+		barracksRequested = false;
+	}
 }
 
 //TODO: Improve barracks building decision logic.
 bool CatlingModule::shouldBuildBarracks()
 {
-	if(self->minerals() >= UnitTypes::Terran_Barracks.mineralPrice() && self->gas() >= UnitTypes::Terran_Barracks.gasPrice())
+	return !barracksBuilt && !barracksRequested &&
+		self->minerals() >= UnitTypes::Terran_Barracks.mineralPrice() &&
+		self->gas() >= UnitTypes::Terran_Barracks.gasPrice();
+}
+
+bool CatlingModule::constructBarracks(Unit builder)
+{
+	if(builder)
 	{
-		buildBarracks = true;
+		TilePosition targetBuildLocation = Broodwar->getBuildLocation(UnitTypes::Terran_Barracks, builder->getTilePosition(), 80);
+		if(targetBuildLocation)
+		{
+			return builder->build(UnitTypes::Terran_Barracks, targetBuildLocation);
+		}
 	}
+	return false;
+}
+
+BWAPI::Unit CatlingModule::getClosestBuilder(Unitset::iterator depot)
+{
+	return depot->getClosestUnit(GetType == UnitTypes::Terran_Barracks.whatBuilds().first &&
+									(IsIdle || IsGatheringMinerals) &&
+									 IsOwned);
 }

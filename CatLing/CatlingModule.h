@@ -28,8 +28,11 @@ public:
 
 private:
 	BWAPI::Player self;
-	bool buildBarracks;
+	bool barracksRequested;
+	bool barracksBuilt;
 
 	void initialize();
 	bool shouldBuildBarracks();
+	bool constructBarracks(BWAPI::Unit builder);
+	BWAPI::Unit getClosestBuilder(BWAPI::Unitset::iterator depot);
 };
