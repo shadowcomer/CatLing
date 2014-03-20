@@ -1,8 +1,10 @@
 #pragma once
 #include <BWAPI.h>
 
-// Remember not to use "Broodwar" in any global class constructor!
+/*
+	CatLing AI
 
+*/
 class CatlingModule : public BWAPI::AIModule
 {
 public:
@@ -26,8 +28,29 @@ public:
   virtual void onUnitComplete(BWAPI::Unit unit);
   // Everything below this line is safe to modify.
 
+  CatlingModule();
+  ~CatlingModule();
+
 private:
 	BWAPI::Player self;
+
+	// Map dimensions in Build Tile, Walk Tile and Position
+	int m_mapWidth_BT;
+	int m_mapHeight_BT;
+
+	int m_mapWidth_WT;
+	int m_mapHeight_WT;
+
+	int m_mapWidth_P;
+	int m_mapHeight_P;
+
+	/*
+		Temporary barracks building implementation
+	*/
+	//
+	bool buildingPhase;
+	//
+
 	bool barracksRequested;
 	bool barracksBuilt;
 
@@ -35,4 +58,16 @@ private:
 	bool shouldBuildBarracks();
 	bool constructBarracks(BWAPI::Unit builder);
 	BWAPI::Unit getClosestBuilder(BWAPI::Unitset::iterator depot);
+
+	/*
+		VALID OPERATIONS
+
+		Below are all the calls that can be accessed by a job request
+	*/
+
+	// A move's success doesn't guarantee that the move was completed, just that it was properly executed
+	bool moveT(BWAPI::Unit u, BWAPI::TilePosition t);
+
+	// Position/Unit type relative unit selection
+	BWAPI::Unit* getClosestUnit(BWAPI::UnitType type, BWAPI::TilePosition t);
 };
