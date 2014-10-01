@@ -1,9 +1,25 @@
 #pragma once
 #include <BWAPI.h>
+#include <iostream>
+
+#include <assert.h>
+
+#include <boost/log/common.hpp>
+#include <boost/log/expressions.hpp>
+
+#include <boost/log/utility/setup/file.hpp>
+#include <boost/log/utility/setup/console.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
+
+#include <boost/log/attributes/timer.hpp>
+#include <boost/log/attributes/named_scope.hpp>
+
+#include <boost/log/sources/logger.hpp>
+
+#include <boost/log/support/date_time.hpp>
 
 /*
 	CatLing AI
-
 */
 class CatlingModule : public BWAPI::AIModule
 {
@@ -44,20 +60,22 @@ private:
 	int m_mapWidth_P;
 	int m_mapHeight_P;
 
-	/*
-		Temporary barracks building implementation
-	*/
-	//
-	bool buildingPhase;
-	//
+	int m_projectedMinerals;
+	int m_projectedGas;
 
-	bool barracksRequested;
-	bool barracksBuilt;
+	/*
+		Temporary building implementation variables
+	*/
+	unsigned int m_SCVcount;
+
+	bool m_barracksRequested;
+	bool m_barracksBuilt;
+
+	bool m_supplyRequested;
+	bool m_supplyAttempted;
+
 
 	void initialize();
-	bool shouldBuildBarracks();
-	bool constructBarracks(BWAPI::Unit builder);
-	BWAPI::Unit getClosestBuilder(BWAPI::Unitset::iterator depot);
 
 	/*
 		VALID OPERATIONS
@@ -65,9 +83,19 @@ private:
 		Below are all the calls that can be accessed by a job request
 	*/
 
+	void spendProjectedCost(BWAPI::UnitType type);
+
 	// A move's success doesn't guarantee that the move was completed, just that it was properly executed
-	bool moveT(BWAPI::Unit u, BWAPI::TilePosition t);
+	bool moveToTile(BWAPI::Unit unit, BWAPI::TilePosition position);
 
 	// Position/Unit type relative unit selection
-	BWAPI::Unit* getClosestUnit(BWAPI::UnitType type, BWAPI::TilePosition t);
+	BWAPI::Unit getClosest(BWAPI::UnitType type, BWAPI::TilePosition t);
+
+	bool build(BWAPI::Unit builder, BWAPI::UnitType type, BWAPI::TilePosition location);
+	bool train(BWAPI::Unit trainer, BWAPI::UnitType type);
+
+	bool unitCanBuild(BWAPI::Unit builder, BWAPI::UnitType type);
+	bool unitCanTrain(BWAPI::Unit trainer, BWAPI::UnitType type);
+	bool hasEnoughResources(BWAPI::UnitType type);
+	bool hasEnoughSupply(BWAPI::UnitType type);
 };
