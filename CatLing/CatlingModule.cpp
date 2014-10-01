@@ -300,7 +300,7 @@ void CatlingModule::onUnitComplete(BWAPI::Unit unit)
 
 bool CatlingModule::moveToTile(Unit unit, TilePosition position)
 {
-	if(!unit || !position.isValid()) return false;
+	assert(unit != nullptr && position.isValid());
 	return unit->move(Position(position),false);
 }
 
@@ -309,31 +309,14 @@ void cancel(BWAPI::Game* g)
 	Broodwar << "Building was stopped! OOOPS!" << std::endl;
 }
 
-bool check(BWAPI::Game* g)
-{
-	return true;
-}
-
-void bindCall(std::tr1::function<void(BWAPI::Game*)> call)
-{
-	std::tr1::function<void(BWAPI::Game*)> myFunc = call;
-	BWAPI::Game* g = nullptr;
-	myFunc(g);
-}
-
-std::function<void(BWAPI::PlayerInterface*)> callback()
-{
-	return [=](BWAPI::PlayerInterface*) -> void
-		{Broodwar << "Canceled!" << std::endl;};
-}
-
 bool CatlingModule::build(Unit builder, UnitType type, TilePosition location)
 {
 	bool success = false;
-	if(!unitCanBuild(builder, type))
-		return false;
+	assert(unitCanBuild(builder,type));
+
 	if(success = builder->build(type, location))
 		spendProjectedCost(type);
+
 	// Check until the building was stopped
 	// DUMMY: Failed construction callback. Current implementation is just for learning how it works.
 	Broodwar->registerEvent([](BWAPI::Game*) -> void {Broodwar << "Building was stopped! OOOPS!" << std::endl;},
@@ -344,17 +327,17 @@ bool CatlingModule::build(Unit builder, UnitType type, TilePosition location)
 }
 
 bool CatlingModule::unitCanBuild(Unit builder, UnitType type)
-	{ return builder && Broodwar->canMake(type, builder); }
+	{ return builder != nullptr && Broodwar->canMake(type, builder); }
 
 bool CatlingModule::train(Unit trainer, UnitType type)
 {
 	bool success = false;
 	// Check params
-	if(!unitCanTrain(trainer, type))
-		return false;
+	assert(unitCanTrain(trainer,type));
 	// Check resources
 	if(!hasEnoughSupply(type) || !hasEnoughResources(type))
-		 return false;
+		return false;
+
 	if(success = trainer->train(type))
 		spendProjectedCost(type);
 	return success;
