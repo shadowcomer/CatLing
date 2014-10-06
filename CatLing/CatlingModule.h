@@ -74,6 +74,7 @@ private:
 	bool m_supplyRequested;
 	bool m_supplyAttempted;
 
+	BWAPI::TilePosition m_posCommand;
 
 	void initialize();
 

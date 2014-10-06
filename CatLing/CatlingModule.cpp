@@ -29,6 +29,7 @@ void CatlingModule::initialize()
 
 	m_mapWidth_P = m_mapWidth_BT * TILE_SIZE;
 	m_mapHeight_P = m_mapHeight_BT * TILE_SIZE;
+	m_posCommand = self->getStartLocation();
 
 	m_SCVcount = 0;
 	m_projectedMinerals = 0;
@@ -114,6 +115,23 @@ void CatlingModule::onFrame()
 	if(Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
 		return;
 
+	// Build supply if we need
+	if((float)self->supplyUsed() / (float)self->supplyTotal() >= 0.7f &&
+		!m_supplyRequested)
+	{
+		UnitType supplyType = UnitTypes::Terran_Supply_Depot;
+		Unitset set = Broodwar->getUnitsInRadius((Position) m_posCommand / 32, 20000, GetType == UnitTypes::Terran_SCV &&
+													IsIdle || IsGatheringMinerals);
+		if(!set.empty())
+		{
+			Unit builder = *set.begin();
+			TilePosition location = Broodwar->getBuildLocation(supplyType, builder->getTilePosition(), 100);
+			m_supplyRequested = build(builder, supplyType, location);
+		}
+		else
+			Broodwar << "Unitset is EMPTY!" << std::endl;
+	}
+
 	// Iterate through all the units that we own
 	Unitset myUnits = Broodwar->self()->getUnits();
 	for(Unitset::iterator u = myUnits.begin(); u != myUnits.end(); ++u)
@@ -139,28 +157,17 @@ void CatlingModule::onFrame()
 		if(type.isResourceDepot())
 		{
 			// Build workers if needed
-			if(u->isIdle() && m_SCVcount < 24)
+			if(u->isIdle() && m_SCVcount < 24 && unitCanTrain(*u, UnitTypes::Terran_SCV))
 				train(*u, UnitTypes::Terran_SCV);
 
 			// Build barracks if we don't have one
-			if(m_SCVcount > 8 && !m_barracksRequested && !m_barracksBuilt)
+			if(m_SCVcount > 8 && !m_barracksRequested && !m_barracksBuilt && unitCanBuild(*u, UnitTypes::Terran_Barracks))
 			{
 				UnitType barracksType = UnitTypes::Terran_Barracks;
 				Unit builder = u->getClosestUnit(GetType == barracksType.whatBuilds().first && IsIdle || IsGatheringMinerals);
 				TilePosition location = Broodwar->getBuildLocation(barracksType, u->getTilePosition(), 80);
 
 				m_barracksRequested = build(builder, barracksType, location);
-			}
-
-			// Build supply if we need
-			if((float)self->supplyUsed() / (float)self->supplyTotal() >= 0.7f &&
-				!m_supplyRequested)
-			{
-				UnitType supplyType = UnitTypes::Terran_Supply_Depot;
-				Unit builder = u->getClosestUnit(GetType == supplyType.whatBuilds().first && (IsIdle || IsGatheringMinerals));
-				TilePosition location = Broodwar->getBuildLocation(supplyType, builder->getTilePosition(), 100);
-				
-				m_supplyRequested = build(builder, supplyType, location);
 			}
 
 		} else if(UnitTypes::Terran_Barracks == type)
@@ -327,7 +334,7 @@ bool CatlingModule::build(Unit builder, UnitType type, TilePosition location)
 }
 
 bool CatlingModule::unitCanBuild(Unit builder, UnitType type)
-	{ return builder != nullptr && Broodwar->canMake(type, builder); }
+{ return builder != nullptr && builder->canIssueCommandType(UnitCommandTypes::Build, false); }
 
 bool CatlingModule::train(Unit trainer, UnitType type)
 {
@@ -343,6 +350,9 @@ bool CatlingModule::train(Unit trainer, UnitType type)
 	return success;
 }
 
+bool CatlingModule::unitCanTrain(Unit trainer, UnitType type)
+	{ return trainer != nullptr && trainer->canIssueCommandType(UnitCommandTypes::Train, false); }
+
 bool CatlingModule::hasEnoughSupply(BWAPI::UnitType type)
 	{ return self->supplyTotal() >= (self->supplyUsed() + type.supplyRequired()); }
 
@@ -354,9 +364,6 @@ void CatlingModule::spendProjectedCost(UnitType type)
 	m_projectedMinerals += type.mineralPrice();
 	m_projectedGas += type.gasPrice();
 }
-
-bool CatlingModule::unitCanTrain(Unit trainer, UnitType type)
-	{ return trainer && Broodwar->canMake(type, trainer); }
 
 CatlingModule::CatlingModule() { }
 CatlingModule::~CatlingModule() { }
