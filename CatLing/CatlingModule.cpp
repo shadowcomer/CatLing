@@ -161,7 +161,7 @@ void CatlingModule::onFrame()
 				train(*u, UnitTypes::Terran_SCV);
 
 			// Build barracks if we don't have one
-			if(m_SCVcount > 8 && !m_barracksRequested && !m_barracksBuilt && unitCanBuild(*u, UnitTypes::Terran_Barracks))
+			if(m_SCVcount > 8 && !m_barracksRequested && !m_barracksBuilt)
 			{
 				UnitType barracksType = UnitTypes::Terran_Barracks;
 				Unit builder = u->getClosestUnit(GetType == barracksType.whatBuilds().first && IsIdle || IsGatheringMinerals);
@@ -326,15 +326,29 @@ bool CatlingModule::build(Unit builder, UnitType type, TilePosition location)
 
 	// Check until the building was stopped
 	// DUMMY: Failed construction callback. Current implementation is just for learning how it works.
-	Broodwar->registerEvent([](BWAPI::Game*) -> void {Broodwar << "Building was stopped! OOOPS!" << std::endl;},
+/*	Broodwar->registerEvent([](BWAPI::Game*) -> void {Broodwar << "Building was stopped! OOOPS!" << std::endl;},
 							[](BWAPI::Game*) -> bool {return true;},
 							1,
-							1);
+							1);*/
 	return success;
 }
 
 bool CatlingModule::unitCanBuild(Unit builder, UnitType type)
-{ return builder != nullptr && builder->canIssueCommandType(UnitCommandTypes::Build, false); }
+{
+	if(builder == nullptr)
+	{
+		Broodwar << "Null builder!" << std::endl;
+		return false;
+	}
+	else if(!builder->canIssueCommandType(UnitCommandTypes::Build, true))
+	{
+		Broodwar << "Builder: " << builder->getType().toString() << " can't build" << std::endl;
+		return false;
+	}
+	else return true;
+
+	//return builder != nullptr && builder->canIssueCommandType(UnitCommandTypes::Build, false);
+}
 
 bool CatlingModule::train(Unit trainer, UnitType type)
 {
