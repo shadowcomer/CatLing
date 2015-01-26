@@ -81,7 +81,7 @@ private:
 	bool build(BWAPI::Unit builder, BWAPI::UnitType type, BWAPI::TilePosition location);
 	bool train(BWAPI::Unit trainer, BWAPI::UnitType type);
 
-	bool unitCanBuild(BWAPI::Unit builder, BWAPI::UnitType type);
+	bool unitCanBuild(BWAPI::Unit builder, BWAPI::UnitType type, BWAPI::TilePosition tile);
 	bool unitCanTrain(BWAPI::Unit trainer, BWAPI::UnitType type);
 	bool hasEnoughResources(BWAPI::UnitType type);
 	bool hasEnoughSupply(BWAPI::UnitType type);

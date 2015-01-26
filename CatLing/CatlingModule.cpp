@@ -307,7 +307,6 @@ void CatlingModule::onUnitComplete(BWAPI::Unit unit)
 
 bool CatlingModule::moveToTile(Unit unit, TilePosition position)
 {
-	Broodwar << "Attempting move" << std::endl;
 	assert(unit != nullptr && position.isValid());
 	return unit->move(Position(position),false);
 }
@@ -320,8 +319,7 @@ void cancel(BWAPI::Game* g)
 bool CatlingModule::build(Unit builder, UnitType type, TilePosition location)
 {
 	bool success = false;
-	Broodwar << "Attempting build" << std::endl;
-	assert(unitCanBuild(builder,type));
+	assert(unitCanBuild(builder,type,location));
 
 	if(success = builder->build(type, location))
 		spendProjectedCost(type);
@@ -335,16 +333,15 @@ bool CatlingModule::build(Unit builder, UnitType type, TilePosition location)
 	return success;
 }
 
-bool CatlingModule::unitCanBuild(Unit builder, UnitType type)
+bool CatlingModule::unitCanBuild(Unit builder, UnitType type, TilePosition tile)
 {
 	if(builder == nullptr)
 	{
 		Broodwar << "Null builder!" << std::endl;
 		return false;
 	}
-	else if(!builder->canIssueCommandType(UnitCommandTypes::Build, false))
-	{
-		Broodwar << "Builder: " << builder->getType().toString() << " can't build" << std::endl;
+	else if(type.whatBuilds().first != builder->getType()){
+		Broodwar << "The unit '" << builder->getType().getName() << "' can't build because: " << Broodwar->getLastError() << std::endl;
 		return false;
 	}
 	else return true;
@@ -356,7 +353,6 @@ bool CatlingModule::train(Unit trainer, UnitType type)
 {
 	bool success = false;
 	// Check params
-	Broodwar << "Attempting train" << std::endl;
 	assert(unitCanTrain(trainer,type));
 	// Check resources
 	if(!hasEnoughSupply(type) || !hasEnoughResources(type))
@@ -368,7 +364,7 @@ bool CatlingModule::train(Unit trainer, UnitType type)
 }
 
 bool CatlingModule::unitCanTrain(Unit trainer, UnitType type)
-	{ return trainer != nullptr && trainer->canIssueCommandType(UnitCommandTypes::Train, false); }
+	{ return trainer != nullptr && type.whatBuilds().first == trainer->getType(); }
 
 bool CatlingModule::hasEnoughSupply(BWAPI::UnitType type)
 	{ return self->supplyTotal() >= (self->supplyUsed() + type.supplyRequired()); }
