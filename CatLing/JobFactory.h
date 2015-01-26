@@ -8,8 +8,6 @@
 	will serve as an entrypoint for job generation.
 */
 
-#include <boost\heap\fibonacci_heap.hpp>
-
 class JobFactory
 {
 public:
@@ -24,7 +22,6 @@ public:
 protected:
 
 private:
-	boost::heap::fibonacci_heap<Job> m_jobs;
 
 };
 

@@ -307,6 +307,7 @@ void CatlingModule::onUnitComplete(BWAPI::Unit unit)
 
 bool CatlingModule::moveToTile(Unit unit, TilePosition position)
 {
+	Broodwar << "Attempting move" << std::endl;
 	assert(unit != nullptr && position.isValid());
 	return unit->move(Position(position),false);
 }
@@ -319,6 +320,7 @@ void cancel(BWAPI::Game* g)
 bool CatlingModule::build(Unit builder, UnitType type, TilePosition location)
 {
 	bool success = false;
+	Broodwar << "Attempting build" << std::endl;
 	assert(unitCanBuild(builder,type));
 
 	if(success = builder->build(type, location))
@@ -340,7 +342,7 @@ bool CatlingModule::unitCanBuild(Unit builder, UnitType type)
 		Broodwar << "Null builder!" << std::endl;
 		return false;
 	}
-	else if(!builder->canIssueCommandType(UnitCommandTypes::Build, true))
+	else if(!builder->canIssueCommandType(UnitCommandTypes::Build, false))
 	{
 		Broodwar << "Builder: " << builder->getType().toString() << " can't build" << std::endl;
 		return false;
@@ -354,6 +356,7 @@ bool CatlingModule::train(Unit trainer, UnitType type)
 {
 	bool success = false;
 	// Check params
+	Broodwar << "Attempting train" << std::endl;
 	assert(unitCanTrain(trainer,type));
 	// Check resources
 	if(!hasEnoughSupply(type) || !hasEnoughResources(type))

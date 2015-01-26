@@ -1,7 +1,6 @@
 #include "JobFactory.h"
 
-JobFactory::JobFactory():
-	m_jobs(boost::heap::fibonacci_heap<Job>())
+JobFactory::JobFactory()
 {
 
 }
