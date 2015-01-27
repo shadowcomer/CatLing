@@ -319,7 +319,7 @@ void cancel(BWAPI::Game* g)
 bool CatlingModule::build(Unit builder, UnitType type, TilePosition location)
 {
 	bool success = false;
-	assert(unitCanBuild(builder,type,location));
+	assert(unitCanBuild(builder,type));
 
 	if(success = builder->build(type, location))
 		spendProjectedCost(type);
@@ -333,21 +333,8 @@ bool CatlingModule::build(Unit builder, UnitType type, TilePosition location)
 	return success;
 }
 
-bool CatlingModule::unitCanBuild(Unit builder, UnitType type, TilePosition tile)
-{
-	if(builder == nullptr)
-	{
-		Broodwar << "Null builder!" << std::endl;
-		return false;
-	}
-	else if(type.whatBuilds().first != builder->getType()){
-		Broodwar << "The unit '" << builder->getType().getName() << "' can't build because: " << Broodwar->getLastError() << std::endl;
-		return false;
-	}
-	else return true;
-
-	//return builder != nullptr && builder->canIssueCommandType(UnitCommandTypes::Build, false);
-}
+bool CatlingModule::unitCanBuild(Unit builder, UnitType type)
+	{ return (nullptr != builder) && (type.whatBuilds().first == builder->getType()); }
 
 bool CatlingModule::train(Unit trainer, UnitType type)
 {
@@ -357,7 +344,7 @@ bool CatlingModule::train(Unit trainer, UnitType type)
 	// Check resources
 	if(!hasEnoughSupply(type) || !hasEnoughResources(type))
 		return false;
-
+    
 	if(success = trainer->train(type))
 		spendProjectedCost(type);
 	return success;
