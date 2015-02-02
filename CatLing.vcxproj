@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CATLING_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CATLING_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="catling\CatlingModule.cpp" />
+    <ClCompile Include="catling\Commander.cpp" />
+    <ClCompile Include="catling\dllmain.cpp" />
+    <ClCompile Include="catling\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BWAPI.h" />
+    <ClInclude Include="bwapi\AIModule.h" />
+    <ClInclude Include="bwapi\ArithmaticFilter.h" />
+    <ClInclude Include="bwapi\BestFilter.h" />
+    <ClInclude Include="bwapi\Bullet.h" />
+    <ClInclude Include="bwapi\Bulletset.h" />
+    <ClInclude Include="bwapi\BulletType.h" />
+    <ClInclude Include="bwapi\Client.h" />
+    <ClInclude Include="bwapi\client\BulletData.h" />
+    <ClInclude Include="bwapi\client\BulletImpl.h" />
+    <ClInclude Include="bwapi\client\Client.h" />
+    <ClInclude Include="bwapi\client\Command.h" />
+    <ClInclude Include="bwapi\client\CommandType.h" />
+    <ClInclude Include="bwapi\client\Event.h" />
+    <ClInclude Include="bwapi\client\ForceData.h" />
+    <ClInclude Include="bwapi\client\ForceImpl.h" />
+    <ClInclude Include="bwapi\client\GameData.h" />
+    <ClInclude Include="bwapi\client\GameImpl.h" />
+    <ClInclude Include="bwapi\client\GameTable.h" />
+    <ClInclude Include="bwapi\client\PlayerData.h" />
+    <ClInclude Include="bwapi\client\PlayerImpl.h" />
+    <ClInclude Include="bwapi\client\RegionData.h" />
+    <ClInclude Include="bwapi\client\RegionImpl.h" />
+    <ClInclude Include="bwapi\client\Shape.h" />
+    <ClInclude Include="bwapi\client\ShapeType.h" />
+    <ClInclude Include="bwapi\client\UnitCommand.h" />
+    <ClInclude Include="bwapi\client\UnitData.h" />
+    <ClInclude Include="bwapi\client\UnitImpl.h" />
+    <ClInclude Include="bwapi\Color.h" />
+    <ClInclude Include="bwapi\ComparisonFilter.h" />
+    <ClInclude Include="bwapi\Constants.h" />
+    <ClInclude Include="bwapi\ConstVectorset.h" />
+    <ClInclude Include="bwapi\CoordinateType.h" />
+    <ClInclude Include="bwapi\DamageType.h" />
+    <ClInclude Include="bwapi\Error.h" />
+    <ClInclude Include="bwapi\Event.h" />
+    <ClInclude Include="bwapi\EventType.h" />
+    <ClInclude Include="bwapi\ExplosionType.h" />
+    <ClInclude Include="bwapi\Filters.h" />
+    <ClInclude Include="bwapi\Flag.h" />
+    <ClInclude Include="bwapi\Force.h" />
+    <ClInclude Include="bwapi\Forceset.h" />
+    <ClInclude Include="bwapi\Game.h" />
+    <ClInclude Include="bwapi\GameType.h" />
+    <ClInclude Include="bwapi\Input.h" />
+    <ClInclude Include="bwapi\Interface.h" />
+    <ClInclude Include="bwapi\InterfaceEvent.h" />
+    <ClInclude Include="bwapi\Latency.h" />
+    <ClInclude Include="bwapi\Order.h" />
+    <ClInclude Include="bwapi\Player.h" />
+    <ClInclude Include="bwapi\Playerset.h" />
+    <ClInclude Include="bwapi\PlayerType.h" />
+    <ClInclude Include="bwapi\Position.h" />
+    <ClInclude Include="bwapi\PositionUnit.h" />
+    <ClInclude Include="bwapi\Race.h" />
+    <ClInclude Include="bwapi\Region.h" />
+    <ClInclude Include="bwapi\Regionset.h" />
+    <ClInclude Include="bwapi\TechType.h" />
+    <ClInclude Include="bwapi\TournamentAction.h" />
+    <ClInclude Include="bwapi\Type.h" />
+    <ClInclude Include="bwapi\UnaryFilter.h" />
+    <ClInclude Include="bwapi\Unit.h" />
+    <ClInclude Include="bwapi\UnitCommand.h" />
+    <ClInclude Include="bwapi\UnitCommandType.h" />
+    <ClInclude Include="bwapi\Unitset.h" />
+    <ClInclude Include="bwapi\UnitSizeType.h" />
+    <ClInclude Include="bwapi\UnitType.h" />
+    <ClInclude Include="bwapi\UpgradeType.h" />
+    <ClInclude Include="bwapi\Vectorset.h" />
+    <ClInclude Include="bwapi\Vectorset_iterator.h" />
+    <ClInclude Include="bwapi\WeaponType.h" />
+    <ClInclude Include="catling\CatlingModule.h" />
+    <ClInclude Include="catling\Commander.h" />
+    <ClInclude Include="catling\JobRequest.h" />
+    <ClInclude Include="catling\stdafx.h" />
+    <ClInclude Include="catling\targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="catling\debug\CatLing_manifest.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

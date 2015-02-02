@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="catling\CatlingModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="catling\Commander.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="catling\dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="catling\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BWAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\AIModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\ArithmaticFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\BestFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Bulletset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\BulletType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\ComparisonFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\ConstVectorset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\CoordinateType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\DamageType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\EventType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\ExplosionType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Filters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Flag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Force.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Forceset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\GameType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\InterfaceEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Latency.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Order.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Playerset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\PlayerType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Position.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\PositionUnit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Race.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Region.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Regionset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\TechType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\TournamentAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\UnaryFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Unit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\UnitCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\UnitCommandType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Unitset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\UnitSizeType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\UnitType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\UpgradeType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Vectorset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\Vectorset_iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\WeaponType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\BulletData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\BulletImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\Client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\CommandType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\ForceData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\ForceImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\GameData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\GameImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\GameTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\PlayerData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\PlayerImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\RegionData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\RegionImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\Shape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\ShapeType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\UnitCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\UnitData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bwapi\client\UnitImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="catling\CatlingModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="catling\Commander.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="catling\JobRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="catling\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="catling\targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="catling\debug\CatLing_manifest.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
