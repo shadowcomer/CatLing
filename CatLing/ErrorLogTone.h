@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 enum zas {DEBUG0,DEBUG1,DEBUG2,DEBUG3};
 #define LOG(x) ErrorLogTone::Instance()->writeToFile( x ) ;
