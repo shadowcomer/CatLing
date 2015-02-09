@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AE3B9DC4-5FBB-4B57-8AB4-0D84D8649D78}</ProjectGuid>
-    <RootNamespace>ExampleAIClient</RootNamespace>
+    <RootNamespace>CatLing\Source</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>CatLing</ProjectName>
   </PropertyGroup>
@@ -86,7 +86,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ClientLink.cpp" />
     <ClCompile Include="Source\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\ClientLink.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
