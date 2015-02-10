@@ -4,6 +4,8 @@
 #include <BWAPI.h>
 #include <assert.h>
 
+#include "../include/TBB/tbb/compat/thread"
+
 class ClientLink
 {
 public:
