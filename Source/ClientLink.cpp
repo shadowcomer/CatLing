@@ -3,6 +3,7 @@
 using namespace BWAPI;
 
 ClientLink::ClientLink() :
+m_shouldTerminate(false),
 m_barracksRequested(false),
 m_barracksBuilt(false),
 m_supplyRequested(false),
@@ -25,6 +26,25 @@ m_projectedGas(0)
 ClientLink::~ClientLink()
 {
 
+}
+
+bool ClientLink::requestAction(int num)
+{
+	m_jobQueue.push(num);
+	return true;
+}
+
+int ClientLink::executeActions()
+{
+	int numActions = 0;
+	int val = -1;
+	while (m_jobQueue.try_pop(val))
+	{ 
+		Broodwar << "Found: " << val << std::endl;
+		numActions++;
+	}
+
+	return numActions;
 }
 
 void ClientLink::processEvents()

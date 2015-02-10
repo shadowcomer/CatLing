@@ -5,6 +5,7 @@
 #include <assert.h>
 
 #include "../include/TBB/tbb/compat/thread"
+#include "../include/TBB/tbb/concurrent_queue.h"
 
 class ClientLink
 {
@@ -14,7 +15,9 @@ public:
 
 	/* TEMPORARY PUBLIC FUNCTIONALITY */
 
+	bool requestAction(int num);
 	void processEvents();
+	int executeActions();
 
 	void onStart();
 	void onEnd(bool isWinner);
@@ -55,6 +58,8 @@ public:
 private:
 	/* TEMPORARY PRIVATE FUNCTIONALITY*/
 	BWAPI::Player self;
+	
+	tbb::concurrent_queue<int> m_jobQueue;
 
 	// Map dimensions in Build Tile, Walk Tile and Position
 	int m_mapWidth_BT;
@@ -76,6 +81,8 @@ private:
 
 	bool m_supplyRequested;
 	bool m_supplyAttempted;
+
+	bool m_shouldTerminate;
 
 	BWAPI::TilePosition m_posCommand;
 };
