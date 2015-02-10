@@ -3,6 +3,7 @@
 using namespace BWAPI;
 
 ClientLink::ClientLink() :
+m_tasker(m_taskQueue),
 m_shouldTerminate(false),
 m_barracksRequested(false),
 m_barracksBuilt(false),
@@ -25,22 +26,77 @@ m_projectedGas(0)
 
 ClientLink::~ClientLink()
 {
-
+	terminate();
 }
 
-bool ClientLink::requestAction(int num)
+Module* ClientLink::loadModule(ModuleType type)
 {
-	m_jobQueue.push(num);
-	return true;
+	if (type != ModuleType::_END)
+	{
+		return nullptr;
+	}
+
+	if(m_modules[type] != nullptr)
+	{
+		return nullptr;
+	}
+
+	// TODO: Load the corresponding module
+	switch (type)
+	{
+	case ModuleType::COMMANDER:
+		m_modules[type] = new Commander(m_tasker);
+		break;
+	case ModuleType::LEARNING:
+		break;
+	case ModuleType::MACROMGR:
+		break;
+	case ModuleType::MICROMGR:
+		break;
+	default:
+		break;
+	}
+
+	return m_modules[type];
 }
 
-int ClientLink::executeActions()
+bool ClientLink::unloadModule(ModuleType type)
+{
+	if (type != ModuleType::_END && m_modules[type] != nullptr)
+	{
+		m_modules[type]->shutdown();
+		delete m_modules[type];
+		return true;
+	}
+
+	return false;
+}
+
+void ClientLink::terminate()
+{
+	for (int i = 0; i < ModuleType::_END; ++i)
+	{
+		unloadModule((ModuleType)i);
+	}
+
+	waitForTermination();
+}
+
+void ClientLink::waitForTermination()
+{
+	for (int i = 0; i < ModuleType::_END; ++i)
+	{
+		m_modules[i]->getThread().join();
+	}
+}
+
+int ClientLink::executeTasks()
 {
 	int numActions = 0;
 	int val = -1;
-	while (m_jobQueue.try_pop(val))
+	while (m_taskQueue.try_pop(val))
 	{ 
-		Broodwar << "Found: " << val << std::endl;
+		// TODO: task execution logic
 		numActions++;
 	}
 

@@ -3,22 +3,25 @@
 
 #include "../include/TBB/tbb/tbb.h"
 #include "../include/TBB/tbb/compat/thread"
+#include "../include/TBB/tbb/concurrent_queue.h"
 
-#include "ClientLink.h"
+#include "Tasker.h"
+#include "Module.h"
 
 
-class Commander
+class Commander : public Module
 {
 public:
-	Commander();
+	// TODO: Change argument list to Job requests
+	Commander(Tasker& tsk);
 	~Commander();
 
-	bool linkClient(ClientLink * cli);
-	void execute(int id);
+	void launch();
 
 private:
-
-	ClientLink * m_client;
-
+	Tasker& m_tasker;
+	
+	bool shutdownHelper();
+	void run();
 };
 #endif

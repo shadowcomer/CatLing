@@ -72,18 +72,12 @@ int main(int argc, const char* argv[])
 		}
 
 		ClientLink link;
-
-		Commander cmdA, cmdB;
-		cmdA.linkClient(&link);
-		cmdB.linkClient(&link);
-
-		std::thread tA(&Commander::execute, &cmdA, 1);
-		std::thread tB(&Commander::execute, &cmdB, 2);
+		link.loadModule(ModuleType::COMMANDER);
 
 		while (Broodwar->isInGame())
 		{
 			link.processEvents();
-			link.executeActions();
+			link.executeTasks();
 
 			if (show_bullets)
 				drawBullets();
@@ -102,8 +96,7 @@ int main(int argc, const char* argv[])
 			}
 		}
 		std::cout << "Game ended" << std::endl;
-		tA.join();
-		tB.join();
+		link.terminate();
 	}
 	
 	std::cout << "Press ENTER to continue..." << std::endl;

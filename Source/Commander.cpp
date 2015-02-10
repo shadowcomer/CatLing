@@ -1,6 +1,8 @@
 #include "Commander.h"
 
-Commander::Commander()
+Commander::Commander(Tasker& tsk) :
+Module(),
+m_tasker(tsk)
 {
 
 }
@@ -10,21 +12,22 @@ Commander::~Commander()
 
 }
 
-bool Commander::linkClient(ClientLink * cli)
+void Commander::launch()
 {
-	if (nullptr == cli)
-	{
-		return false;
-	}
-	m_client = cli;
+	m_thread = tbb::tbb_thread(&Commander::run, this);
+}
+
+bool Commander::shutdownHelper()
+{
+
 	return true;
 }
 
-void Commander::execute(int id)
+void Commander::run()
 {
-	while (true)
+	while (!isTerminating())
 	{
-		m_client->requestAction(id);
+		m_tasker.requestTask();
 		tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)0.25));
 	}
 }

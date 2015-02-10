@@ -7,17 +7,23 @@
 #include "../include/TBB/tbb/compat/thread"
 #include "../include/TBB/tbb/concurrent_queue.h"
 
+#include "Tasker.h"
+#include "Commander.h"
+
 class ClientLink
 {
 public:
 	ClientLink();
 	~ClientLink();
 
+	void terminate();
+
 	/* TEMPORARY PUBLIC FUNCTIONALITY */
 
-	bool requestAction(int num);
+	Module* loadModule(ModuleType type);
+	bool unloadModule(ModuleType type);
 	void processEvents();
-	int executeActions();
+	int executeTasks();
 
 	void onStart();
 	void onEnd(bool isWinner);
@@ -58,8 +64,12 @@ public:
 private:
 	/* TEMPORARY PRIVATE FUNCTIONALITY*/
 	BWAPI::Player self;
+
+	// Store a reference to as many modules as we have module types
+	Module* m_modules[ModuleType::_END];
+	Tasker m_tasker;
 	
-	tbb::concurrent_queue<int> m_jobQueue;
+	tbb::concurrent_queue<int> m_taskQueue;
 
 	// Map dimensions in Build Tile, Walk Tile and Position
 	int m_mapWidth_BT;
@@ -85,6 +95,8 @@ private:
 	bool m_shouldTerminate;
 
 	BWAPI::TilePosition m_posCommand;
+
+	void waitForTermination();
 };
 
 #endif
