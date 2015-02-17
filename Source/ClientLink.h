@@ -69,7 +69,7 @@ private:
 	Module* m_modules[ModuleType::_END];
 	Tasker m_tasker;
 	
-	tbb::concurrent_queue<int> m_taskQueue;
+	tbb::concurrent_queue<Task> m_taskQueue;
 
 	// Map dimensions in Build Tile, Walk Tile and Position
 	int m_mapWidth_BT;

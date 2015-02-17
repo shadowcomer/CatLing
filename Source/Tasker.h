@@ -9,13 +9,13 @@ class Tasker
 {
 public:
 	// TODO: Change template type to Task
-	Tasker(tbb::concurrent_queue<int>& taskQueue);
+	Tasker(tbb::concurrent_queue<Task>& taskQueue);
 	~Tasker();
 
 	bool requestTask(Task& t);
 
 private:
-	tbb::concurrent_queue<int>& m_queue;
+	tbb::concurrent_queue<Task>& m_queue;
 
 };
 
