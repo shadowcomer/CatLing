@@ -72,12 +72,15 @@ int main(int argc, const char* argv[])
 		}
 
 		ClientLink link;
+
+		std::cout << "Loading modules..." << std::endl;
 		link.loadModule(ModuleType::COMMANDER);
+		std::cout << "Modules loaded." << std::endl;
 
 		while (Broodwar->isInGame())
 		{
 			link.processEvents();
-			link.executeTasks();
+			Broodwar << link.executeTasks() << std::endl;
 
 			if (show_bullets)
 				drawBullets();
@@ -96,7 +99,6 @@ int main(int argc, const char* argv[])
 			}
 		}
 		std::cout << "Game ended" << std::endl;
-		link.terminate();
 	}
 	
 	std::cout << "Press ENTER to continue..." << std::endl;

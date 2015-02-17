@@ -97,6 +97,7 @@ private:
 	BWAPI::TilePosition m_posCommand;
 
 	void waitForTermination();
+
 };
 
 #endif

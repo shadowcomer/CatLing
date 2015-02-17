@@ -26,17 +26,17 @@ m_projectedGas(0)
 
 ClientLink::~ClientLink()
 {
-	terminate();
+	
 }
 
 Module* ClientLink::loadModule(ModuleType type)
 {
-	if (type != ModuleType::_END)
+	if (type == ModuleType::_END)
 	{
 		return nullptr;
 	}
 
-	if(m_modules[type] != nullptr)
+	if(m_modules[type] == nullptr)
 	{
 		return nullptr;
 	}
@@ -45,7 +45,10 @@ Module* ClientLink::loadModule(ModuleType type)
 	switch (type)
 	{
 	case ModuleType::COMMANDER:
+		std::cout << "Loading module: Commander." << std::endl;
 		m_modules[type] = new Commander(m_tasker);
+		m_modules[type]->launch();
+		std::cout << "Loaded." << std::endl;
 		break;
 	case ModuleType::LEARNING:
 		break;
@@ -79,14 +82,16 @@ void ClientLink::terminate()
 		unloadModule((ModuleType)i);
 	}
 
-	waitForTermination();
+	//waitForTermination();
 }
 
 void ClientLink::waitForTermination()
 {
 	for (int i = 0; i < ModuleType::_END; ++i)
 	{
+		std::cout << "Waiting for module '" << i << "' to finish...";
 		m_modules[i]->getThread().join();
+		std::cout << "\tFinished" << std::endl;
 	}
 }
 
@@ -156,6 +161,7 @@ void ClientLink::processEvents()
 			break;
 		case EventType::MatchEnd:
 			onEnd(e.isWinner());
+			terminate();
 			break;
 		case EventType::SaveGame:
 			onSaveGame(e.getText());

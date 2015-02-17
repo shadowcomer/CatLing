@@ -35,8 +35,6 @@ private:
 	bool m_shuttingDown;
 	virtual bool shutdownHelper() = 0;
 
-	// What the thread does
-	virtual void run() = 0;
 };
 
 #endif

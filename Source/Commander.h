@@ -8,6 +8,8 @@
 #include "Tasker.h"
 #include "Module.h"
 
+#include <iostream>
+
 
 class Commander : public Module
 {
@@ -18,10 +20,12 @@ public:
 
 	void launch();
 
+	Tasker& tasker();
+
 private:
 	Tasker& m_tasker;
 	
 	bool shutdownHelper();
-	void run();
+	static void run(Commander* m);
 };
 #endif

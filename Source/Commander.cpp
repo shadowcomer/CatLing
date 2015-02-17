@@ -23,11 +23,19 @@ bool Commander::shutdownHelper()
 	return true;
 }
 
-void Commander::run()
+void Commander::run(Commander* m)
 {
-	while (!isTerminating())
+	std::cout << "Started Commander loop." << std::endl;
+	while (!m->isTerminating())
 	{
-		m_tasker.requestTask();
+		m->tasker().requestTask();
 		tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)0.25));
 	}
+
+	std::cout << "Finished Commander loop." << std::endl;
+}
+
+Tasker& Commander::tasker()
+{
+	return m_tasker;
 }
