@@ -11,7 +11,7 @@ Tasker::~Tasker()
 
 }
 
-bool Tasker::requestTask()
+bool Tasker::requestTask(Task& t)
 {
 	m_queue.push(1);
 	return true;

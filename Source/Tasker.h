@@ -3,6 +3,8 @@
 
 #include "../include/TBB/tbb/concurrent_queue.h"
 
+#include "Task.h"
+
 class Tasker
 {
 public:
@@ -10,7 +12,7 @@ public:
 	Tasker(tbb::concurrent_queue<int>& taskQueue);
 	~Tasker();
 
-	bool requestTask();
+	bool requestTask(Task& t);
 
 private:
 	tbb::concurrent_queue<int>& m_queue;
