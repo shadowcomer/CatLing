@@ -13,6 +13,20 @@ private:
 };
 
 
+class TGather : public Task
+{
+public:
+	TGather(BWAPI::Unit unit, BWAPI::Unit target, bool shouldQueue);
+	void execute();
+
+private:
+	BWAPI::Unit m_unit;
+	BWAPI::Unit m_target;
+	bool m_queueCommand;
+
+};
+
+
 class TTrain : public Task
 {
 public:
@@ -36,6 +50,8 @@ private:
 	BWAPI::Unit m_builder;
 	BWAPI::UnitType m_building;
 	BWAPI::TilePosition m_location;
+
+	bool verifyBuildCapability();
 
 };
 
