@@ -1,7 +1,7 @@
 #include "Tasker.h"
 
-Tasker::Tasker(tbb::concurrent_queue<Task*>& taskQueue):
-m_queue(taskQueue)
+Tasker::Tasker(TaskManager& mgr):
+m_manager(mgr)
 {
 
 }
@@ -13,6 +13,7 @@ Tasker::~Tasker()
 
 bool Tasker::requestTask(Task* t)
 {
-	m_queue.push(t);
+	// TODO: Add safety to this call
+	m_manager.addTask(t);
 	return true;
 }

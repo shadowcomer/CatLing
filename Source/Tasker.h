@@ -4,18 +4,20 @@
 #include "../include/TBB/tbb/concurrent_queue.h"
 
 #include "Task.h"
+#include "TaskManager.h"
 
 class Tasker
 {
 public:
-	// TODO: Change template type to Task
-	Tasker(tbb::concurrent_queue<Task*>& taskQueue);
+	friend class TaskManager;
 	~Tasker();
 
 	bool requestTask(Task* t);
+protected:
+	Tasker(TaskManager& mgr);
 
 private:
-	tbb::concurrent_queue<Task*>& m_queue;
+	TaskManager& m_manager;
 
 };
 

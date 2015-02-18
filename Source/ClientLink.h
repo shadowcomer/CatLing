@@ -4,7 +4,6 @@
 #include <BWAPI.h>
 #include <assert.h>
 
-#include "../include/TBB/tbb/compat/thread"
 #include "../include/TBB/tbb/concurrent_queue.h"
 
 #include "Tasker.h"

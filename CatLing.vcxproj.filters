@@ -64,5 +64,8 @@
     <ClInclude Include="Source\MemContainer.h">
       <Filter>Source Files\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Source\TaskManager.h">
+      <Filter>Source Files\Tasking</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
