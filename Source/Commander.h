@@ -8,6 +8,8 @@
 #include "Tasker.h"
 #include "Module.h"
 
+#include <BWAPI.h>
+
 #include <iostream>
 
 

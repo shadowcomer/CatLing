@@ -2,7 +2,6 @@
 #define TASK_H
 
 #include <BWAPI.h>
-#include <BWAPI/Client.h>
 
 class Task
 {
@@ -11,6 +10,8 @@ public:
 private:
 
 };
+
+
 
 
 class TGather : public Task
@@ -27,6 +28,8 @@ private:
 };
 
 
+
+
 class TTrain : public Task
 {
 public:
@@ -38,6 +41,8 @@ private:
 	BWAPI::UnitType m_unit;
 
 };
+
+
 
 
 class TBuild : public Task
@@ -54,6 +59,9 @@ private:
 	bool verifyBuildCapability();
 
 };
+
+
+
 
 class TAttack : public Task
 {

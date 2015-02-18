@@ -10,6 +10,8 @@
 #include "Tasker.h"
 #include "Commander.h"
 
+#include "Task.h"
+
 class ClientLink
 {
 public:
@@ -69,6 +71,8 @@ private:
 	Module* m_modules[ModuleType::_END];
 	Tasker m_tasker;
 	
+	long m_totalExecTasks;
+
 	tbb::concurrent_queue<Task> m_taskQueue;
 
 	// Map dimensions in Build Tile, Walk Tile and Position

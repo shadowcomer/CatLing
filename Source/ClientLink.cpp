@@ -11,7 +11,8 @@ m_supplyRequested(false),
 m_supplyAttempted(false),
 m_SCVcount(0),
 m_projectedMinerals(0),
-m_projectedGas(0)
+m_projectedGas(0),
+m_totalExecTasks(0)
 {
 	self = Broodwar->self();
 	m_posCommand = self->getStartLocation();
@@ -98,10 +99,11 @@ void ClientLink::waitForTermination()
 int ClientLink::executeTasks()
 {
 	int numActions = 0;
-	int val = -1;
-	while (m_taskQueue.try_pop(val))
+	Task* val;
+	while (m_taskQueue.try_pop(*val))
 	{ 
-		// TODO: task execution logic
+		// TODO: Add other possible execution logic
+		val->execute();
 		numActions++;
 	}
 
@@ -296,6 +298,18 @@ void ClientLink::onEnd(bool isWinner)
 
 void ClientLink::onFrame()
 {
+
+	Broodwar->drawTextScreen(200, 0, "Task Count: %d", m_totalExecTasks);
+
+	if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
+		return;
+
+	if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
+		return;
+
+	m_totalExecTasks += executeTasks();
+
+	/*
 	// Called once every game frame
 	// Display the game frame rate as text in the upper left area of the screen
 	Broodwar->drawTextScreen(200, 0, "FPS: %d", Broodwar->getFPS());
@@ -391,6 +405,8 @@ void ClientLink::onFrame()
 		}
 
 	}
+
+	*/
 }
 
 void ClientLink::onSendText(std::string text)
