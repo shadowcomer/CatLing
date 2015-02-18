@@ -73,7 +73,7 @@ private:
 	
 	long m_totalExecTasks;
 
-	tbb::concurrent_queue<Task> m_taskQueue;
+	tbb::concurrent_queue<Task*> m_taskQueue;
 
 	// Map dimensions in Build Tile, Walk Tile and Position
 	int m_mapWidth_BT;
