@@ -41,6 +41,12 @@
     <ClCompile Include="Source\MemContainer.cpp">
       <Filter>Source Files\Memory</Filter>
     </ClCompile>
+    <ClCompile Include="Source\TaskManager.cpp">
+      <Filter>Source Files\Tasking</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Executer.cpp">
+      <Filter>Source Files\Tasking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\StaticMemoryAllocator.h">
@@ -65,6 +71,9 @@
       <Filter>Source Files\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Source\TaskManager.h">
+      <Filter>Source Files\Tasking</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Executer.h">
       <Filter>Source Files\Tasking</Filter>
     </ClInclude>
   </ItemGroup>
