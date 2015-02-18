@@ -30,14 +30,6 @@ void Commander::run(Commander* m)
 	std::cout << "Started Commander loop." << std::endl;
 	while (!m->isTerminating())
 	{
-		Broodwar->drawTextScreen(200, 0, "FPS: %d", Broodwar->getFPS());
-		Broodwar->drawTextScreen(200, 20, "Average FPS: %f", Broodwar->getAverageFPS());
-		Broodwar->drawTextScreen(200, 40, "SCVs: %d", m_SCVcount);
-		if (m_barracksRequested)
-			Broodwar->drawTextScreen(200, 60, "Building barracks...");
-		if (m_supplyRequested)
-			Broodwar->drawTextScreen(200, 80, "Building supply depot...");
-
 		Unitset units = Broodwar->self()->getUnits();
 		for (auto u : units)
 		{
