@@ -15,18 +15,15 @@
     <Filter Include="Source Files\Memory">
       <UniqueIdentifier>{bd709665-7feb-4e78-828c-e059994ea88f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\AI">
+      <UniqueIdentifier>{c9e6dd5c-e75b-40ed-a26e-fb435e68c9eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source/Commander.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source/ClientLink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source/main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Tasker.cpp">
@@ -47,18 +44,18 @@
     <ClCompile Include="Source\Executer.cpp">
       <Filter>Source Files\Tasking</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Module.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/Commander.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\StaticMemoryAllocator.h">
       <Filter>Source Files\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Source/ClientLink.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source/Commander.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Module.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Tasker.h">
@@ -75,6 +72,12 @@
     </ClInclude>
     <ClInclude Include="Source\Executer.h">
       <Filter>Source Files\Tasking</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Module.h">
+      <Filter>Source Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source/Commander.h">
+      <Filter>Source Files\AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
