@@ -1,8 +1,8 @@
 #include "TaskManager.h"
 
 TaskManager::TaskManager():
-m_inputInterface(*this),
-m_outputInterface(*this)
+m_inputInterface(m_taskQueue),
+m_outputInterface(m_taskQueue)
 {
 
 }
@@ -12,24 +12,17 @@ TaskManager::~TaskManager()
 
 }
 
-void TaskManager::addTask(Task* t)
-{
-	m_taskQueue.push(t);
-}
-
 bool TaskManager::hasRemainingTasks()
 {
 	return !m_taskQueue.empty();
 }
 
-Task* TaskManager::removeTask()
-{
-	Task* result;
-	m_taskQueue.try_pop(result);
-	return result;
-}
-
-const Tasker& TaskManager::getInputInterface()
+Tasker& TaskManager::getInputInterface()
 {
 	return m_inputInterface;
+}
+
+Executer& TaskManager::getOutputInterface()
+{
+	return m_outputInterface;
 }

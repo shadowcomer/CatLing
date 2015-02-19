@@ -1,23 +1,21 @@
 #ifndef EXECUTER_H
 #define EXECUTER_H
 
+#include "../include/TBB/tbb/concurrent_queue.h"
 #include "Task.h"
-#include "TaskManager.h"
 
 class Executer
 {
 public:
-	friend class TaskManager;
+	Executer(tbb::concurrent_queue<Task*>& queue);
 	~Executer();
 
-	void executeTask();
+	bool executeSingleTask();
+	int executeAllTasks();
 	bool hasRemainingTasks();
 
-protected:
-	Executer(TaskManager& mgr);
-
 private:
-	TaskManager& m_manager;
+	tbb::concurrent_queue<Task*>& m_queue;
 
 };
 

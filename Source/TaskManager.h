@@ -10,17 +10,10 @@ public:
 	TaskManager();
 	~TaskManager();
 
-	const Tasker& getInputInterface();
-	const Executer& getOutputInterface();
+	Tasker& getInputInterface();
+	Executer& getOutputInterface();
 
 	bool hasRemainingTasks();
-
-	friend class Tasker;
-	friend class Executer;
-
-protected:
-	void addTask(Task* t);
-	Task* removeTask();
 
 private:
 	Tasker m_inputInterface;

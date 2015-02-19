@@ -30,6 +30,7 @@ void reconnect()
 
 int main(int argc, const char* argv[])
 {
+	ClientLink link;
 	std::cout << "Connecting..." << std::endl;
 	reconnect();
 	while (true)
@@ -44,6 +45,7 @@ int main(int argc, const char* argv[])
 				reconnect();
 			}
 		}
+
 		std::cout << "starting match!" << std::endl;
 		Broodwar->sendText("Hello world!");
 		Broodwar << "The map is " << Broodwar->mapName() << ", a " << Broodwar->getStartLocations().size() << " player map" << std::endl;
@@ -70,8 +72,6 @@ int main(int argc, const char* argv[])
 			if (Broodwar->enemy())
 				Broodwar << "The match up is " << Broodwar->self()->getRace() << " vs " << Broodwar->enemy()->getRace() << std::endl;
 		}
-
-		ClientLink link;
 
 		std::cout << "Loading modules..." << std::endl;
 		link.loadModule(ModuleType::COMMANDER);

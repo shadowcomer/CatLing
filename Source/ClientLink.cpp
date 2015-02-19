@@ -3,7 +3,6 @@
 using namespace BWAPI;
 
 ClientLink::ClientLink() :
-m_tasker(m_taskQueue),
 m_shouldTerminate(false),
 m_barracksRequested(false),
 m_barracksBuilt(false),
@@ -12,17 +11,10 @@ m_supplyAttempted(false),
 m_SCVcount(0),
 m_projectedMinerals(0),
 m_projectedGas(0),
-m_totalExecTasks(0)
+m_totalExecTasks(0),
+m_executer(m_taskManager.getOutputInterface())
 {
-	self = Broodwar->self();
-	m_posCommand = self->getStartLocation();
-	m_mapWidth_BT = Broodwar->mapWidth();
-	m_mapHeight_BT = Broodwar->mapHeight();
-	m_mapWidth_WT = m_mapWidth_BT * 4;
-	m_mapHeight_WT = m_mapHeight_BT * 4;
-
-	m_mapWidth_P = m_mapWidth_BT * TILE_SIZE;
-	m_mapHeight_P = m_mapHeight_BT * TILE_SIZE;
+	
 }
 
 ClientLink::~ClientLink()
@@ -47,7 +39,7 @@ Module* ClientLink::loadModule(ModuleType type)
 	{
 	case ModuleType::COMMANDER:
 		std::cout << "Loading module: Commander." << std::endl;
-		m_modules[type] = new Commander(m_tasker);
+		m_modules[type] = new Commander(m_taskManager.getInputInterface());
 		m_modules[type]->launch();
 		std::cout << "Loaded." << std::endl;
 		break;
@@ -244,6 +236,7 @@ void ClientLink::spendProjectedCost(UnitType type)
 
 void ClientLink::onStart()
 {
+	configOnStart();
 	// Hello World!
 	Broodwar->sendText("Hello world!");
 	// Print the map name.
@@ -308,7 +301,7 @@ void ClientLink::onFrame()
 	if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
 		return;
 
-	m_totalExecTasks += executeTasks();
+	m_totalExecTasks = m_executer.executeAllTasks();
 
 	/*
 	// Called once every game frame
@@ -524,4 +517,17 @@ void ClientLink::onUnitComplete(BWAPI::Unit unit)
 		m_SCVcount++;
 	else if (UnitTypes::Terran_Supply_Depot == type)
 		m_supplyRequested = false;
+}
+
+void ClientLink::configOnStart()
+{
+	self = Broodwar->self();
+	m_posCommand = self->getStartLocation();
+	m_mapWidth_BT = Broodwar->mapWidth();
+	m_mapHeight_BT = Broodwar->mapHeight();
+	m_mapWidth_WT = m_mapWidth_BT * 4;
+	m_mapHeight_WT = m_mapHeight_BT * 4;
+
+	m_mapWidth_P = m_mapWidth_BT * TILE_SIZE;
+	m_mapHeight_P = m_mapHeight_BT * TILE_SIZE;
 }
