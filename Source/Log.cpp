@@ -14,7 +14,7 @@ de Log
 Log* Log::Instance()
 {
 	if (!m_pInstance){
-		m_pInstance= new Log;
+		m_pInstance= new Log();
 	}
 	return m_pInstance;
 }
