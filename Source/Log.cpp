@@ -1,20 +1,20 @@
 #include <stdio.h>
-#include "errorlogtone.h"
+#include "Log.h"
 
-ErrorLogTone* ErrorLogTone::m_pInstance = NULL;
-FILE* ErrorLogTone::m_fichero = NULL;
+Log* Log::m_pInstance = NULL;
+FILE* Log::m_fichero = NULL;
 
 
 /*
 *****************************************************
 Devuelve siempre la misma instancia
-de ErrorLogTone
+de Log
 *****************************************************
 */
-ErrorLogTone* ErrorLogTone::Instance()
+Log* Log::Instance()
 {
 	if (!m_pInstance){
-		m_pInstance= new ErrorLogTone;
+		m_pInstance= new Log;
 	}
 	return m_pInstance;
 }
@@ -26,7 +26,7 @@ Sustituye o crea el fichero con el nombre indicado
 por el parámetro.
 *****************************************************
 */
-int ErrorLogTone::openLogFile(char* file){
+int Log::openLogFile(char* file){
 	
 	if(m_fichero==NULL){
 		m_fichero = fopen(file,"w+");
@@ -50,7 +50,7 @@ Escribe en el fichero de log el
 string que se pasa por parámetro
 *****************************************************
 */
-void ErrorLogTone::writeToFile(char* entrada) 
+void Log::writeToFile(char* entrada) 
 {
 	
 	time_t rawtime;
@@ -73,7 +73,7 @@ string que se pasa por parámetro y ademas
 el nivel de debug
 *****************************************************
 */
-void ErrorLogTone::writeToFile(zas hack,char* entrada) 
+void Log::writeToFile(zas hack,char* entrada) 
 {
 	time_t rawtime;
 	struct tm * timeinfo;
@@ -97,7 +97,7 @@ void ErrorLogTone::writeToFile(zas hack,char* entrada)
 Cierra el fichero que está abierto
 *****************************************************
 */
-int ErrorLogTone::closeLogFile(){
+int Log::closeLogFile(){
 	fclose(m_fichero);
 	return 0;
 }
