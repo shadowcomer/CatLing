@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-enum zas {DEBUG0,DEBUG1,DEBUG2,DEBUG3};
+enum zas { DEBUG0, DEBUG1, DEBUG2, DEBUG3 };
 #define LOG(x) Log::Instance()->writeToFile( x ) ;
 #define LOGLVL(x,y) Log::Instance()->writeToFile( x , y ) ;
 
@@ -13,7 +13,7 @@ public:
 	static FILE* m_fichero;
 	int openLogFile(char* logfile);
 	void writeToFile(char* entrada);
-	void writeToFile(zas hack,char* entrada) ;
+	void writeToFile(zas hack, char* entrada);
 	int closeLogFile();
 
 private:
