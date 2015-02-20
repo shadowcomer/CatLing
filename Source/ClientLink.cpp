@@ -88,20 +88,6 @@ void ClientLink::waitForTermination()
 	}
 }
 
-int ClientLink::executeTasks()
-{
-	int numActions = 0;
-	Task* val;
-	while (m_taskQueue.try_pop(val))
-	{ 
-		// TODO: Add other possible execution logic
-		val->execute();
-		delete val;
-		numActions++;
-	}
-
-	return numActions;
-}
 
 void ClientLink::processEvents()
 {

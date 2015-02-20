@@ -80,7 +80,6 @@ int main(int argc, const char* argv[])
 		while (Broodwar->isInGame())
 		{
 			link.processEvents();
-			Broodwar << link.executeTasks() << std::endl;
 
 			if (show_bullets)
 				drawBullets();
