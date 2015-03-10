@@ -51,13 +51,6 @@ public:
 	// Position/Unit type relative unit selection
 	BWAPI::Unit getClosest(BWAPI::UnitType type, BWAPI::TilePosition t);
 
-	bool build(BWAPI::Unit builder, BWAPI::UnitType type, BWAPI::TilePosition location);
-	bool train(BWAPI::Unit trainer, BWAPI::UnitType type);
-
-
-	/// Determines whether a given builder can build another specific unit
-	bool unitCanBuild(BWAPI::Unit builder, BWAPI::UnitType type);
-	bool unitCanTrain(BWAPI::Unit trainer, BWAPI::UnitType type);
 	bool hasEnoughResources(BWAPI::UnitType type);
 	bool hasEnoughSupply(BWAPI::UnitType type);
 

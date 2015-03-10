@@ -162,47 +162,6 @@ bool ClientLink::moveToTile(Unit unit, TilePosition position)
 	return unit->move(Position(position), false);
 }
 
-bool ClientLink::build(Unit builder, UnitType type, TilePosition location)
-{
-	bool success = false;
-	assert(unitCanBuild(builder, type));
-
-	if (success = builder->build(type, location))
-		spendProjectedCost(type);
-
-	// Check until the building was stopped
-	// DUMMY: Failed construction callback. Current implementation is just for learning how it works.
-	/*	Broodwar->registerEvent([](BWAPI::Game*) -> void {Broodwar << "Building was stopped! OOOPS!" << std::endl;},
-	[](BWAPI::Game*) -> bool {return true;},
-	1,
-	1);*/
-	return success;
-}
-
-bool ClientLink::unitCanBuild(Unit builder, UnitType type)
-{
-	return (nullptr != builder) && (type.whatBuilds().first == builder->getType());
-}
-
-bool ClientLink::train(Unit trainer, UnitType type)
-{
-	bool success = false;
-	// Check params
-	assert(unitCanTrain(trainer, type));
-	// Check resources
-	if (!hasEnoughSupply(type) || !hasEnoughResources(type))
-		return false;
-
-	if (success = trainer->train(type))
-		spendProjectedCost(type);
-	return success;
-}
-
-bool ClientLink::unitCanTrain(Unit trainer, UnitType type)
-{
-	return trainer != nullptr && type.whatBuilds().first == trainer->getType();
-}
-
 bool ClientLink::hasEnoughSupply(BWAPI::UnitType type)
 {
 	return self->supplyTotal() >= (self->supplyUsed() + type.supplyRequired());
