@@ -3,56 +3,56 @@
 using namespace BWAPI;
 
 TGather::TGather(Unit unit, Unit target, bool shouldQueue) :
-m_unit(unit),
-m_target(target),
-m_queueCommand(shouldQueue){}
+unit(unit),
+target(target),
+queueCommand(shouldQueue){}
 
 void TGather::execute()
 {
-	m_unit->gather(m_target, m_queueCommand);
+	unit->gather(target, queueCommand);
 }
 
 
 
 
 TTrain::TTrain(Unit builder, UnitType unit) :
-m_builder(builder),
-m_unit(unit){}
+builder(builder),
+unit(unit){}
 
 void TTrain::execute()
 {
-	m_builder->train(m_unit);
+	builder->train(unit);
 }
 
 
 
 
 TBuild::TBuild(Unit builder, UnitType building, TilePosition location) :
-m_builder(builder),
-m_building(building),
-m_location(location){}
+builder(builder),
+building(building),
+location(location){}
 
 void TBuild::execute()
 {
 	//TODO: Use building verification
-	m_builder->build(m_building, m_location);
+	builder->build(building, location);
 }
 
 bool TBuild::verifyBuildCapability()
 {
-	return (nullptr != m_builder) && (m_building.whatBuilds().first == m_builder->getType());
+	return (nullptr != builder) && (building.whatBuilds().first == builder->getType());
 }
 
 
 
 
 TAttack::TAttack(Unit origin, PositionOrUnit target, bool shouldQueue) :
-m_origin(origin),
-m_target(target),
-m_queueCommand(shouldQueue){}
+origin(origin),
+target(target),
+queueCommand(shouldQueue){}
 
 void TAttack::execute()
 {
-	m_origin->attack(m_target, m_queueCommand);
+	origin->attack(target, queueCommand);
 }
 

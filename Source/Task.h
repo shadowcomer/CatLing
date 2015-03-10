@@ -20,9 +20,9 @@ public:
 	TGather(BWAPI::Unit unit, BWAPI::Unit target, bool shouldQueue);
 	void execute();
 
-	const BWAPI::Unit m_unit;
-	const BWAPI::Unit m_target;
-	const bool m_queueCommand;
+	const BWAPI::Unit unit;
+	const BWAPI::Unit target;
+	const bool queueCommand;
 private:
 
 };
@@ -36,8 +36,8 @@ public:
 	TTrain(BWAPI::Unit builder, BWAPI::UnitType unit);
 	void execute();
 
-	const BWAPI::Unit m_builder;
-	const BWAPI::UnitType m_unit;
+	const BWAPI::Unit builder;
+	const BWAPI::UnitType unit;
 
 private:
 	
@@ -53,9 +53,9 @@ public:
 	TBuild(BWAPI::Unit builder, BWAPI::UnitType building, BWAPI::TilePosition location);
 	void execute();
 
-	const BWAPI::Unit m_builder;
-	const BWAPI::UnitType m_building;
-	const BWAPI::TilePosition m_location;
+	const BWAPI::Unit builder;
+	const BWAPI::UnitType building;
+	const BWAPI::TilePosition location;
 
 private:
 	bool verifyBuildCapability();
@@ -71,9 +71,9 @@ public:
 	TAttack(BWAPI::Unit origin, BWAPI::PositionOrUnit target, bool shouldQueue);
 	void execute();
 
-	const BWAPI::Unit m_origin;
-	const BWAPI::PositionOrUnit m_target;
-	const bool m_queueCommand;
+	const BWAPI::Unit origin;
+	const BWAPI::PositionOrUnit target;
+	const bool queueCommand;
 
 private:
 	
