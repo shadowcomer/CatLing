@@ -20,6 +20,7 @@ public:
 	void launch();
 
 private:
+	BWAPI::Unit m_command;
 
 	bool shutdownHelper();
 	static void run(MacroManager* m);

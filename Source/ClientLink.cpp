@@ -46,6 +46,10 @@ Module* ClientLink::loadModule(ModuleType type)
 	case ModuleType::LEARNING:
 		break;
 	case ModuleType::MACROMGR:
+		std::cout << "Loading module: MacroManager." << std::endl;
+		m_modules[type] = new MacroManager(m_taskManager.getInputInterface());
+		m_modules[type]->launch();
+		std::cout << "Loaded." << std::endl;
 		break;
 	case ModuleType::MICROMGR:
 		break;
