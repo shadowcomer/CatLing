@@ -65,7 +65,7 @@ void MacroManager::run(MacroManager* m)
 		}
 
 		// Sleep for a second
-		tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)1));
+		tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)5));
 	}
 
 }

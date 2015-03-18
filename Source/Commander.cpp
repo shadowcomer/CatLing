@@ -27,8 +27,29 @@ bool Commander::shutdownHelper()
 void Commander::run(Commander* m)
 {
 	std::cout << "Started Commander loop." << std::endl;
+
+	Unitset units = Broodwar->self()->getUnits();
+
+	for (auto u : units)
+	{
+		if (u->getType().isResourceDepot())
+		{
+			m->m_command = u;
+			break;
+		}
+	}
+
+
 	while (!m->isTerminating())
 	{
+		// While enough minerals and supply, train a worker.
+		if (Broodwar->self()->minerals() >= 50 &&
+			((Broodwar->self()->supplyUsed() + UnitTypes::Terran_SCV.supplyRequired()) <
+			Broodwar->self()->supplyTotal()))
+		{
+			m->m_tasker.requestTask(new TTrain(m->m_command, UnitTypes::Terran_SCV));
+		}
+
 		Unitset units = Broodwar->self()->getUnits();
 		for (auto u : units)
 		{
