@@ -1,7 +1,8 @@
 #include "Module.h"
 
-Module::Module():
-m_shuttingDown(false)
+Module::Module(Tasker& tsk):
+m_shuttingDown(false),
+m_tasker(tsk)
 {
 
 }
@@ -24,4 +25,9 @@ bool Module::shutdown()
 tbb::tbb_thread& Module::getThread()
 {
 	return m_thread;
+}
+
+Tasker& Module::tasker()
+{
+	return m_tasker;
 }

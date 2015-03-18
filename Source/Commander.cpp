@@ -3,8 +3,7 @@
 using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk) :
-Module(),
-m_tasker(tsk)
+Module(tsk)
 {
 
 }
@@ -64,7 +63,3 @@ void Commander::run(Commander* m)
 	std::cout << "Finished Commander loop." << std::endl;
 }
 
-Tasker& Commander::tasker()
-{
-	return m_tasker;
-}

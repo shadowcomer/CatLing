@@ -4,6 +4,8 @@
 #include "../include/TBB/tbb/tbb.h"
 #include "../include/TBB/tbb/compat/thread"
 
+#include "Tasker.h"
+
 // Possible types. The _END value is there to automatically
 // detect the last element and work accordingly.
 enum ModuleType
@@ -18,7 +20,7 @@ enum ModuleType
 class Module
 {
 public:
-	Module();
+	Module(Tasker& tsk);
 	~Module();
 
 	// Launches the module and thread
@@ -30,6 +32,9 @@ public:
 
 protected:
 	tbb::tbb_thread m_thread;
+	Tasker& m_tasker;
+
+	Tasker& tasker();
 
 private:
 	bool m_shuttingDown;
