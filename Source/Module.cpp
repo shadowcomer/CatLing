@@ -19,6 +19,9 @@ bool Module::isTerminating()
 
 bool Module::shutdown()
 {
+	// TODO: WARNING! This is unsafe! The caller could wait indefinitely if the shutdownHelper reports a failure.
+	// It's unclear how to fix this, because we have to guarantee that the thread shuts down properly before we can leave, so we
+	// don't lose any data.
 	m_shuttingDown = shutdownHelper();
 	m_thread.join();
 	return m_shuttingDown;
