@@ -50,7 +50,7 @@
     <ClCompile Include="Source/Commander.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ErrorLogTone.cpp">
+    <ClCompile Include="Source\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -82,7 +82,7 @@
     <ClInclude Include="Source/Commander.h">
       <Filter>Source Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ErrorLogTone.h">
+    <ClInclude Include="Source\Log.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
