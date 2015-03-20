@@ -19,7 +19,9 @@ bool Module::isTerminating()
 
 bool Module::shutdown()
 {
-	return (m_shuttingDown = shutdownHelper());
+	m_shuttingDown = shutdownHelper();
+	m_thread.join();
+	return m_shuttingDown;
 }
 
 tbb::tbb_thread& Module::getThread()

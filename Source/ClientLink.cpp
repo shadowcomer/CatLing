@@ -14,7 +14,10 @@ m_projectedGas(0),
 m_totalExecTasks(0),
 m_executer(m_taskManager.getOutputInterface())
 {
-	
+	for (unsigned int i = ModuleType::COMMANDER; i < ModuleType::_END; i++)
+	{
+		m_modules[i] = nullptr;
+	}
 }
 
 ClientLink::~ClientLink()
@@ -24,12 +27,14 @@ ClientLink::~ClientLink()
 
 Module* ClientLink::loadModule(ModuleType type)
 {
+	// Skip if it's the _END special type
 	if (type == ModuleType::_END)
 	{
 		return nullptr;
 	}
 
-	if(m_modules[type] == nullptr)
+	// Skip if it's already loaded
+	if(m_modules[type] != nullptr)
 	{
 		return nullptr;
 	}
