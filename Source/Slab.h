@@ -4,8 +4,10 @@
 class Slab
 {
 public:
+	~Slab();
 
 private:
+	Slab();
 
 };
 
