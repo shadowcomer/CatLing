@@ -101,9 +101,11 @@
     <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\MemoryManager.cpp" />
     <ClCompile Include="Source\Module.cpp" />
+    <ClCompile Include="Source\Slab.cpp" />
     <ClCompile Include="Source\Task.cpp" />
     <ClCompile Include="Source\Tasker.cpp" />
     <ClCompile Include="Source\TaskManager.cpp" />
+    <ClCompile Include="Source\Types.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/Commander.h" />
@@ -116,6 +118,7 @@
     <ClInclude Include="Source\Task.h" />
     <ClInclude Include="Source\Tasker.h" />
     <ClInclude Include="Source\TaskManager.h" />
+    <ClInclude Include="Source\Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
