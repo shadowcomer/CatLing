@@ -4,7 +4,7 @@
 class TypeObj
 {
 public:
-	inline virtual ~TypeObj() = 0 {};
+	virtual ~TypeObj() = 0 {};
 
 private:
 	
@@ -18,6 +18,7 @@ private:
 
 public:
 	template<class TYPE> inline TypeProperty(TYPE t){ m_value = t; }
+	TypeProperty(){};
 	inline virtual ~TypeProperty() = 0 {};
 
 	inline auto val() -> decltype(m_value) {

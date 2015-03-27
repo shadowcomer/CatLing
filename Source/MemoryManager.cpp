@@ -10,10 +10,10 @@ MemoryManager::~MemoryManager()
 
 }
 
-bool MemoryManager::createSlab(const std::string name)
+bool MemoryManager::createSlab(const std::string name, const TypeList& fields)
 {
-	auto newSlab = std::make_unique<Slab>();
-	auto res = m_slabs.emplace(std::pair<std::string, std::unique_ptr<Slab>>(name, std::move(newSlab)));
+	auto newSlab = new Slab(fields);
+	auto res = m_slabs.emplace(std::pair<std::string, Slab*>(name, newSlab));
 	return res.second;
 }
 

@@ -1,11 +1,7 @@
 #include "Slab.h"
 
-Slab::Slab()
-{
-
-}
-
-Slab::~Slab()
+Slab::Slab(const TypeList& fields) :
+m_fields(fields)
 {
 
 }

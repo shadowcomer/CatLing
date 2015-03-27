@@ -12,11 +12,11 @@ public:
 	MemoryManager();
 	~MemoryManager();
 
-	bool createSlab(const std::string name);
+	bool createSlab(const std::string name, const TypeList& fields);
 	bool destroySlab(const std::string name);
 
 private:
-	std::unordered_map<std::string, std::unique_ptr<Slab>> m_slabs;
+	std::unordered_map<std::string, Slab*> m_slabs;
 };
 
 #endif
