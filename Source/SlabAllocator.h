@@ -1,16 +1,16 @@
-#ifndef MEMORYMANAGER_H
-#define MEMORYMANAGER_H
+#ifndef SLABALLOCATOR_H
+#define SLABALLOCATOR_H
 
 #include <unordered_map>
 #include <memory>
 
 #include "Slab.h"
 
-class MemoryManager
+class SlabAllocator
 {
 public:
-	MemoryManager();
-	~MemoryManager();
+	SlabAllocator();
+	~SlabAllocator();
 
 	bool createSlab(const std::string name, const TypeList& fields);
 	bool destroySlab(const std::string name);
