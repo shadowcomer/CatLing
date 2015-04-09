@@ -1,10 +1,17 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+enum TypeName
+{
+	INTEGER,
+};
+
 class TypeObj
 {
 public:
+	TypeObj(TypeName type) : CUR_TYPE(type) {};
 	virtual ~TypeObj() = 0 {};
+	const TypeName CUR_TYPE;
 
 private:
 	
@@ -21,7 +28,7 @@ public:
 	TypeProperty(){};
 	inline virtual ~TypeProperty() = 0 {};
 
-	inline auto val() -> decltype(m_value) {
+	inline auto val() -> decltype(m_value) & {
 		return m_value;
 	}
 };
@@ -29,7 +36,7 @@ public:
 class IntType : public TypeObj, public TypeProperty < int >
 {
 public:
-	inline IntType(int v) : TypeProperty(v) {}
+	inline IntType(int v) : TypeProperty(v), TypeObj(TypeName::INTEGER) {}
 	~IntType() {};
 
 private:

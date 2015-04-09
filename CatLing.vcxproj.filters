@@ -47,13 +47,13 @@
     <ClCompile Include="Source\MacroManager.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MemoryManager.cpp">
-      <Filter>Source Files\Memory</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Slab.cpp">
       <Filter>Source Files\Memory</Filter>
     </ClCompile>
     <ClCompile Include="Source\Types.cpp">
+      <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SlabAllocator.cpp">
       <Filter>Source Files\Memory</Filter>
     </ClCompile>
   </ItemGroup>
@@ -82,13 +82,13 @@
     <ClInclude Include="Source\MacroManager.h">
       <Filter>Source Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MemoryManager.h">
-      <Filter>Source Files\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Slab.h">
       <Filter>Source Files\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Source\Types.h">
+      <Filter>Source Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SlabAllocator.h">
       <Filter>Source Files\Memory</Filter>
     </ClInclude>
   </ItemGroup>
