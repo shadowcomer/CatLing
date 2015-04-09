@@ -1,7 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-enum TypeName
+enum class TypeName
 {
 	INTEGER,
 };
