@@ -40,6 +40,10 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+lib/Boost/
+lib/mongo/
+include/boost/
+include/mongo/
 
 # Build results
 
