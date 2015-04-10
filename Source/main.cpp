@@ -1,9 +1,5 @@
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
-#include <WinSock2.h>
-#include <Windows.h>
-#include <mongo\client\dbclient.h>
-#include <mongo\client\init.h>
 
 #include <iostream>
 #include <thread>
@@ -34,7 +30,6 @@ void reconnect()
 
 int main(int argc, const char* argv[])
 {
-	mongo::client::initialize();
 	ClientLink link;
 	std::cout << "Connecting..." << std::endl;
 	reconnect();
