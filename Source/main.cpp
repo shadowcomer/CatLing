@@ -1,10 +1,17 @@
+#define STATIC_LIBMONGOCLIENT
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
+#include <WinSock2.h>
+#include <Windows.h>
+#include <mongo\bson\bson.h>
+#include <mongo\client\dbclient.h>
+#include <mongo\client\init.h>
 
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <string>
+#include <cstdlib>
 
 #include "ClientLink.h"
 #include "Commander.h"
@@ -30,6 +37,20 @@ void reconnect()
 
 int main(int argc, const char* argv[])
 {
+	mongo::client::initialize();
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(si);
+	ZeroMemory(&pi, sizeof(pi));
+
+	CreateProcess(NULL, TEXT("./db/mongod.exe --dbpath=.\\data\\db\\"), NULL, NULL, false, 0, NULL, NULL, &si, &pi);
+	mongo::DBClientConnection c;
+	c.connect("localhost");
+
+	mongo::BSONObj p = BSON("prueba" << "Si");
+	c.insert("test.testData",p);
+
 	ClientLink link;
 	std::cout << "Connecting..." << std::endl;
 	reconnect();
