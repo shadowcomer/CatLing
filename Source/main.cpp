@@ -1,4 +1,3 @@
-#define STATIC_LIBMONGOCLIENT
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
 #include <WinSock2.h>
