@@ -1,5 +1,4 @@
 #include "Types.h"
-#include <assert.h>
 
 // Implicit conversion operators
 
@@ -19,27 +18,23 @@
 
  auto TypeObj::toInt() -> IntType*
  {
-	assert(typeid(IntType*) == typeid(this));
-	return dynamic_cast<IntType*>(this);
+	return typeid(IntType*) == typeid(this) ? dynamic_cast<IntType*>(this) : nullptr;
  }
 
  auto TypeObj::toBool() -> BoolType*
  {
-	assert(typeid(BoolType*) == typeid(this));
-	return dynamic_cast<BoolType*>(this);
+	return typeid(BoolType*) == typeid(this) ? dynamic_cast<BoolType*>(this) : nullptr;
  }
 
 auto TypeObj::toFloat() -> FloatType*
 {
-	assert(typeid(FloatType*) == typeid(this));
-	return dynamic_cast<FloatType*>(this);
+	return typeid(FloatType*) == typeid(this) ? dynamic_cast<FloatType*>(this) : nullptr;
 }
 
 
  auto TypeObj::toString() -> StringType*
 { 
-	assert(typeid(StringType*) == typeid(this));
-	return dynamic_cast<StringType*>(this);
+	return typeid(StringType*) == typeid(this) ? dynamic_cast<StringType*>(this) : nullptr;
 }
 
  // Constructors
