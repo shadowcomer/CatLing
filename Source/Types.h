@@ -11,9 +11,18 @@ public:
 
 	auto toInt()->IntType*;
 	auto toBool()->BoolType*;
+	auto toFloat()->FloatType*;
 
 	operator IntType();
 	operator BoolType();
+	operator FloatType();
+};
+
+class FloatType : public TypeObj
+{
+public:
+	FloatType(float f);
+	float value;
 };
 
 class BoolType : public TypeObj
