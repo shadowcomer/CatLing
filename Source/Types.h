@@ -1,48 +1,25 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-enum class TypeName
-{
-	INTEGER,
-};
+class IntType;
 
 class TypeObj
 {
 public:
-	TypeObj(TypeName type) : CUR_TYPE(type) {};
+	TypeObj();
 	virtual ~TypeObj() = 0 {};
-	const TypeName CUR_TYPE;
 
-private:
-	
+	auto toInt()->IntType*;
+	operator IntType();
 };
 
-template<class TYPE>
-class TypeProperty
-{
-private:
-	TYPE m_value;
-
-public:
-	template<class TYPE> inline TypeProperty(TYPE t){ m_value = t; }
-	TypeProperty(){};
-	inline virtual ~TypeProperty() = 0 {};
-
-	inline auto val() -> decltype(m_value) & {
-		return m_value;
-	}
-};
-
-class IntType : public TypeObj, public TypeProperty < int >
+class IntType : public TypeObj
 {
 public:
-	inline IntType(int v) : TypeProperty(v), TypeObj(TypeName::INTEGER) {}
-	~IntType() {};
+	IntType(int val) : value(val) {};
+	int value;
 
 private:
-
 };
-
-
 
 #endif
