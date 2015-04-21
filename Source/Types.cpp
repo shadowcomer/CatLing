@@ -5,3 +5,6 @@
 
  auto TypeObj::toInt() -> IntType*
 	{ return dynamic_cast<IntType*>(this); }
+
+
+ IntType::IntType(int val) : value(val) {}

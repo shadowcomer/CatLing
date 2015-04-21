@@ -6,7 +6,6 @@ class IntType;
 class TypeObj
 {
 public:
-	TypeObj();
 	virtual ~TypeObj() = 0 {};
 
 	auto toInt()->IntType*;
@@ -16,7 +15,7 @@ public:
 class IntType : public TypeObj
 {
 public:
-	IntType(int val) : value(val) {};
+	IntType(int val);
 	int value;
 
 private:
