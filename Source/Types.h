@@ -3,6 +3,7 @@
 
 class IntType;
 class BoolType;
+class FloatType;
 
 class TypeObj
 {
