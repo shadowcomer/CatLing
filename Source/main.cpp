@@ -48,7 +48,8 @@ int main(int argc, const char* argv[])
 	c.connect("localhost");
 
 	mongo::BSONObj p = BSON("prueba" << "Si");
-	c.insert("test.testData",p);
+	c.insert("macro.prueba",p);
+	c.insert("micro.prueba",p);
 
 	ClientLink link;
 	std::cout << "Connecting..." << std::endl;
