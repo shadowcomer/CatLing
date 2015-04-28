@@ -1,12 +1,10 @@
 #include "Slab.h"
 
-Slab::Slab(const TypeList fields) :
+Slab::Slab(TypeList const fields) :
 m_fields(fields)
 {
 
 }
 
-auto Slab::discover()->decltype(m_fields)
-{
-	return m_fields;
-}
+auto Slab::discover()->TypeList const
+	{ return m_fields; }
