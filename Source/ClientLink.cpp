@@ -49,6 +49,7 @@ Module* ClientLink::loadModule(ModuleType type)
 		std::cout << "Loaded." << std::endl;
 		break;
 	case ModuleType::LEARNING:
+
 		break;
 	case ModuleType::MACROMGR:
 		std::cout << "Loading module: MacroManager." << std::endl;
@@ -138,10 +139,10 @@ void ClientLink::processEvents()
 		case EventType::MatchFrame:
 			for each (Module* var in m_modules)
 			{	
-				if (var->getFramesToWake() != 0 && Broodwar->getFrameCount() % var->getFramesToWake() == 0)
-				{
-					var->launch();
-				}
+				//if (var->getFramesToWake() != 0 && Broodwar->getFrameCount() % var->getFramesToWake() == 0)
+				//{
+					
+				//}
 			}
 			onFrame();
 			break;

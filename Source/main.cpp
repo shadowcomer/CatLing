@@ -49,7 +49,7 @@ int main(int argc, const char* argv[])
 	mongo::DBClientConnection c;
 	c.connect("localhost");
 
-	mongo::BSONObj p = BSON("prueba" << "Si");
+	//mongo::BSONObj p = BSON("prueba" << "Si");
 	//c.insert("macro.prueba",p);
 	//c.insert("micro.prueba",p);
 
@@ -107,7 +107,6 @@ int main(int argc, const char* argv[])
 
 		while (Broodwar->isInGame())
 		{
-
 			link.processEvents();
 
 			if (show_bullets)
@@ -131,7 +130,7 @@ int main(int argc, const char* argv[])
 	
 	std::cout << "Press ENTER to continue..." << std::endl;
 	std::cin.ignore();
-	mongo::client::shutdown;
+	mongo::client::shutdown();
 	return 0;
 }
 

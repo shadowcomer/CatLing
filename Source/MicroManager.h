@@ -19,10 +19,7 @@ public:
 
 	void launch();
 
-	Tasker& tasker();
-
 private:
-	Tasker& m_tasker;
 
 	bool shutdownHelper();
 	static void run(MicroManager* m);
