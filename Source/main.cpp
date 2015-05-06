@@ -101,13 +101,14 @@ int main(int argc, const char* argv[])
 		std::cout << "Loading modules..." << std::endl;
 		link.loadModule(ModuleType::COMMANDER);
 		link.loadModule(ModuleType::MICROMGR);
+		link.loadModule(ModuleType::MACROMGR);
+
 		std::cout << "Modules loaded." << std::endl;
 
 		while (Broodwar->isInGame())
 		{
 
 			link.processEvents();
-			Broodwar << link.executeTasks() << std::endl;
 
 			if (show_bullets)
 				drawBullets();

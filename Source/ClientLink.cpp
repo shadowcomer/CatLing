@@ -14,7 +14,10 @@ m_projectedGas(0),
 m_totalExecTasks(0),
 m_executer(m_taskManager.getOutputInterface())
 {
-	
+	for (unsigned int i = ModuleType::COMMANDER; i < ModuleType::_END; i++)
+	{
+		m_modules[i] = nullptr;
+	}
 }
 
 ClientLink::~ClientLink()
@@ -24,12 +27,14 @@ ClientLink::~ClientLink()
 
 Module* ClientLink::loadModule(ModuleType type)
 {
+	// Skip if it's the _END special type
 	if (type == ModuleType::_END)
 	{
 		return nullptr;
 	}
 
-	if(m_modules[type] == nullptr)
+	// Skip if it's already loaded
+	if(m_modules[type] != nullptr)
 	{
 		return nullptr;
 	}
@@ -46,6 +51,10 @@ Module* ClientLink::loadModule(ModuleType type)
 	case ModuleType::LEARNING:
 		break;
 	case ModuleType::MACROMGR:
+		std::cout << "Loading module: MacroManager." << std::endl;
+		m_modules[type] = new MacroManager(m_taskManager.getInputInterface());
+		m_modules[type]->launch();
+		std::cout << "Loaded." << std::endl;
 		break;
 	case ModuleType::MICROMGR:
 		std::cout << "Loading module: MicroManager." << std::endl;
@@ -92,20 +101,6 @@ void ClientLink::waitForTermination()
 	}
 }
 
-int ClientLink::executeTasks()
-{
-	int numActions = 0;
-	Task* val;
-	while (m_taskQueue.try_pop(val))
-	{ 
-		// TODO: Add other possible execution logic
-		val->execute();
-		delete val;
-		numActions++;
-	}
-
-	return numActions;
-}
 
 void ClientLink::processEvents()
 {
@@ -185,47 +180,6 @@ bool ClientLink::moveToTile(Unit unit, TilePosition position)
 {
 	assert(unit != nullptr && position.isValid());
 	return unit->move(Position(position), false);
-}
-
-bool ClientLink::build(Unit builder, UnitType type, TilePosition location)
-{
-	bool success = false;
-	assert(unitCanBuild(builder, type));
-
-	if (success = builder->build(type, location))
-		spendProjectedCost(type);
-
-	// Check until the building was stopped
-	// DUMMY: Failed construction callback. Current implementation is just for learning how it works.
-	/*	Broodwar->registerEvent([](BWAPI::Game*) -> void {Broodwar << "Building was stopped! OOOPS!" << std::endl;},
-	[](BWAPI::Game*) -> bool {return true;},
-	1,
-	1);*/
-	return success;
-}
-
-bool ClientLink::unitCanBuild(Unit builder, UnitType type)
-{
-	return (nullptr != builder) && (type.whatBuilds().first == builder->getType());
-}
-
-bool ClientLink::train(Unit trainer, UnitType type)
-{
-	bool success = false;
-	// Check params
-	assert(unitCanTrain(trainer, type));
-	// Check resources
-	if (!hasEnoughSupply(type) || !hasEnoughResources(type))
-		return false;
-
-	if (success = trainer->train(type))
-		spendProjectedCost(type);
-	return success;
-}
-
-bool ClientLink::unitCanTrain(Unit trainer, UnitType type)
-{
-	return trainer != nullptr && type.whatBuilds().first == trainer->getType();
 }
 
 bool ClientLink::hasEnoughSupply(BWAPI::UnitType type)

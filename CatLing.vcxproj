@@ -104,11 +104,14 @@
     <ClCompile Include="Source\Executer.cpp" />
     <ClCompile Include="Source\MemContainer.cpp" />
     <ClCompile Include="Source\MicroManager.cpp" />
+    <ClCompile Include="Source\MacroManager.cpp" />
+    <ClCompile Include="Source\SlabAllocator.cpp" />
     <ClCompile Include="Source\Module.cpp" />
-    <ClCompile Include="Source\StaticMemoryAllocator.cpp" />
+    <ClCompile Include="Source\Slab.cpp" />
     <ClCompile Include="Source\Task.cpp" />
     <ClCompile Include="Source\Tasker.cpp" />
     <ClCompile Include="Source\TaskManager.cpp" />
+    <ClCompile Include="Source\Types.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/Commander.h" />
@@ -116,11 +119,14 @@
     <ClInclude Include="Source\Executer.h" />
     <ClInclude Include="Source\MemContainer.h" />
     <ClInclude Include="Source\MicroManager.h" />
+    <ClInclude Include="Source\MacroManager.h" />
+    <ClInclude Include="Source\SlabAllocator.h" />
     <ClInclude Include="Source\Module.h" />
-    <ClInclude Include="Source\StaticMemoryAllocator.h" />
+    <ClInclude Include="Source\Slab.h" />
     <ClInclude Include="Source\Task.h" />
     <ClInclude Include="Source\Tasker.h" />
     <ClInclude Include="Source\TaskManager.h" />
+    <ClInclude Include="Source\Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

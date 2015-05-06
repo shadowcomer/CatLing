@@ -32,12 +32,6 @@
     <ClCompile Include="Source\Task.cpp">
       <Filter>Source Files\Tasking</Filter>
     </ClCompile>
-    <ClCompile Include="Source\StaticMemoryAllocator.cpp">
-      <Filter>Source Files\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MemContainer.cpp">
-      <Filter>Source Files\Memory</Filter>
-    </ClCompile>
     <ClCompile Include="Source\TaskManager.cpp">
       <Filter>Source Files\Tasking</Filter>
     </ClCompile>
@@ -53,11 +47,20 @@
     <ClCompile Include="Source\MicroManager.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MacroManager.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Slab.cpp">
+      <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Types.cpp">
+      <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SlabAllocator.cpp">
+      <Filter>Source Files\Memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\StaticMemoryAllocator.h">
-      <Filter>Source Files\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="Source/ClientLink.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -66,9 +69,6 @@
     </ClInclude>
     <ClInclude Include="Source\Task.h">
       <Filter>Source Files\Tasking</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MemContainer.h">
-      <Filter>Source Files\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Source\TaskManager.h">
       <Filter>Source Files\Tasking</Filter>
@@ -84,6 +84,18 @@
     </ClInclude>
     <ClInclude Include="Source\MicroManager.h">
       <Filter>Source Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MacroManager.h">
+      <Filter>Source Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Slab.h">
+      <Filter>Source Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Types.h">
+      <Filter>Source Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SlabAllocator.h">
+      <Filter>Source Files\Memory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

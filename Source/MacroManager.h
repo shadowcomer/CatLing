@@ -1,5 +1,5 @@
-#ifndef COMMANDER_H
-#define COMMANDER_H
+#ifndef MACROMANAGER_H
+#define MACROMANAGER_H
 
 #include "../include/TBB/tbb/tbb.h"
 #include "../include/TBB/tbb/compat/thread"
@@ -11,17 +11,20 @@
 
 #include <iostream>
 
-class Commander : public Module
+class MacroManager : public Module
 {
 public:
-	Commander(Tasker& tsk);
-	~Commander();
+	MacroManager(Tasker& tsk);
+	~MacroManager();
 
 	void launch();
 
 private:
 	BWAPI::Unit m_command;
+
 	bool shutdownHelper();
-	static void run(Commander* m);
+	static void run(MacroManager* m);
+
 };
+
 #endif

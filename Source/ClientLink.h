@@ -9,6 +9,7 @@
 #include "TaskManager.h"
 #include "Commander.h"
 #include "MicroManager.h"
+#include "MacroManager.h"
 
 #include "Task.h"
 
@@ -25,7 +26,6 @@ public:
 	Module* loadModule(ModuleType type);
 	bool unloadModule(ModuleType type);
 	void processEvents();
-	int executeTasks();
 
 	void onStart();
 	void onEnd(bool isWinner);
@@ -53,13 +53,6 @@ public:
 	// Position/Unit type relative unit selection
 	BWAPI::Unit getClosest(BWAPI::UnitType type, BWAPI::TilePosition t);
 
-	bool build(BWAPI::Unit builder, BWAPI::UnitType type, BWAPI::TilePosition location);
-	bool train(BWAPI::Unit trainer, BWAPI::UnitType type);
-
-
-	/// Determines whether a given builder can build another specific unit
-	bool unitCanBuild(BWAPI::Unit builder, BWAPI::UnitType type);
-	bool unitCanTrain(BWAPI::Unit trainer, BWAPI::UnitType type);
 	bool hasEnoughResources(BWAPI::UnitType type);
 	bool hasEnoughSupply(BWAPI::UnitType type);
 
@@ -73,8 +66,6 @@ private:
 	Executer m_executer;
 	
 	long m_totalExecTasks;
-
-	tbb::concurrent_queue<Task*> m_taskQueue;
 
 	// Map dimensions in Build Tile, Walk Tile and Position
 	int m_mapWidth_BT;
