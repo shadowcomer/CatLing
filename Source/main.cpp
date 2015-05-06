@@ -6,6 +6,7 @@
 #include <mongo\client\dbclient.h>
 #include <mongo\client\init.h>
 
+#include <strsafe.h>
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -30,6 +31,7 @@ void reconnect()
 {
 	while (!BWAPIClient.connect())
 	{
+		//std::cout << GetLastError();
 		std::this_thread::sleep_for(std::chrono::milliseconds{ 1000 });
 	}
 }
@@ -53,12 +55,14 @@ int main(int argc, const char* argv[])
 
 	ClientLink link;
 	std::cout << "Connecting..." << std::endl;
+	//std::cout << BWAPI::BWAPIClient.isConnected() << std::endl;
 	reconnect();
 	while (true)
 	{
 		std::cout << "waiting to enter match" << std::endl;
 		while (!Broodwar->isInGame())
 		{
+			
 			BWAPI::BWAPIClient.update();
 			if (!BWAPI::BWAPIClient.isConnected())
 			{
@@ -100,6 +104,7 @@ int main(int argc, const char* argv[])
 
 		while (Broodwar->isInGame())
 		{
+
 			link.processEvents();
 			Broodwar << link.executeTasks() << std::endl;
 
@@ -124,6 +129,7 @@ int main(int argc, const char* argv[])
 	
 	std::cout << "Press ENTER to continue..." << std::endl;
 	std::cin.ignore();
+	mongo::client::shutdown;
 	return 0;
 }
 

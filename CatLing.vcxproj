@@ -102,6 +102,7 @@
     <ClCompile Include="Source/ClientLink.cpp" />
     <ClCompile Include="Source/main.cpp" />
     <ClCompile Include="Source\Executer.cpp" />
+    <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\MemContainer.cpp" />
     <ClCompile Include="Source\Module.cpp" />
     <ClCompile Include="Source\StaticMemoryAllocator.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="Source/Commander.h" />
     <ClInclude Include="Source/ClientLink.h" />
     <ClInclude Include="Source\Executer.h" />
+    <ClInclude Include="Source\MacroManager.h" />
     <ClInclude Include="Source\MemContainer.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\StaticMemoryAllocator.h" />

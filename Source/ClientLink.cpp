@@ -137,6 +137,14 @@ void ClientLink::processEvents()
 			onUnitDestroy(e.getUnit());
 			break;
 		case EventType::MatchFrame:
+			for each (Module* var in m_modules)
+			{	// En principio pongo que el numberOfFrames sea != 0 por el caso de _END. Nunca debería activarse ese tipo creo yo.
+				// así que nos aseguramos de que su valor sea != 0(solo _END) y despues ya vemos a quien le toca.
+				if (var->getFramesToWake() != 0 && var->getFramesToWake() % Broodwar->getFrameCount == 0)
+				{
+					var->launch();
+				}
+			}
 			onFrame();
 			break;
 		case EventType::NukeDetect:

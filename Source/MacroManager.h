@@ -1,5 +1,5 @@
-#ifndef COMMANDER_H
-#define COMMANDER_H
+#ifndef MACRO_H
+#define MACRO_H
 
 #include "../include/TBB/tbb/tbb.h"
 #include "../include/TBB/tbb/compat/thread"
@@ -12,13 +12,12 @@
 
 #include <iostream>
 
-
-class Commander : public Module
+class MacroManager : public Module
 {
 public:
 	// TODO: Change argument list to Job requests
-	Commander(Tasker& tsk);
-	~Commander();
+	MacroManager(Tasker& tsk);
+	~MacroManager();
 
 	void launch();
 
@@ -26,7 +25,8 @@ public:
 
 private:
 	Tasker& m_tasker;
+
 	bool shutdownHelper();
-	static void run(Commander* m);
+	static void run(MacroManager* m);
 };
 #endif

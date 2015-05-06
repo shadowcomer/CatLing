@@ -25,6 +25,7 @@ public:
 	virtual void launch() = 0;
 	bool shutdown();
 	bool isTerminating();
+	int getFramesToWake();
 
 	tbb::tbb_thread& getThread();
 
@@ -32,6 +33,7 @@ protected:
 	tbb::tbb_thread m_thread;
 
 private:
+	int framesToWake;
 	bool m_shuttingDown;
 	virtual bool shutdownHelper() = 0;
 
