@@ -104,6 +104,7 @@
     <ClCompile Include="Source\Executer.cpp" />
     <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\MemContainer.cpp" />
+    <ClCompile Include="Source\MicroManager.cpp" />
     <ClCompile Include="Source\Module.cpp" />
     <ClCompile Include="Source\StaticMemoryAllocator.cpp" />
     <ClCompile Include="Source\Task.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="Source\Executer.h" />
     <ClInclude Include="Source\MacroManager.h" />
     <ClInclude Include="Source\MemContainer.h" />
+    <ClInclude Include="Source\MicroManager.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\StaticMemoryAllocator.h" />
     <ClInclude Include="Source\Task.h" />
