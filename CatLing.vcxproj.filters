@@ -50,9 +50,6 @@
     <ClCompile Include="Source/Commander.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MacroManager.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MicroManager.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
@@ -83,9 +80,6 @@
       <Filter>Source Files\AI</Filter>
     </ClInclude>
     <ClInclude Include="Source/Commander.h">
-      <Filter>Source Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MacroManager.h">
       <Filter>Source Files\AI</Filter>
     </ClInclude>
     <ClInclude Include="Source\MicroManager.h">

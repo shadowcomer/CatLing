@@ -48,6 +48,10 @@ Module* ClientLink::loadModule(ModuleType type)
 	case ModuleType::MACROMGR:
 		break;
 	case ModuleType::MICROMGR:
+		std::cout << "Loading module: MicroManager." << std::endl;
+		m_modules[type] = new MicroManager(m_taskManager.getInputInterface());
+		m_modules[type]->launch();
+		std::cout << "Loaded." << std::endl;
 		break;
 	default:
 		break;
@@ -138,9 +142,8 @@ void ClientLink::processEvents()
 			break;
 		case EventType::MatchFrame:
 			for each (Module* var in m_modules)
-			{	// En principio pongo que el numberOfFrames sea != 0 por el caso de _END. Nunca debería activarse ese tipo creo yo.
-				// así que nos aseguramos de que su valor sea != 0(solo _END) y despues ya vemos a quien le toca.
-				if (var->getFramesToWake() != 0 && var->getFramesToWake() % Broodwar->getFrameCount == 0)
+			{	
+				if (var->getFramesToWake() != 0 && Broodwar->getFrameCount() % var->getFramesToWake() == 0)
 				{
 					var->launch();
 				}

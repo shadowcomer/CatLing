@@ -8,6 +8,7 @@
 
 #include "TaskManager.h"
 #include "Commander.h"
+#include "MicroManager.h"
 
 #include "Task.h"
 
