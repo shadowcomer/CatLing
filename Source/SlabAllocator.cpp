@@ -12,8 +12,9 @@ SlabAllocator::~SlabAllocator()
 
 bool SlabAllocator::createSlab(const std::string name, const TypeList& fields)
 {
-	auto newSlab = new Slab(fields);
-	auto res = m_slabs.emplace(std::pair<std::string, Slab*>(name, newSlab));
+	// Emplace guarantees uniqueness.
+	Slab* s = new Slab(fields);
+	auto res = m_slabs.emplace(name, s);
 	return res.second;
 }
 

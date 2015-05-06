@@ -68,4 +68,6 @@ void MacroManager::run(MacroManager* m)
 		tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)5));
 	}
 
+	std::cout << "Finished MacroManager loop." << std::endl;
+
 }

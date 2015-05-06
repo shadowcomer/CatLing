@@ -12,6 +12,7 @@ class Slab
 {
 private:
 	const TypeList m_fields;
+	std::vector<TypeObj*> m_entries;
 
 public:
 	Slab(const TypeList fields);
@@ -20,7 +21,7 @@ public:
 
 	~Slab(){};
 
-	auto discover()->decltype(m_fields);
+	auto discover()->TypeList const;
 };
 
 #endif
