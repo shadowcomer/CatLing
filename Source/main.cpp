@@ -38,16 +38,20 @@ void reconnect()
 
 int main(int argc, const char* argv[])
 {
+	std::cout << "Starting..." << std::endl;
+	std::cout << "Initializing Database..." << std::endl;
 	mongo::client::initialize();
+
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
 	ZeroMemory(&si, sizeof(si));
 	si.cb = sizeof(si);
 	ZeroMemory(&pi, sizeof(pi));
-
 	CreateProcess(NULL, TEXT("./db/mongod.exe --dbpath=.\\data\\db\\"), NULL, NULL, false, 0, NULL, NULL, &si, &pi);
 	mongo::DBClientConnection c;
 	c.connect("localhost");
+
+	std::cout << "Database initialized." << std::endl;
 
 	//mongo::BSONObj p = BSON("prueba" << "Si");
 	//c.insert("macro.prueba",p);
