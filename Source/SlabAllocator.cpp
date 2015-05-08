@@ -14,12 +14,24 @@ bool SlabAllocator::createSlab(const std::string name, const TypeList& fields)
 {
 	// Emplace guarantees uniqueness.
 	Slab* s = new Slab(fields);
-	auto res = m_slabs.emplace(name, s);
-	return res.second;
+	bool result = false;
+	{
+		tbb::mutex::scoped_lock lock(m_operationMutex);
+		auto item = m_slabs.emplace(name, s);
+		result = item.second;
+	}
+	return result;
 }
 
 bool SlabAllocator::destroySlab(const std::string name)
-	{ return m_slabs.erase(name) == 1; }
+{
+	int erasedVals = 0;
+	{
+		tbb::mutex::scoped_lock lock(m_operationMutex);
+		erasedVals = m_slabs.erase(name);
+	}
+	return erasedVals == 1;
+}
 
 auto SlabAllocator::begin()->std::unordered_map<std::string, Slab*>::iterator
 	{ return m_slabs.begin(); }

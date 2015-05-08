@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <memory>
 
+#include "../include/TBB/tbb/mutex.h"
+
 #include "Slab.h"
 
 class SlabAllocator
@@ -26,6 +28,8 @@ public:
 
 private:
 	std::unordered_map<std::string, Slab*> m_slabs;
+
+	tbb::mutex m_operationMutex;
 };
 
 #endif
