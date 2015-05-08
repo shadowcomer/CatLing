@@ -3,6 +3,14 @@
 
 #include <string>
 
+enum class Type
+{
+	INT,
+	BOOL,
+	FLOAT,
+	STRING,
+};
+
 class IntType;
 class BoolType;
 class FloatType;
@@ -10,7 +18,10 @@ class StringType;
 
 class TypeObj
 {
+private:
+
 public:
+	TypeObj(Type t);
 	virtual ~TypeObj() = 0 {};
 
 	auto toInt()->IntType*;
@@ -22,6 +33,8 @@ public:
 	operator BoolType();
 	operator FloatType();
 	operator StringType();
+
+	Type const type;
 };
 
 class StringType : public TypeObj
@@ -51,5 +64,7 @@ public:
 	IntType(int val);
 	int value;
 };
+
+static auto isSameType(TypeObj* t1, TypeObj* t2)->bool;
 
 #endif
