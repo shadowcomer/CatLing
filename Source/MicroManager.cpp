@@ -1,6 +1,5 @@
 #include "MicroManager.h"
 
-
 MicroManager::MicroManager(Tasker& tsk) : Module(tsk)
 {
 
@@ -25,5 +24,4 @@ bool MicroManager::shutdownHelper()
 void MicroManager::run(MicroManager *m)
 {
 	std::cout << "Started MicroManager loop." << std::endl;
-
 }

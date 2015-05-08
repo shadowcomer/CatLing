@@ -45,17 +45,15 @@ int main(int argc, const char* argv[])
 	si.cb = sizeof(si);
 	ZeroMemory(&pi, sizeof(pi));
 
+	//mongo::DBClientConnection c;
+	
 	CreateProcess(NULL, TEXT("./db/mongod.exe --dbpath=.\\data\\db\\"), NULL, NULL, false, 0, NULL, NULL, &si, &pi);
-	mongo::DBClientConnection c;
-	c.connect("localhost");
-
+	//c.connect("localhost");
 	//mongo::BSONObj p = BSON("prueba" << "Si");
-	//c.insert("macro.prueba",p);
-	//c.insert("micro.prueba",p);
 
 	ClientLink link;
 	std::cout << "Connecting..." << std::endl;
-	//std::cout << BWAPI::BWAPIClient.isConnected() << std::endl;
+	std::cout << BWAPI::BWAPIClient.isConnected() << std::endl;
 	reconnect();
 	while (true)
 	{

@@ -57,6 +57,7 @@ public:
 	bool hasEnoughSupply(BWAPI::UnitType type);
 
 private:
+	mongo::DBClientConnection c;
 	/* TEMPORARY PRIVATE FUNCTIONALITY*/
 	BWAPI::Player self;
 

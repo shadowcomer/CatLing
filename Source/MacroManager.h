@@ -1,11 +1,10 @@
 #ifndef MACROMANAGER_H
 #define MACROMANAGER_H
 
+#include "Module.h"
 #include "../include/TBB/tbb/tbb.h"
 #include "../include/TBB/tbb/compat/thread"
 #include "../include/TBB/tbb/concurrent_queue.h"
-
-#include "Module.h"
 
 #include <BWAPI.h>
 

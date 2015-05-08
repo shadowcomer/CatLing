@@ -1,5 +1,6 @@
 #include "Commander.h"
 
+
 using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk) :
@@ -27,9 +28,7 @@ bool Commander::shutdownHelper()
 void Commander::run(Commander* m)
 {
 	std::cout << "Started Commander loop." << std::endl;
-
 	Unitset units = Broodwar->self()->getUnits();
-
 	for (auto u : units)
 	{
 		if (u->getType().isResourceDepot())
@@ -49,7 +48,7 @@ void Commander::run(Commander* m)
 		{
 			m->m_tasker.requestTask(new TTrain(m->m_command, UnitTypes::Terran_SCV));
 		}
-
+		
 		Unitset units = Broodwar->self()->getUnits();
 		for (auto u : units)
 		{

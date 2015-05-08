@@ -1,11 +1,10 @@
 #ifndef COMMANDER_H
 #define COMMANDER_H
 
+#include "Module.h"
 #include "../include/TBB/tbb/tbb.h"
 #include "../include/TBB/tbb/compat/thread"
 #include "../include/TBB/tbb/concurrent_queue.h"
-
-#include "Module.h"
 
 #include <BWAPI.h>
 
@@ -23,5 +22,7 @@ private:
 	BWAPI::Unit m_command;
 	bool shutdownHelper();
 	static void run(Commander* m);
+	mongo::DBClientConnection c;
+
 };
 #endif

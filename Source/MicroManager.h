@@ -1,12 +1,12 @@
 #ifndef MICRO_H
 #define MICRO_H
 
+#include "Module.h"
 #include "../include/TBB/tbb/tbb.h"
 #include "../include/TBB/tbb/compat/thread"
 #include "../include/TBB/tbb/concurrent_queue.h"
 
 #include "Tasker.h"
-#include "Module.h"
 
 #include <BWAPI.h>
 

@@ -1,8 +1,13 @@
 #ifndef MODULE_H
 #define MODULE_H
 
+#include <WinSock2.h>
+#include <Windows.h>
 #include "../include/TBB/tbb/tbb.h"
 #include "../include/TBB/tbb/compat/thread"
+#include <mongo\bson\bson.h>
+#include <mongo\client\dbclient.h>
+#include <mongo\client\init.h>
 
 #include "Tasker.h"
 
@@ -34,7 +39,6 @@ public:
 protected:
 	tbb::tbb_thread m_thread;
 	Tasker& m_tasker;
-
 	Tasker& tasker();
 
 private:

@@ -202,13 +202,27 @@ void ClientLink::spendProjectedCost(UnitType type)
 
 void ClientLink::onStart()
 {
+	this->c.connect("localhost");
 	configOnStart();
 	// Hello World!
 	Broodwar->sendText("Hello world!");
 	// Print the map name.
 	// BWAPI returns std::string when retrieving a string, don't forget to add .c_str() when printing!
 	Broodwar << "The map is " << Broodwar->mapName() << "!" << std::endl;
-
+	mongo::BSONObjBuilder builder;
+	builder << "mapName" << Broodwar->mapName() << "mapHeight" << Broodwar->mapHeight() << "mapWidth" << Broodwar->mapWidth();
+	mongo::BSONObj p = builder.obj();
+	c.insert("clientlink.gameData", p);
+	Unitset initialInformation = Broodwar->getAllUnits();
+	for (Unitset::iterator iterator = initialInformation.begin(); iterator != initialInformation.end(); iterator++)
+	{
+		Unit unit = *iterator;
+		mongo::BSONObjBuilder builder;
+		builder << "type" << unit->getType().getName() << "_id" << unit->getID();
+		p = builder.obj();
+		c.insert("clientlink.gameData", p);
+	}
+	
 	// Enable the UserInput flag, which allows us to control the bot and type messages.
 	Broodwar->enableFlag(Flag::UserInput);
 
