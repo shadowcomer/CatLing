@@ -30,6 +30,7 @@ public:
 
 	auto appendEntry(Entry entry)->bool;
 	auto removeEntry(int i)->bool;
+	auto modifyEntry(int i, int j, TypeObj* val)->bool;
 
 	auto discover()->TypeList const;
 };
