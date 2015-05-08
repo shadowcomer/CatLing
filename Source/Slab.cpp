@@ -23,7 +23,7 @@ auto Slab::generateFieldsVector(TypeList fields)->std::vector<TypeObj const * co
 	return vec;
 }
 
-auto Slab::canInsert(std::vector<TypeObj*> entry)->bool
+auto Slab::canInsert(Entry entry)->bool
 {
 	if (entry.size() != m_entries.size())
 	{
@@ -39,9 +39,14 @@ auto Slab::canInsert(std::vector<TypeObj*> entry)->bool
 	return true;
 }
 
-auto Slab::appendEntry()->bool
+auto Slab::appendEntry(Entry entry)->bool
 {
+	if (!canInsert(entry))
+	{
+		return false;
+	}
 
+	m_entries.push_back(entry);
 	return true;
 }
 

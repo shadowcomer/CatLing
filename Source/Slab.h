@@ -7,6 +7,7 @@
 #include "Types.h"
 
 typedef std::unordered_map<std::string, TypeObj const * const> TypeList;
+typedef std::vector<TypeObj*> Entry;
 
 class Slab
 {
@@ -25,9 +26,9 @@ public:
 
 	~Slab();
 
-	auto canInsert(std::vector<TypeObj*> entry)->bool;
+	auto canInsert(Entry entry)->bool;
 
-	auto appendEntry()->bool;
+	auto appendEntry(Entry entry)->bool;
 
 	auto discover()->TypeList const;
 };
