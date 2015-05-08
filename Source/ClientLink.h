@@ -64,6 +64,8 @@ private:
 	Module* m_modules[ModuleType::_END];
 	TaskManager m_taskManager;
 	Executer m_executer;
+
+	SlabAllocator* m_allocator;
 	
 	long m_totalExecTasks;
 

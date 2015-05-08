@@ -18,11 +18,13 @@ m_executer(m_taskManager.getOutputInterface())
 	{
 		m_modules[i] = nullptr;
 	}
+
+	m_allocator = new SlabAllocator();
 }
 
 ClientLink::~ClientLink()
 {
-	
+	delete m_allocator;
 }
 
 Module* ClientLink::loadModule(ModuleType type)
@@ -45,6 +47,7 @@ Module* ClientLink::loadModule(ModuleType type)
 	case ModuleType::COMMANDER:
 		std::cout << "Loading module: Commander." << std::endl;
 		m_modules[type] = new Commander(m_taskManager.getInputInterface());
+		m_modules[type]->setAllocator(m_allocator);
 		m_modules[type]->launch();
 		std::cout << "Loaded." << std::endl;
 		break;
@@ -54,12 +57,14 @@ Module* ClientLink::loadModule(ModuleType type)
 	case ModuleType::MACROMGR:
 		std::cout << "Loading module: MacroManager." << std::endl;
 		m_modules[type] = new MacroManager(m_taskManager.getInputInterface());
+		m_modules[type]->setAllocator(m_allocator);
 		m_modules[type]->launch();
 		std::cout << "Loaded." << std::endl;
 		break;
 	case ModuleType::MICROMGR:
 		std::cout << "Loading module: MicroManager." << std::endl;
 		m_modules[type] = new MicroManager(m_taskManager.getInputInterface());
+		m_modules[type]->setAllocator(m_allocator);
 		m_modules[type]->launch();
 		std::cout << "Loaded." << std::endl;
 		break;

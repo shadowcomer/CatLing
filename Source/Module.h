@@ -5,6 +5,7 @@
 #include "../include/TBB/tbb/compat/thread"
 
 #include "Tasker.h"
+#include "SlabAllocator.h"
 
 // Possible types. The _END value is there to automatically
 // detect the last element and work accordingly.
@@ -31,9 +32,12 @@ public:
 
 	tbb::tbb_thread& getThread();
 
+	bool setAllocator(SlabAllocator* allocator);
+
 protected:
 	tbb::tbb_thread m_thread;
 	Tasker& m_tasker;
+	SlabAllocator* m_allocator;
 
 	Tasker& tasker();
 
