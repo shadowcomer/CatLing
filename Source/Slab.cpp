@@ -5,7 +5,7 @@ Slab::Slab(TypeList const fields) :
 m_fields(fields),
 m_fieldsVec(generateFieldsVector(m_fields))
 {
-
+	
 }
 
 Slab::~Slab()
@@ -47,7 +47,10 @@ auto Slab::appendEntry(Entry entry)->bool
 		return false;
 	}
 
-	m_entries.push_back(entry);
+	{
+		tbb::mutex::scoped_lock lock(m_operationMutex);
+		m_entries.push_back(entry);
+	}
 	return true;
 }
 
@@ -56,9 +59,12 @@ auto Slab::removeEntry(int i)->bool
 	if (m_entries.empty() || i < 0 || i >(m_entries.size() - 1))
 		return false;
 
-	auto it = m_entries.begin();
-	std::advance(it, i);
-	m_entries.erase(it);
+	{
+		tbb::mutex::scoped_lock lock(m_operationMutex);
+		auto it = m_entries.begin();
+		std::advance(it, i);
+		m_entries.erase(it);
+	}
 	return true;
 }
 
@@ -79,57 +85,59 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 	if (val->type != m_fieldsVec[j]->type)
 		return false;
 
-	auto entry = m_entries.begin();
-	std::advance(entry, i);
-	auto entryField = (*entry)[j];
-
-	switch (val->type)
 	{
-	case Type::INT:
-		auto iParamObj = val->toInt();
-		auto iTargetObj = entryField->toInt();
+		tbb::mutex::scoped_lock lock(m_operationMutex);
+		auto entry = m_entries.begin();
+		std::advance(entry, i);
+		auto entryField = (*entry)[j];
 
-		assert(iParamObj != nullptr);
-		assert(iTargetObj != nullptr);
+		switch (val->type)
+		{
+		case Type::INT:
+			auto iParamObj = val->toInt();
+			auto iTargetObj = entryField->toInt();
 
-		iTargetObj->value = iParamObj->value;
-		break;
+			assert(iParamObj != nullptr);
+			assert(iTargetObj != nullptr);
 
-	case Type::BOOL:
-		auto bParamObj = val->toBool();
-		auto bTargetObj = entryField->toBool();
+			iTargetObj->value = iParamObj->value;
+			break;
 
-		assert(bParamObj != nullptr);
-		assert(bTargetObj != nullptr);
+		case Type::BOOL:
+			auto bParamObj = val->toBool();
+			auto bTargetObj = entryField->toBool();
 
-		bTargetObj->value = iParamObj->value;
-		break;
+			assert(bParamObj != nullptr);
+			assert(bTargetObj != nullptr);
 
-	case Type::FLOAT:
-		auto fParamObj = val->toFloat();
-		auto fTargetObj = entryField->toFloat();
+			bTargetObj->value = iParamObj->value;
+			break;
 
-		assert(fParamObj != nullptr);
-		assert(fTargetObj != nullptr);
+		case Type::FLOAT:
+			auto fParamObj = val->toFloat();
+			auto fTargetObj = entryField->toFloat();
 
-		fTargetObj->value = fParamObj->value;
-		break;
+			assert(fParamObj != nullptr);
+			assert(fTargetObj != nullptr);
 
-	case Type::STRING:
-		auto sParamObj = val->toString();
-		auto sTargetObj = entryField->toString();
+			fTargetObj->value = fParamObj->value;
+			break;
 
-		assert(sParamObj != nullptr);
-		assert(sTargetObj != nullptr);
+		case Type::STRING:
+			auto sParamObj = val->toString();
+			auto sTargetObj = entryField->toString();
 
-		sTargetObj->value = sParamObj->value;
-		break;
+			assert(sParamObj != nullptr);
+			assert(sTargetObj != nullptr);
 
-	default:
-		assert(false);
-		return false;
+			sTargetObj->value = sParamObj->value;
+			break;
+
+		default:
+			assert(false);
+			return false;
+		}
 	}
-
 	return true;
 }
 

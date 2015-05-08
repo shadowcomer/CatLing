@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <memory>
 
+#include "../include/TBB/tbb/mutex.h"
+
 #include "Types.h"
 
 typedef std::unordered_map<std::string, TypeObj const * const> TypeList;
@@ -18,6 +20,8 @@ private:
 	std::vector<std::vector<TypeObj*>> m_entries;
 
 	auto generateFieldsVector(TypeList fields)->std::vector<TypeObj const * const>;
+
+	tbb::mutex m_operationMutex;
 
 public:
 	Slab(TypeList const fields);
