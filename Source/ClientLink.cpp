@@ -217,12 +217,23 @@ void ClientLink::onStart()
 	for (Unitset::iterator iterator = initialInformation.begin(); iterator != initialInformation.end(); iterator++)
 	{
 		Unit unit = *iterator;
-		mongo::BSONObjBuilder builder;
-		builder << "type" << unit->getType().getName() << "_id" << unit->getID();
-		p = builder.obj();
-		c.insert("clientlink.gameData", p);
+		UnitType type = unit->getType();
+		if (type == UnitTypes::Resource_Mineral_Field || type == UnitTypes::Resource_Mineral_Field_Type_2
+			|| type == UnitTypes::Resource_Mineral_Field_Type_3 || type == UnitTypes::Resource_Vespene_Geyser)
+		{
+			mongo::BSONObjBuilder resources;
+			resources << "type" << type.getName() << "_id" << unit->getID();
+			p = resources.obj();
+			c.insert("clientlink.resources", p);
+		}
+		else
+		{
+			mongo::BSONObjBuilder builder;
+			builder << "type" << type.getName() << "_id" << unit->getID();
+			p = builder.obj();
+			c.insert("clientlink.gameData", p);
+		}
 	}
-	
 	// Enable the UserInput flag, which allows us to control the bot and type messages.
 	Broodwar->enableFlag(Flag::UserInput);
 
