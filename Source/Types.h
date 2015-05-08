@@ -65,6 +65,6 @@ public:
 	int value;
 };
 
-static auto isSameType(TypeObj* t1, TypeObj* t2)->bool;
+auto isSameType(TypeObj const * const t1, TypeObj const * const t2)->bool;
 
 #endif

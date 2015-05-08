@@ -47,9 +47,9 @@ auto TypeObj::toFloat() -> FloatType*
  StringType::StringType(std::string val) : TypeObj(Type::STRING), value(val) {}
 
 
- // Static functionality
+ // Inter functionality
 
- static auto isSameType(TypeObj* t1, TypeObj* t2)->bool
+ auto isSameType(TypeObj const * const t1, TypeObj const * const t2)->bool
  {
 	 if (t1 == nullptr || t2 == nullptr)
 		 return false;

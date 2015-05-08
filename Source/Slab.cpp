@@ -1,7 +1,8 @@
 #include "Slab.h"
 
 Slab::Slab(TypeList const fields) :
-m_fields(fields)
+m_fields(fields),
+m_fieldsVec(generateFieldsVector(m_fields))
 {
 
 }
@@ -11,6 +12,17 @@ Slab::~Slab()
 
 }
 
+auto Slab::generateFieldsVector(TypeList fields)->std::vector<TypeObj const * const>
+{
+	std::vector < TypeObj const * const> vec;
+	for each(auto elem in m_fields)
+	{
+		vec.push_back(elem.second);
+	}
+
+	return vec;
+}
+
 auto Slab::canInsert(std::vector<TypeObj*> entry)->bool
 {
 	if (entry.size() != m_entries.size())
@@ -18,9 +30,10 @@ auto Slab::canInsert(std::vector<TypeObj*> entry)->bool
 		return false;
 	}
 
-	for each(auto base in m_entries)
+	for (int i = 0; i < m_entries.size(); i++)
 	{
-
+		if (!isSameType(entry[i], m_fieldsVec[i]))
+			return false;
 	}
 
 	return true;
