@@ -50,5 +50,14 @@ auto Slab::appendEntry(Entry entry)->bool
 	return true;
 }
 
+auto Slab::removeEntry(int i)->bool
+{
+	if (m_entries.empty() || i < 0 || i >(m_entries.size() - 1))
+		return false;
+
+	m_entries.erase(m_entries.begin() + i);
+	return true;
+}
+
 auto Slab::discover()->TypeList const
 	{ return m_fields; }

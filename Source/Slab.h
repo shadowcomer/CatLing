@@ -29,6 +29,7 @@ public:
 	auto canInsert(Entry entry)->bool;
 
 	auto appendEntry(Entry entry)->bool;
+	auto removeEntry(int i)->bool;
 
 	auto discover()->TypeList const;
 };
