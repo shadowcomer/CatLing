@@ -73,10 +73,6 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 	if (val == nullptr)
 		return false;
 
-	// Check if 'i' is a valid entry offset
-	if (m_entries.empty() || i < 0 || i >(m_entries.size() - 1))
-		return false;
-
 	// Check if 'j' is a valid field offset
 	if (m_fieldsVec.empty() || j < 0 || j >(m_fieldsVec.size() - 1))
 		return false;
@@ -87,6 +83,11 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 
 	{
 		tbb::mutex::scoped_lock lock(m_operationMutex);
+
+		// Check if 'i' is a valid entry offset
+		if (m_entries.empty() || i < 0 || i >(m_entries.size() - 1))
+			return false;
+
 		auto entry = m_entries.begin();
 		std::advance(entry, i);
 		auto entryField = (*entry)[j];
