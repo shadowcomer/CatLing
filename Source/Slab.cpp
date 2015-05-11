@@ -26,12 +26,12 @@ auto Slab::generateFieldsVector(TypeList fields)->std::vector<TypeObj const * co
 
 auto Slab::canInsert(Entry entry)->bool
 {
-	if (entry.size() != m_entries.size())
+	if (entry.size() != m_fieldsVec.size())
 	{
 		return false;
 	}
 
-	for (int i = 0; i < m_entries.size(); i++)
+	for (int i = 0; i < m_fieldsVec.size(); i++)
 	{
 		if (!isSameType(entry[i], m_fieldsVec[i]))
 			return false;
