@@ -38,6 +38,22 @@ void MacroManager::run(MacroManager* m)
 		}
 	}
 
+	std::unordered_map<std::string, Slab*>::iterator resTable;
+
+	Broodwar << "Waiting for 'resources' to be created." << std::endl;
+	while ((resTable = m->m_allocator->find("resources")) == m->m_allocator->end())
+	{
+		tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)1));
+	}
+
+	Broodwar << "Found 'resources' table." << std::endl;
+	Broodwar << "Fields in 'resources' table: " << std::endl;
+	TypeList const fields = resTable->second->discover();
+	for each(auto f in fields)
+	{
+		Broodwar << "\t- " << f.first << std::endl;
+	}
+
 	while(!m->isTerminating())
 	{
 		// When we have plenty of minerals, build a barracks
@@ -64,7 +80,7 @@ void MacroManager::run(MacroManager* m)
 			}
 		}
 
-		// Sleep for a second
+		// Sleep
 		tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)5));
 	}
 
