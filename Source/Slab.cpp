@@ -92,11 +92,23 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 		std::advance(entry, i);
 		auto entryField = (*entry)[j];
 
+		IntType* iParamObj = nullptr;
+		IntType* iTargetObj = nullptr;
+
+		BoolType* bParamObj = nullptr;
+		BoolType* bTargetObj = nullptr;
+
+		FloatType* fParamObj = nullptr;
+		FloatType* fTargetObj = nullptr;
+
+		StringType* sParamObj = nullptr;
+		StringType* sTargetObj = nullptr;
+
 		switch (val->type)
 		{
 		case Type::INT:
-			auto iParamObj = val->toInt();
-			auto iTargetObj = entryField->toInt();
+			iParamObj = val->toInt();
+			iTargetObj = entryField->toInt();
 
 			assert(iParamObj != nullptr);
 			assert(iTargetObj != nullptr);
@@ -105,18 +117,18 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 			break;
 
 		case Type::BOOL:
-			auto bParamObj = val->toBool();
-			auto bTargetObj = entryField->toBool();
+			bParamObj = val->toBool();
+			bTargetObj = entryField->toBool();
 
 			assert(bParamObj != nullptr);
 			assert(bTargetObj != nullptr);
 
-			bTargetObj->value = iParamObj->value;
+			bTargetObj->value = bParamObj->value;
 			break;
 
 		case Type::FLOAT:
-			auto fParamObj = val->toFloat();
-			auto fTargetObj = entryField->toFloat();
+			fParamObj = val->toFloat();
+			fTargetObj = entryField->toFloat();
 
 			assert(fParamObj != nullptr);
 			assert(fTargetObj != nullptr);
@@ -125,8 +137,8 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 			break;
 
 		case Type::STRING:
-			auto sParamObj = val->toString();
-			auto sTargetObj = entryField->toString();
+			sParamObj = val->toString();
+			sTargetObj = entryField->toString();
 
 			assert(sParamObj != nullptr);
 			assert(sTargetObj != nullptr);

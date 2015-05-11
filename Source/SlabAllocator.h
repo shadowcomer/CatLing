@@ -28,7 +28,6 @@ public:
 
 private:
 	std::unordered_map<std::string, Slab*> m_slabs;
-
 	tbb::mutex m_operationMutex;
 };
 
