@@ -213,27 +213,26 @@ void ClientLink::onStart()
 	builder << "mapName" << Broodwar->mapName() << "mapHeight" << Broodwar->mapHeight() << "mapWidth" << Broodwar->mapWidth();
 	mongo::BSONObj p = builder.obj();
 	c.insert("clientlink.gameData", p);
-	Unitset initialInformation = Broodwar->getAllUnits();
-	for (Unitset::iterator iterator = initialInformation.begin(); iterator != initialInformation.end(); iterator++)
+	Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
+	for (auto iterator = myUnits.begin(); iterator != myUnits.end(); ++iterator)
 	{
 		Unit unit = *iterator;
-		UnitType type = unit->getType();
-		if (type == UnitTypes::Resource_Mineral_Field || type == UnitTypes::Resource_Mineral_Field_Type_2
-			|| type == UnitTypes::Resource_Mineral_Field_Type_3 || type == UnitTypes::Resource_Vespene_Geyser)
+		mongo::BSONObjBuilder builder;
+		builder << "type" << unit->getType().getName() << "_id" << unit->getID() << "XPosition" << unit->getPosition().x << "YPosition" << unit->getPosition().y << "hitPoints" << unit->getHitPoints() <<
+			"maxHP" << unit->getType().maxHitPoints() << "visible" << unit->isVisible() << "Player" << unit->getPlayer()->getID() <<
+			"completed" << unit->isCompleted() << "isTargeteable" << unit->isTargetable() << "isBurrowed" << unit->isBurrowed();
+		p = builder.obj();
+		if (unit->getType() == UnitTypes::Resource_Mineral_Field || unit->getType() == UnitTypes::Resource_Mineral_Field_Type_2 ||
+			unit->getType() == UnitTypes::Resource_Mineral_Field_Type_3 || unit->getType() == UnitTypes::Resource_Vespene_Geyser)
 		{
-			mongo::BSONObjBuilder resources;
-			resources << "type" << type.getName() << "_id" << unit->getID();
-			p = resources.obj();
-			c.insert("clientlink.resources", p);
+			c.update("clientlink.resources", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
 		}
 		else
 		{
-			mongo::BSONObjBuilder builder;
-			builder << "type" << type.getName() << "_id" << unit->getID();
-			p = builder.obj();
-			c.insert("clientlink.gameData", p);
+			c.update("clientlink.gameData", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
 		}
 	}
+	
 	// Enable the UserInput flag, which allows us to control the bot and type messages.
 	Broodwar->enableFlag(Flag::UserInput);
 
@@ -434,28 +433,98 @@ void ClientLink::onNukeDetect(BWAPI::Position target)
 		Broodwar->sendText("Where's the nuke?");
 	}
 
+
 	// You can also retrieve all the nuclear missile targets using Broodwar->getNukeDots()!
 }
 
 void ClientLink::onUnitDiscover(BWAPI::Unit unit)
 {
+	mongo::BSONObjBuilder builder;
+	mongo::BSONObj p;
+	builder << "type" << unit->getType().getName() << "_id" << unit->getID() << "XPosition" << unit->getPosition().x << "YPosition" << unit->getPosition().y << "hitPoints" << unit->getHitPoints() << 
+		"maxHP" << unit->getType().maxHitPoints() << "visible" << unit->isVisible() << "Player" << unit->getPlayer()->getID() << 
+		"completed" << unit->isCompleted() << "isTargeteable" << unit->isTargetable() << "isBurrowed" << unit->isBurrowed();
+	p = builder.obj();
+	if (unit->getType() == UnitTypes::Resource_Mineral_Field || unit->getType() == UnitTypes::Resource_Mineral_Field_Type_2 || 
+		unit->getType() == UnitTypes::Resource_Mineral_Field_Type_3 || unit->getType() == UnitTypes::Resource_Vespene_Geyser)
+	{
+		c.update("clientlink.resources", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
+	else
+	{
+		c.update("clientlink.gameData", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
 }
 
 void ClientLink::onUnitEvade(BWAPI::Unit unit)
 {
+	mongo::BSONObjBuilder builder;
+	mongo::BSONObj p;
+	builder << "type" << unit->getType().getName() << "_id" << unit->getID() << "XPosition" << unit->getPosition().x << "YPosition" << unit->getPosition().y << "hitPoints" << unit->getHitPoints() <<
+		"maxHP" << unit->getType().maxHitPoints() << "visible" << unit->isVisible() << "Player" << unit->getPlayer()->getID() <<
+		"completed" << unit->isCompleted() << "isTargeteable" << unit->isTargetable() << "isBurrowed" << unit->isBurrowed();
+	p = builder.obj();
+	c.update("clientlink.gameData", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+
 }
 
 void ClientLink::onUnitShow(BWAPI::Unit unit)
 {
+	mongo::BSONObjBuilder builder;
+	mongo::BSONObj p;
+	builder << "type" << unit->getType().getName() << "_id" << unit->getID() << "XPosition" << unit->getPosition().x << "YPosition" << unit->getPosition().y << "hitPoints" << unit->getHitPoints() <<
+		"maxHP" << unit->getType().maxHitPoints() << "visible" << unit->isVisible() << "Player" << unit->getPlayer()->getID() <<
+		"completed" << unit->isCompleted() << "isTargeteable" << unit->isTargetable() << "isBurrowed" << unit->isBurrowed();
+	p = builder.obj();
+	if (unit->getType() == UnitTypes::Resource_Mineral_Field || unit->getType() == UnitTypes::Resource_Mineral_Field_Type_2 ||
+		unit->getType() == UnitTypes::Resource_Mineral_Field_Type_3 || unit->getType() == UnitTypes::Resource_Vespene_Geyser)
+	{
+		c.update("clientlink.resources", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
+	else
+	{
+		c.update("clientlink.gameData", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
 }
 
 void ClientLink::onUnitHide(BWAPI::Unit unit)
 {
+	mongo::BSONObjBuilder builder;
+	mongo::BSONObj p;
+	builder << "type" << unit->getType().getName() << "_id" << unit->getID() << "XPosition" << unit->getPosition().x << "YPosition" << unit->getPosition().y << "hitPoints" << unit->getHitPoints() <<
+		"maxHP" << unit->getType().maxHitPoints() << "visible" << unit->isVisible() << "Player" << unit->getPlayer()->getID() <<
+		"completed" << unit->isCompleted() << "isTargeteable" << unit->isTargetable() << "isBurrowed" << unit->isBurrowed();
+	p = builder.obj();
+	if (unit->getType() == UnitTypes::Resource_Mineral_Field || unit->getType() == UnitTypes::Resource_Mineral_Field_Type_2 ||
+		unit->getType() == UnitTypes::Resource_Mineral_Field_Type_3 || unit->getType() == UnitTypes::Resource_Vespene_Geyser)
+	{
+		c.update("clientlink.resources", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
+	else
+	{
+		c.update("clientlink.gameData", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
 }
 
 void ClientLink::onUnitCreate(BWAPI::Unit unit)
 {
 	UnitType type = unit->getType();
+
+	mongo::BSONObjBuilder builder;
+	mongo::BSONObj p;
+	builder << "type" << unit->getType().getName() << "_id" << unit->getID() << "XPosition" << unit->getPosition().x << "YPosition" << unit->getPosition().y << "hitPoints" << unit->getHitPoints() <<
+		"maxHP" << unit->getType().maxHitPoints() << "visible" << unit->isVisible() << "Player" << unit->getPlayer()->getID() <<
+		"completed" << unit->isCompleted() << "isTargeteable" << unit->isTargetable() << "isBurrowed" << unit->isBurrowed();
+	p = builder.obj();
+	if (unit->getType() == UnitTypes::Resource_Mineral_Field || unit->getType() == UnitTypes::Resource_Mineral_Field_Type_2 ||
+		unit->getType() == UnitTypes::Resource_Mineral_Field_Type_3 || unit->getType() == UnitTypes::Resource_Vespene_Geyser)
+	{
+		c.update("clientlink.resources", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
+	else
+	{
+		c.update("clientlink.gameData", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
 
 	// Keep projected resources consistency
 	m_projectedMinerals -= type.mineralPrice();
@@ -466,6 +535,7 @@ void ClientLink::onUnitCreate(BWAPI::Unit unit)
 
 void ClientLink::onUnitDestroy(BWAPI::Unit unit)
 {
+	c.remove("clientlink.gameData",MONGO_QUERY("_id" << unit->getID()));
 	UnitType type = unit->getType();
 	if (UnitTypes::Terran_SCV == type)
 		m_SCVcount = m_SCVcount > 0 ? m_SCVcount - 1 : 0;
@@ -475,6 +545,21 @@ void ClientLink::onUnitDestroy(BWAPI::Unit unit)
 
 void ClientLink::onUnitMorph(BWAPI::Unit unit)
 {
+	mongo::BSONObjBuilder builder;
+	mongo::BSONObj p;
+	builder << "type" << unit->getType().getName() << "_id" << unit->getID() << "XPosition" << unit->getPosition().x << "YPosition" << unit->getPosition().y << "hitPoints" << unit->getHitPoints() <<
+		"maxHP" << unit->getType().maxHitPoints() << "visible" << unit->isVisible() << "Player" << unit->getPlayer()->getID() <<
+		"completed" << unit->isCompleted() << "isTargeteable" << unit->isTargetable() << "isBurrowed" << unit->isBurrowed();
+	p = builder.obj();
+	if (unit->getType() == UnitTypes::Resource_Mineral_Field || unit->getType() == UnitTypes::Resource_Mineral_Field_Type_2 ||
+		unit->getType() == UnitTypes::Resource_Mineral_Field_Type_3 || unit->getType() == UnitTypes::Resource_Vespene_Geyser)
+	{
+		c.update("clientlink.resources", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
+	else
+	{
+		c.update("clientlink.gameData", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
 	if (Broodwar->isReplay())
 	{
 		// if we are in a replay, then we will print out the build order of the structures
@@ -490,6 +575,21 @@ void ClientLink::onUnitMorph(BWAPI::Unit unit)
 
 void ClientLink::onUnitRenegade(BWAPI::Unit unit)
 {
+	mongo::BSONObjBuilder builder;
+	mongo::BSONObj p;
+	builder << "type" << unit->getType().getName() << "_id" << unit->getID() << "XPosition" << unit->getPosition().x << "YPosition" << unit->getPosition().y << "hitPoints" << unit->getHitPoints() <<
+		"maxHP" << unit->getType().maxHitPoints() << "visible" << unit->isVisible() << "Player" << unit->getPlayer()->getID() <<
+		"completed" << unit->isCompleted() << "isTargeteable" << unit->isTargetable() << "isBurrowed" << unit->isBurrowed();
+	p = builder.obj();
+	if (unit->getType() == UnitTypes::Resource_Mineral_Field || unit->getType() == UnitTypes::Resource_Mineral_Field_Type_2 ||
+		unit->getType() == UnitTypes::Resource_Mineral_Field_Type_3 || unit->getType() == UnitTypes::Resource_Vespene_Geyser)
+	{
+		c.update("clientlink.resources", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
+	else
+	{
+		c.update("clientlink.gameData", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
 }
 
 void ClientLink::onSaveGame(std::string gameName)
@@ -499,6 +599,21 @@ void ClientLink::onSaveGame(std::string gameName)
 
 void ClientLink::onUnitComplete(BWAPI::Unit unit)
 {
+	mongo::BSONObjBuilder builder;
+	mongo::BSONObj p;
+	builder << "type" << unit->getType().getName() << "_id" << unit->getID() << "XPosition" << unit->getPosition().x << "YPosition" << unit->getPosition().y << "hitPoints" << unit->getHitPoints() <<
+		"maxHP" << unit->getType().maxHitPoints() << "visible" << unit->isVisible() << "Player" << unit->getPlayer()->getID() <<
+		"completed" << unit->isCompleted() << "isTargeteable" << unit->isTargetable() << "isBurrowed" << unit->isBurrowed();
+	p = builder.obj();
+	if (unit->getType() == UnitTypes::Resource_Mineral_Field || unit->getType() == UnitTypes::Resource_Mineral_Field_Type_2 ||
+		unit->getType() == UnitTypes::Resource_Mineral_Field_Type_3 || unit->getType() == UnitTypes::Resource_Vespene_Geyser)
+	{
+		c.update("clientlink.resources", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
+	else
+	{
+		c.update("clientlink.gameData", MONGO_QUERY("_id" << unit->getID()), p, mongo::UpdateOption_Upsert);
+	}
 	UnitType type = unit->getType();
 	if (UnitTypes::Terran_Barracks == type)
 	{
