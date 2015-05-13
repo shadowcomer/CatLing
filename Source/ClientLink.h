@@ -58,6 +58,7 @@ public:
 
 private:
 	mongo::DBClientConnection c;
+	void auxUpdateBBDD(BWAPI::Unit);
 	/* TEMPORARY PRIVATE FUNCTIONALITY*/
 	BWAPI::Player self;
 
