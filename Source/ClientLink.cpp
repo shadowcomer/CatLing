@@ -76,6 +76,7 @@ bool ClientLink::unloadModule(ModuleType type)
 	{
 		m_modules[type]->shutdown();
 		delete m_modules[type];
+		m_modules[type] = nullptr;
 		return true;
 	}
 
@@ -139,10 +140,13 @@ void ClientLink::processEvents()
 		case EventType::MatchFrame:
 			for each (Module* var in m_modules)
 			{	
-				//if (var->getFramesToWake() != 0 && Broodwar->getFrameCount() % var->getFramesToWake() == 0)
-				//{
-					
-				//}
+				if (var != nullptr)
+				{
+					if ((var->getFramesToWake() != 0) && ((Broodwar->getFrameCount() % var->getFramesToWake()) == 0))
+					{
+						//Now should be safe to call all var's functions
+					}
+				}
 			}
 			onFrame();
 			break;
