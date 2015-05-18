@@ -294,7 +294,6 @@ void ClientLink::onFrame()
 	m_totalExecTasks = m_executer.executeAllTasks();
 	mongo::BSONObj p;
 	Unitset myUnits = BWAPI::Broodwar->self()->getUnits();
-//	Unitset enemyUnits = BWAPI::Broodwar->enemy()->getUnits();
 	Playerset enemies = BWAPI::Broodwar->enemies();
 	std::string collection = "clientlink.enemy";
 	for (auto iterator = enemies.begin(); iterator != enemies.end(); ++iterator)
