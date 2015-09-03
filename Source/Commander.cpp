@@ -29,17 +29,6 @@ void Commander::run(Commander* m)
 	std::cout << "Started Commander loop." << std::endl;
 
 	Unitset units = Broodwar->self()->getUnits();
-
-	Broodwar << "Creating 'resources' table." << std::endl;
-	{
-		TypeList fields;
-		fields.emplace(std::pair<std::string, TypeObj const * const>("minerals", &IntType(0)));
-		fields.emplace(std::pair<std::string, TypeObj const * const>("gas", &IntType(0)));
-
-		m->m_allocator->createSlab("resources", fields);
-	}
-	Broodwar << "Created 'resources' table." << std::endl;
-
 	for (auto u : units)
 	{
 		if (u->getType().isResourceDepot())
@@ -48,7 +37,6 @@ void Commander::run(Commander* m)
 			break;
 		}
 	}
-
 
 	while (!m->isTerminating())
 	{

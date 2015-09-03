@@ -19,7 +19,23 @@ m_executer(m_taskManager.getOutputInterface())
 		m_modules[i] = nullptr;
 	}
 
+	// TODO: Change to stack allocation
 	m_allocator = new SlabAllocator();
+
+	{
+		TypeList fields;
+		fields.insert(std::pair<std::string, TypeObj const * const>("minerals", &IntType(0)));
+		fields.insert(std::pair<std::string, TypeObj const * const>("gas", &IntType(0)));
+		m_allocator->createSlab("resources", fields);
+		// TODO: Change Slab implementation to use stack allocation
+		Slab* r = nullptr;
+
+		if (!m_allocator->find("resources", &r))
+			std::cout << "Failed to find 'resources' from ClientLink after creation." << std::endl;
+		else
+			std::cout << "Found 'resources' from ClientLink after creation."<< std::endl;
+	}
+	Broodwar << "Created 'resources' table." << std::endl;
 }
 
 ClientLink::~ClientLink()
@@ -41,36 +57,33 @@ Module* ClientLink::loadModule(ModuleType type)
 		return nullptr;
 	}
 
-	// TODO: Load the corresponding module
+	Module* tmp = nullptr;
+
 	switch (type)
 	{
 	case ModuleType::COMMANDER:
 		std::cout << "Loading module: Commander." << std::endl;
-		m_modules[type] = new Commander(m_taskManager.getInputInterface());
-		m_modules[type]->setAllocator(m_allocator);
-		m_modules[type]->launch();
-		std::cout << "Loaded." << std::endl;
-		break;
-	case ModuleType::LEARNING:
-
+		tmp = new Commander(m_taskManager.getInputInterface());
 		break;
 	case ModuleType::MACROMGR:
 		std::cout << "Loading module: MacroManager." << std::endl;
-		m_modules[type] = new MacroManager(m_taskManager.getInputInterface());
-		m_modules[type]->setAllocator(m_allocator);
-		m_modules[type]->launch();
-		std::cout << "Loaded." << std::endl;
+		tmp = new MacroManager(m_taskManager.getInputInterface());
 		break;
 	case ModuleType::MICROMGR:
 		std::cout << "Loading module: MicroManager." << std::endl;
-		m_modules[type] = new MicroManager(m_taskManager.getInputInterface());
-		m_modules[type]->setAllocator(m_allocator);
-		m_modules[type]->launch();
-		std::cout << "Loaded." << std::endl;
+		tmp = new MicroManager(m_taskManager.getInputInterface());
 		break;
 	default:
+		std::cout << "Requested module not supported." << std::endl;
+		return nullptr;
 		break;
 	}
+
+	tmp->setAllocator(m_allocator);
+	_ReadWriteBarrier();
+	m_modules[type] = tmp;
+	m_modules[type]->launch();
+	std::cout << "Loaded." << std::endl;
 
 	return m_modules[type];
 }
@@ -89,6 +102,7 @@ bool ClientLink::unloadModule(ModuleType type)
 
 void ClientLink::terminate()
 {
+	// TODO: Update to take a ModuleType instead of doing an int conversion.
 	for (int i = 0; i < ModuleType::_END; ++i)
 	{
 		unloadModule((ModuleType)i);
@@ -435,6 +449,8 @@ void ClientLink::onUnitHide(BWAPI::Unit unit)
 
 void ClientLink::onUnitCreate(BWAPI::Unit unit)
 {
+	// WARNING: It's possible that this function is registering units
+	// that are not our own.
 	UnitType type = unit->getType();
 
 	// Keep projected resources consistency
@@ -446,6 +462,7 @@ void ClientLink::onUnitCreate(BWAPI::Unit unit)
 
 void ClientLink::onUnitDestroy(BWAPI::Unit unit)
 {
+	// FIX: This function could be registering another team's units deaths.
 	UnitType type = unit->getType();
 	if (UnitTypes::Terran_SCV == type)
 		m_SCVcount = m_SCVcount > 0 ? m_SCVcount - 1 : 0;
@@ -479,6 +496,7 @@ void ClientLink::onSaveGame(std::string gameName)
 
 void ClientLink::onUnitComplete(BWAPI::Unit unit)
 {
+	// FIX: This function could be registering another team's finished builds.
 	UnitType type = unit->getType();
 	if (UnitTypes::Terran_Barracks == type)
 	{

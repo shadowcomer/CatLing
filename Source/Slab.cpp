@@ -106,7 +106,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 
 		switch (val->type)
 		{
-		case Type::INT:
+		case MM::Type::INT:
 			iParamObj = val->toInt();
 			iTargetObj = entryField->toInt();
 
@@ -116,7 +116,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 			iTargetObj->value = iParamObj->value;
 			break;
 
-		case Type::BOOL:
+		case MM::Type::BOOL:
 			bParamObj = val->toBool();
 			bTargetObj = entryField->toBool();
 
@@ -126,7 +126,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 			bTargetObj->value = bParamObj->value;
 			break;
 
-		case Type::FLOAT:
+		case MM::Type::FLOAT:
 			fParamObj = val->toFloat();
 			fTargetObj = entryField->toFloat();
 
@@ -136,7 +136,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 			fTargetObj->value = fParamObj->value;
 			break;
 
-		case Type::STRING:
+		case MM::Type::STRING:
 			sParamObj = val->toString();
 			sTargetObj = entryField->toString();
 

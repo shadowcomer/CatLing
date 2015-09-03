@@ -39,12 +39,12 @@ auto TypeObj::toFloat() -> FloatType*
 
  // Constructors
 
- TypeObj::TypeObj(Type t) : type(t) {}
+ TypeObj::TypeObj(MM::Type t) : type(t) {}
 
- IntType::IntType(int val) : TypeObj(Type::INT), value(val) {}
- BoolType::BoolType(bool val) : TypeObj(Type::BOOL), value(val) {}
- FloatType::FloatType(float val) : TypeObj(Type::FLOAT), value(val) {}
- StringType::StringType(std::string val) : TypeObj(Type::STRING), value(val) {}
+ IntType::IntType(int val) : TypeObj(MM::Type::INT), value(val) {}
+ BoolType::BoolType(bool val) : TypeObj(MM::Type::BOOL), value(val) {}
+ FloatType::FloatType(float val) : TypeObj(MM::Type::FLOAT), value(val) {}
+ StringType::StringType(std::string val) : TypeObj(MM::Type::STRING), value(val) {}
 
 
  // Inter functionality

@@ -95,6 +95,7 @@
       <AdditionalLibraryDirectories>./lib/;./lib/mongo/;./lib/Boost/;</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
+      <ShowProgress>NotSet</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -3,14 +3,16 @@
 
 #include <string>
 
-enum class Type
+namespace MM
 {
-	INT,
-	BOOL,
-	FLOAT,
-	STRING,
-};
-
+	enum class Type
+	{
+		INT,
+		BOOL,
+		FLOAT,
+		STRING,
+	};
+}
 class IntType;
 class BoolType;
 class FloatType;
@@ -21,7 +23,7 @@ class TypeObj
 private:
 
 public:
-	TypeObj(Type t);
+	TypeObj(MM::Type t);
 	virtual ~TypeObj() = 0 {};
 
 	auto toInt()->IntType*;
@@ -34,7 +36,7 @@ public:
 	operator FloatType();
 	operator StringType();
 
-	Type const type;
+	MM::Type const type;
 };
 
 class StringType : public TypeObj

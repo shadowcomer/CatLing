@@ -5,19 +5,22 @@
 #include <memory>
 
 #include "../include/TBB/tbb/mutex.h"
+#include "../include/TBB/tbb/concurrent_hash_map.h"
 
 #include "Types.h"
 
-typedef std::unordered_map<std::string, TypeObj const * const> TypeList;
+typedef tbb::concurrent_hash_map<std::string, TypeObj const * const> TypeList;
+typedef std::vector<TypeObj const * const > TypeVec;
 typedef std::vector<TypeObj*> Entry;
+typedef std::vector<Entry> EntryList;
 
 class Slab
 {
 private:
 	TypeList const  m_fields;
-	std::vector<TypeObj const * const > const m_fieldsVec;
+	TypeVec const m_fieldsVec;
 
-	std::vector<std::vector<TypeObj*>> m_entries;
+	EntryList m_entries;
 
 	auto generateFieldsVector(TypeList fields)->std::vector<TypeObj const * const>;
 
