@@ -1,6 +1,8 @@
 /*
 	A Slab is a container. Slabs contain a list of Entries [Entry] which
 	have the same topology.
+
+	This class is thread-safe.
 */
 
 #ifndef SLAB_H
