@@ -17,8 +17,11 @@ typedef std::vector<Entry> EntryList;
 class Slab
 {
 private:
+	// WARNING: Keep the order of the next variables consistent with
+	// the constructors' initialization list order.
 	TypeList const m_fields;
 	TypeVec const m_fieldsVec;
+	// END-WARNING
 
 	EntryList m_entries;
 
