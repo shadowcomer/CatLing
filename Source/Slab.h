@@ -17,7 +17,7 @@ typedef std::vector<Entry> EntryList;
 class Slab
 {
 private:
-	TypeList const  m_fields;
+	TypeList const m_fields;
 	TypeVec const m_fieldsVec;
 
 	EntryList m_entries;
@@ -29,7 +29,7 @@ private:
 
 	Do not call this function during the lifetime of the object.
 	*/
-	auto generateFieldsVector(TypeList fields)->std::vector<TypeObj const * const>;
+	auto generateFieldsVector(TypeList fields)->TypeVec;
 
 	tbb::mutex SYNC_operation;
 

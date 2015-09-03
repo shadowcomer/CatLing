@@ -5,7 +5,7 @@ Slab::Slab(TypeList const fields) :
 m_fields(fields),
 m_fieldsVec(generateFieldsVector(m_fields))
 {
-	
+
 }
 
 Slab::~Slab()
