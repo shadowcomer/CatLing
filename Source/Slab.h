@@ -59,6 +59,11 @@ public:
 	Given an Entry's position, it removes it from the Slab.
 	*/
 	auto removeEntry(int i)->bool;
+
+	/*
+	Given a TypeObj, it modifies the value of a given Entry's field.
+	The modification is a copy of the original value.
+	*/
 	auto modifyEntry(int i, int j, TypeObj* val)->bool;
 
 	auto discover()->TypeList const;
