@@ -48,7 +48,7 @@ auto Slab::appendEntry(Entry entry)->bool
 	}
 
 	{
-		tbb::mutex::scoped_lock lock(m_operationMutex);
+		tbb::mutex::scoped_lock lock(SYNC_operation);
 		m_entries.push_back(entry);
 	}
 	return true;
@@ -60,7 +60,7 @@ auto Slab::removeEntry(int i)->bool
 		return false;
 
 	{
-		tbb::mutex::scoped_lock lock(m_operationMutex);
+		tbb::mutex::scoped_lock lock(SYNC_operation);
 		auto it = m_entries.begin();
 		std::advance(it, i);
 		m_entries.erase(it);
@@ -82,7 +82,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 		return false;
 
 	{
-		tbb::mutex::scoped_lock lock(m_operationMutex);
+		tbb::mutex::scoped_lock lock(SYNC_operation);
 
 		// Check if 'i' is a valid entry offset
 		if (m_entries.empty() || i < 0 || i >(m_entries.size() - 1))
