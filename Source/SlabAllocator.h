@@ -21,7 +21,6 @@ class SlabAllocator
 {
 private:
 	SlabMap m_slabs;
-	tbb::mutex m_operationMutex;
 
 public:
 	SlabAllocator();
