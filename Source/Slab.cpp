@@ -56,11 +56,14 @@ auto Slab::appendEntry(Entry entry)->bool
 
 auto Slab::removeEntry(int i)->bool
 {
-	if (m_entries.empty() || i < 0 || i >(m_entries.size() - 1))
-		return false;
-
 	{
 		tbb::mutex::scoped_lock lock(SYNC_operation);
+
+		if (i < 0 ||
+			i > (m_entries.size() - 1)){
+			return false;
+		}
+
 		auto it = m_entries.begin();
 		std::advance(it, i);
 		m_entries.erase(it);
