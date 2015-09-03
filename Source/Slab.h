@@ -50,7 +50,14 @@ public:
 	*/
 	auto isCompatible(Entry entry)->bool;
 
+	/*
+	Appends an Entry to the Slab.
+	*/
 	auto appendEntry(Entry entry)->bool;
+
+	/*
+	Given an Entry's position, it removes it from the Slab.
+	*/
 	auto removeEntry(int i)->bool;
 	auto modifyEntry(int i, int j, TypeObj* val)->bool;
 
