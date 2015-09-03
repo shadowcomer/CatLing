@@ -1,3 +1,8 @@
+/*
+	A Slab is a container. Slabs contain a list of Entries [Entry] which
+	have the same topology.
+*/
+
 #ifndef SLAB_H
 #define SLAB_H
 
