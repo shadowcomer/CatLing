@@ -1,3 +1,9 @@
+/*
+	A SlabAllocator manages a set of Slabs [Slab]. Each Slab is named.
+
+	This class is thread-safe.
+*/
+
 #ifndef SLABALLOCATOR_H
 #define SLABALLOCATOR_H
 
