@@ -43,7 +43,12 @@ public:
 
 	~Slab();
 
-	auto canInsert(Entry entry)->bool;
+	/*
+	Checks whether the given entry is compatible with this Slab.
+	Compatibility requires that each of the fields of the Entry match
+	the ones that this Slab uses, in the same order.
+	*/
+	auto isCompatible(Entry entry)->bool;
 
 	auto appendEntry(Entry entry)->bool;
 	auto removeEntry(int i)->bool;
