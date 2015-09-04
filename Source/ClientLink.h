@@ -1,3 +1,17 @@
+/*
+    The ClientLink is the joining piece between Starcraft's process and
+    the AI.
+
+    Only a single process can take control of a player controller. Thus,
+    to be able to work with multiple modules, the AI process is threaded.
+
+    The ClientLink receives updates from the Broodwar client, after which
+    they are processed one by one.
+
+    The ClientLink also controls the creation and destruction of the different
+    modules of the AI.
+*/
+
 #ifndef CLIENTLINK_H
 #define CLIENTLINK_H
 
@@ -19,13 +33,31 @@ public:
 	ClientLink();
 	~ClientLink();
 
+    /*
+    Safely stops the AI.
+    */
 	void terminate();
 
 	/* TEMPORARY PUBLIC FUNCTIONALITY */
 
+    /*
+    Loads a single module.
+    */
 	Module* loadModule(ModuleType type);
+
+    /*
+    Unloads a single module.
+    */
 	bool unloadModule(ModuleType type);
+
+    /*
+    Process every event individually.
+    The event list will be empty if the process hasn't
+    called for an update.
+    */
 	void processEvents();
+
+    /* Possible events from the Starcraft client process. */
 
 	void onStart();
 	void onEnd(bool isWinner);
@@ -95,6 +127,11 @@ private:
 	BWAPI::TilePosition m_posCommand;
 
 	void waitForTermination();
+
+    /*
+    Initial configuration call. This method is to be used
+    at the beginning of the onStart event.
+    */
 	void configOnStart();
 
 };
