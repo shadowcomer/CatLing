@@ -161,9 +161,14 @@ void ClientLink::processEvents()
 			{	
 				if (var != nullptr)
 				{
+                    // Wake up the module when a certain number of frames have passed
+                    // TODO: This is not exactly as it should be, because it's possible that a module hasn't finished executing
+                    // by the time it's time to wake it up again.
+                    // In general, this loop should manage loop execution (for example: when to wake, stop when it takes too long...)
+                    // This requires a little more advanced wake-up check.
 					if ((var->getFramesToWake() != 0) && ((Broodwar->getFrameCount() % var->getFramesToWake()) == 0))
 					{
-						//Now should be safe to call all var's functions
+
 					}
 				}
 			}
