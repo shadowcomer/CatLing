@@ -31,7 +31,7 @@ public:
     void logLevel(int num);
 
 private:
-    Log()=delete;
+    Log();
     Log(Log const&)=delete;
 
     Log& operator=(Log const&)=delete;
