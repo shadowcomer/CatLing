@@ -1,10 +1,17 @@
 #include <BWAPI.h>
 #include <BWAPI/Client.h>
+#include <WinSock2.h>
+#include <Windows.h>
+#include <mongo\bson\bson.h>
+#include <mongo\client\dbclient.h>
+#include <mongo\client\init.h>
 
+#include <strsafe.h>
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <string>
+#include <cstdlib>
 
 #include "ClientLink.h"
 #include "Commander.h"
@@ -24,20 +31,42 @@ void reconnect()
 {
 	while (!BWAPIClient.connect())
 	{
+		//std::cout << GetLastError();
 		std::this_thread::sleep_for(std::chrono::milliseconds{ 1000 });
 	}
 }
 
 int main(int argc, const char* argv[])
 {
+	std::cout << "Starting..." << std::endl;
+	std::cout << "Initializing Database..." << std::endl;
+	mongo::client::initialize();
+
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(si);
+	ZeroMemory(&pi, sizeof(pi));
+	CreateProcess(NULL, TEXT("./db/mongod.exe --dbpath=.\\data\\db\\"), NULL, NULL, false, 0, NULL, NULL, &si, &pi);
+	mongo::DBClientConnection c;
+	c.connect("localhost");
+
+	std::cout << "Database initialized." << std::endl;
+
+	//mongo::BSONObj p = BSON("prueba" << "Si");
+	//c.insert("macro.prueba",p);
+	//c.insert("micro.prueba",p);
+
 	ClientLink link;
 	std::cout << "Connecting..." << std::endl;
+	//std::cout << BWAPI::BWAPIClient.isConnected() << std::endl;
 	reconnect();
 	while (true)
 	{
 		std::cout << "waiting to enter match" << std::endl;
 		while (!Broodwar->isInGame())
 		{
+			
 			BWAPI::BWAPIClient.update();
 			if (!BWAPI::BWAPIClient.isConnected())
 			{
@@ -75,12 +104,14 @@ int main(int argc, const char* argv[])
 
 		std::cout << "Loading modules..." << std::endl;
 		link.loadModule(ModuleType::COMMANDER);
+		link.loadModule(ModuleType::MICROMGR);
+		link.loadModule(ModuleType::MACROMGR);
+
 		std::cout << "Modules loaded." << std::endl;
 
 		while (Broodwar->isInGame())
 		{
 			link.processEvents();
-			Broodwar << link.executeTasks() << std::endl;
 
 			if (show_bullets)
 				drawBullets();
@@ -103,6 +134,7 @@ int main(int argc, const char* argv[])
 	
 	std::cout << "Press ENTER to continue..." << std::endl;
 	std::cin.ignore();
+	mongo::client::shutdown();
 	return 0;
 }
 

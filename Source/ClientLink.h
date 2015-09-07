@@ -1,3 +1,17 @@
+/*
+    The ClientLink is the joining piece between Starcraft's process and
+    the AI.
+
+    Only a single process can take control of a player controller. Thus,
+    to be able to work with multiple modules, the AI process is threaded.
+
+    The ClientLink receives updates from the Broodwar client, after which
+    they are processed one by one.
+
+    The ClientLink also controls the creation and destruction of the different
+    modules of the AI.
+*/
+
 #ifndef CLIENTLINK_H
 #define CLIENTLINK_H
 
@@ -8,6 +22,8 @@
 
 #include "TaskManager.h"
 #include "Commander.h"
+#include "MicroManager.h"
+#include "MacroManager.h"
 
 #include "Task.h"
 
@@ -17,14 +33,31 @@ public:
 	ClientLink();
 	~ClientLink();
 
+    /*
+    Safely stops the AI.
+    */
 	void terminate();
 
 	/* TEMPORARY PUBLIC FUNCTIONALITY */
 
+    /*
+    Loads a single module.
+    */
 	Module* loadModule(ModuleType type);
+
+    /*
+    Unloads a single module.
+    */
 	bool unloadModule(ModuleType type);
+
+    /*
+    Process every event individually.
+    The event list will be empty if the process hasn't
+    called for an update.
+    */
 	void processEvents();
-	int executeTasks();
+
+    /* Possible events from the Starcraft client process. */
 
 	void onStart();
 	void onEnd(bool isWinner);
@@ -52,13 +85,6 @@ public:
 	// Position/Unit type relative unit selection
 	BWAPI::Unit getClosest(BWAPI::UnitType type, BWAPI::TilePosition t);
 
-	bool build(BWAPI::Unit builder, BWAPI::UnitType type, BWAPI::TilePosition location);
-	bool train(BWAPI::Unit trainer, BWAPI::UnitType type);
-
-
-	/// Determines whether a given builder can build another specific unit
-	bool unitCanBuild(BWAPI::Unit builder, BWAPI::UnitType type);
-	bool unitCanTrain(BWAPI::Unit trainer, BWAPI::UnitType type);
 	bool hasEnoughResources(BWAPI::UnitType type);
 	bool hasEnoughSupply(BWAPI::UnitType type);
 
@@ -70,10 +96,10 @@ private:
 	Module* m_modules[ModuleType::_END];
 	TaskManager m_taskManager;
 	Executer m_executer;
+
+	SlabAllocator* m_allocator;
 	
 	long m_totalExecTasks;
-
-	tbb::concurrent_queue<Task*> m_taskQueue;
 
 	// Map dimensions in Build Tile, Walk Tile and Position
 	int m_mapWidth_BT;
@@ -101,6 +127,11 @@ private:
 	BWAPI::TilePosition m_posCommand;
 
 	void waitForTermination();
+
+    /*
+    Initial configuration call. This method is to be used
+    at the beginning of the onStart event.
+    */
 	void configOnStart();
 
 };

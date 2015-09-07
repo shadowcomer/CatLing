@@ -14,44 +14,76 @@ m_projectedGas(0),
 m_totalExecTasks(0),
 m_executer(m_taskManager.getOutputInterface())
 {
-	
+	for (unsigned int i = ModuleType::COMMANDER; i < ModuleType::_END; i++)
+	{
+		m_modules[i] = nullptr;
+	}
+
+	// TODO: Change to stack allocation
+	m_allocator = new SlabAllocator();
+
+	{
+		TypeList fields;
+		fields.insert(std::pair<std::string, TypeObj const * const>("minerals", &IntType(0)));
+		fields.insert(std::pair<std::string, TypeObj const * const>("gas", &IntType(0)));
+		m_allocator->createSlab("resources", fields);
+		// TODO: Change Slab implementation to use stack allocation
+		Slab* r = nullptr;
+
+		if (!m_allocator->find("resources", &r))
+			std::cout << "Failed to find 'resources' from ClientLink after creation." << std::endl;
+		else
+			std::cout << "Found 'resources' from ClientLink after creation."<< std::endl;
+	}
+	Broodwar << "Created 'resources' table." << std::endl;
 }
 
 ClientLink::~ClientLink()
 {
-	
+	delete m_allocator;
 }
 
 Module* ClientLink::loadModule(ModuleType type)
 {
+	// Skip if it's the _END special type
 	if (type == ModuleType::_END)
 	{
 		return nullptr;
 	}
 
-	if(m_modules[type] == nullptr)
+	// Skip if it's already loaded
+	if(m_modules[type] != nullptr)
 	{
 		return nullptr;
 	}
 
-	// TODO: Load the corresponding module
+	Module* tmp = nullptr;
+
 	switch (type)
 	{
 	case ModuleType::COMMANDER:
 		std::cout << "Loading module: Commander." << std::endl;
-		m_modules[type] = new Commander(m_taskManager.getInputInterface());
-		m_modules[type]->launch();
-		std::cout << "Loaded." << std::endl;
-		break;
-	case ModuleType::LEARNING:
+		tmp = new Commander(m_taskManager.getInputInterface());
 		break;
 	case ModuleType::MACROMGR:
+		std::cout << "Loading module: MacroManager." << std::endl;
+		tmp = new MacroManager(m_taskManager.getInputInterface());
 		break;
 	case ModuleType::MICROMGR:
+		std::cout << "Loading module: MicroManager." << std::endl;
+		tmp = new MicroManager(m_taskManager.getInputInterface());
 		break;
 	default:
+		std::cout << "Requested module not supported." << std::endl;
+		return nullptr;
 		break;
 	}
+
+	tmp->setAllocator(m_allocator);
+	_ReadWriteBarrier();
+	m_modules[type] = tmp;
+	m_modules[type]->launch();
+	std::cout << "Loaded." << std::endl;
 
 	return m_modules[type];
 }
@@ -62,6 +94,7 @@ bool ClientLink::unloadModule(ModuleType type)
 	{
 		m_modules[type]->shutdown();
 		delete m_modules[type];
+		m_modules[type] = nullptr;
 		return true;
 	}
 
@@ -70,6 +103,7 @@ bool ClientLink::unloadModule(ModuleType type)
 
 void ClientLink::terminate()
 {
+	// TODO: Update to take a ModuleType instead of doing an int conversion.
 	for (int i = 0; i < ModuleType::_END; ++i)
 	{
 		unloadModule((ModuleType)i);
@@ -88,20 +122,6 @@ void ClientLink::waitForTermination()
 	}
 }
 
-int ClientLink::executeTasks()
-{
-	int numActions = 0;
-	Task* val;
-	while (m_taskQueue.try_pop(val))
-	{ 
-		// TODO: Add other possible execution logic
-		val->execute();
-		delete val;
-		numActions++;
-	}
-
-	return numActions;
-}
 
 void ClientLink::processEvents()
 {
@@ -137,6 +157,21 @@ void ClientLink::processEvents()
 			onUnitDestroy(e.getUnit());
 			break;
 		case EventType::MatchFrame:
+			for each (Module* var in m_modules)
+			{	
+				if (var != nullptr)
+				{
+                    // Wake up the module when a certain number of frames have passed
+                    // TODO: This is not exactly as it should be, because it's possible that a module hasn't finished executing
+                    // by the time it's time to wake it up again.
+                    // In general, this loop should manage loop execution (for example: when to wake, stop when it takes too long...)
+                    // This requires a little more advanced wake-up check.
+					if ((var->getFramesToWake() != 0) && ((Broodwar->getFrameCount() % var->getFramesToWake()) == 0))
+					{
+
+					}
+				}
+			}
 			onFrame();
 			break;
 		case EventType::NukeDetect:
@@ -174,47 +209,6 @@ bool ClientLink::moveToTile(Unit unit, TilePosition position)
 {
 	assert(unit != nullptr && position.isValid());
 	return unit->move(Position(position), false);
-}
-
-bool ClientLink::build(Unit builder, UnitType type, TilePosition location)
-{
-	bool success = false;
-	assert(unitCanBuild(builder, type));
-
-	if (success = builder->build(type, location))
-		spendProjectedCost(type);
-
-	// Check until the building was stopped
-	// DUMMY: Failed construction callback. Current implementation is just for learning how it works.
-	/*	Broodwar->registerEvent([](BWAPI::Game*) -> void {Broodwar << "Building was stopped! OOOPS!" << std::endl;},
-	[](BWAPI::Game*) -> bool {return true;},
-	1,
-	1);*/
-	return success;
-}
-
-bool ClientLink::unitCanBuild(Unit builder, UnitType type)
-{
-	return (nullptr != builder) && (type.whatBuilds().first == builder->getType());
-}
-
-bool ClientLink::train(Unit trainer, UnitType type)
-{
-	bool success = false;
-	// Check params
-	assert(unitCanTrain(trainer, type));
-	// Check resources
-	if (!hasEnoughSupply(type) || !hasEnoughResources(type))
-		return false;
-
-	if (success = trainer->train(type))
-		spendProjectedCost(type);
-	return success;
-}
-
-bool ClientLink::unitCanTrain(Unit trainer, UnitType type)
-{
-	return trainer != nullptr && type.whatBuilds().first == trainer->getType();
 }
 
 bool ClientLink::hasEnoughSupply(BWAPI::UnitType type)
@@ -464,6 +458,8 @@ void ClientLink::onUnitHide(BWAPI::Unit unit)
 
 void ClientLink::onUnitCreate(BWAPI::Unit unit)
 {
+	// WARNING: It's possible that this function is registering units
+	// that are not our own.
 	UnitType type = unit->getType();
 
 	// Keep projected resources consistency
@@ -475,6 +471,7 @@ void ClientLink::onUnitCreate(BWAPI::Unit unit)
 
 void ClientLink::onUnitDestroy(BWAPI::Unit unit)
 {
+	// FIX: This function could be registering another team's units deaths.
 	UnitType type = unit->getType();
 	if (UnitTypes::Terran_SCV == type)
 		m_SCVcount = m_SCVcount > 0 ? m_SCVcount - 1 : 0;
@@ -508,6 +505,7 @@ void ClientLink::onSaveGame(std::string gameName)
 
 void ClientLink::onUnitComplete(BWAPI::Unit unit)
 {
+	// FIX: This function could be registering another team's finished builds.
 	UnitType type = unit->getType();
 	if (UnitTypes::Terran_Barracks == type)
 	{
