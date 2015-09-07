@@ -1,3 +1,12 @@
+/*
+    This file contains a Log.
+
+    This Log implementation has the possibility to choose the minimum level of
+    messages that will be logged.
+
+    (TODO)Thread safe.(/TODO)
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
