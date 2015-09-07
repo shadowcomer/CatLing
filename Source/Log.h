@@ -19,22 +19,25 @@ enum logLvlEnum { DEBUG3, DEBUG2, DEBUG1, INFO, WARNING, ERROR, BUG, CRITICAL };
 
 class Log{
 public:
-	static Log* Instance();
-	static FILE* m_fichero;
-	int openLogFile(char* logfile);
-	void writeToFile(char* entrada);
-	void writeToFile(logLvlEnum enumEntry, char* entrada);
-	int closeLogFile();
-	void logLevel(int num);
+    static Log* Instance();
+    static FILE* m_fichero;
+
+    int openLogFile(char* logfile);
+    int closeLogFile();
+
+    void writeToFile(char* entrada);
+    void writeToFile(logLvlEnum enumEntry, char* entrada);
+
+    void logLevel(int num);
 
 private:
-	Log(){};
-	Log(Log const&){};
-	Log& operator=(Log const&){};
-	static Log* m_pInstance;
-	static char* numtostring[8];
-	int caplevel;
+    Log()=delete;
+    Log(Log const&)=delete;
 
+    Log& operator=(Log const&)=delete;
 
+    static Log* m_pInstance;
+    static char* numtostring[8];
 
+    int caplevel;
 };
