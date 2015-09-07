@@ -29,7 +29,6 @@ void Commander::run(Commander* m)
 	std::cout << "Started Commander loop." << std::endl;
 
 	Unitset units = Broodwar->self()->getUnits();
-
 	for (auto u : units)
 	{
 		if (u->getType().isResourceDepot())
@@ -38,7 +37,6 @@ void Commander::run(Commander* m)
 			break;
 		}
 	}
-
 
 	while (!m->isTerminating())
 	{

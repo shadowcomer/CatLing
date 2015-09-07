@@ -40,3 +40,16 @@ Tasker& Module::tasker()
 {
 	return m_tasker;
 }
+
+bool Module::setAllocator(SlabAllocator* allocator)
+{
+	if (allocator == nullptr)
+		return false;
+
+	// We shouldn't be able to change allocators if there's already an active one.
+	if (m_allocator != nullptr)
+		return false;
+
+	m_allocator = allocator;
+	return true;
+}

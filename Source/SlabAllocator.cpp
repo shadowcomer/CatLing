@@ -1,8 +1,9 @@
 #include "SlabAllocator.h"
+#include <iostream>
 
 SlabAllocator::SlabAllocator()
 {
-	
+	m_slabs = SlabMap(10);
 }
 
 SlabAllocator::~SlabAllocator()
@@ -10,31 +11,57 @@ SlabAllocator::~SlabAllocator()
 
 }
 
-bool SlabAllocator::createSlab(const std::string name, const TypeList& fields)
+bool SlabAllocator::createSlab(std::string name, TypeList fields)
 {
-	// Emplace guarantees uniqueness.
-	Slab* s = new Slab(fields);
-	auto res = m_slabs.emplace(name, s);
-	return res.second;
+	std::string n(name);
+	TypeList f(fields);
+	bool completed = false;
+
+	{
+		Slab* s = new Slab(f);
+		SlabMap::accessor a;
+
+		completed = m_slabs.insert(a, n);
+		a->second = s;
+		a.release();
+	}
+
+	if (completed)
+		std::cout << "Slab created with name: " << name << std::endl;
+
+	return completed;
 }
 
 bool SlabAllocator::destroySlab(const std::string name)
-	{ return m_slabs.erase(name) == 1; }
+{
+	return m_slabs.erase(name);
+}
 
-auto SlabAllocator::begin()->std::unordered_map<std::string, Slab*>::iterator
+auto SlabAllocator::begin()->SlabMap::iterator
 	{ return m_slabs.begin(); }
 
-auto SlabAllocator::begin() const ->std::unordered_map<std::string, Slab*>::const_iterator
+auto SlabAllocator::begin() const ->SlabMap::const_iterator
 	{ return m_slabs.begin(); }
 
-auto SlabAllocator::end() ->std::unordered_map<std::string, Slab*>::iterator
+auto SlabAllocator::end() ->SlabMap::iterator
 	{ return m_slabs.end(); }
 
-auto SlabAllocator::end() const->std::unordered_map<std::string, Slab*>::const_iterator
+auto SlabAllocator::end() const->SlabMap::const_iterator
 	{ return m_slabs.end(); }
 
-auto SlabAllocator::find(std::string slabName)->std::unordered_map<std::string, Slab*>::iterator
-	{ return m_slabs.find(slabName); }
+auto SlabAllocator::find(std::string slabName, Slab** result)->bool
+{
+	Slab* slab = nullptr;
+	{
+		std::cout << "Looking up Slab with name: " << slabName << std::endl;
+		SlabMap::accessor a;
+		if(m_slabs.find(a, slabName))
+			slab = a->second;
+		a.release();
+		std::cout << "Found Slab at: " << slab << std::endl;
 
-auto SlabAllocator::find(std::string slabName) const->std::unordered_map<std::string, Slab*>::const_iterator
-	{ return m_slabs.find(slabName); }
+		if (result != nullptr)
+			*result = slab;
+	}
+	return slab != nullptr;
+}

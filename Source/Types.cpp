@@ -39,7 +39,20 @@ auto TypeObj::toFloat() -> FloatType*
 
  // Constructors
 
- IntType::IntType(int val) : value(val) {}
- BoolType::BoolType(bool val) : value(val) {}
- FloatType::FloatType(float val) : value(val) {}
- StringType::StringType(std::string val) : value(val) {}
+ TypeObj::TypeObj(MM::Type t) : type(t) {}
+
+ IntType::IntType(int val) : TypeObj(MM::Type::INT), value(val) {}
+ BoolType::BoolType(bool val) : TypeObj(MM::Type::BOOL), value(val) {}
+ FloatType::FloatType(float val) : TypeObj(MM::Type::FLOAT), value(val) {}
+ StringType::StringType(std::string val) : TypeObj(MM::Type::STRING), value(val) {}
+
+
+ // Inter functionality
+
+ auto isSameType(TypeObj const * const t1, TypeObj const * const t2)->bool
+ {
+	 if (t1 == nullptr || t2 == nullptr)
+		 return false;
+
+	 return t1->type == t2->type;
+ }

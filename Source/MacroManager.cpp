@@ -27,7 +27,7 @@ bool MacroManager::shutdownHelper()
 void MacroManager::run(MacroManager* m)
 {
 	std::cout << "Started MacroManager loop." << std::endl;
-	Unitset units =	Broodwar->self()->getUnits();
+	Unitset units = Broodwar->self()->getUnits();
 
 	for (auto u : units)
 	{
@@ -36,6 +36,22 @@ void MacroManager::run(MacroManager* m)
 			m->m_command = u;
 			break;
 		}
+	}
+
+	Slab* resTable = nullptr;
+	std::cout << "MacroManager waiting for 'resources' to be created." << std::endl;
+
+	while(!m->m_allocator->find("resources", &resTable))
+	{
+		tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)1));
+	}
+
+	std::cout << "MacroManager found 'resources' table." << std::endl;
+	std::cout << "Fields in 'resources' table: " << std::endl;
+	TypeList const fields = resTable->discover();
+	for each(auto f in fields)
+	{
+		Broodwar << "\t- " << f.first << std::endl;
 	}
 
 	while(!m->isTerminating())
@@ -64,7 +80,7 @@ void MacroManager::run(MacroManager* m)
 			}
 		}
 
-		// Sleep for a second
+		// Sleep
 		tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)5));
 	}
 
