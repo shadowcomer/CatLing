@@ -1,110 +1,111 @@
 #include <stdio.h>
+
+#include <assert.h>
+
 #include "Log.h"
 
-Log* Log::m_pInstance = NULL;
-FILE* Log::m_fichero = NULL;
-char* Log::numtostring[8] = { "DEBUG3", "DEBUG2", "DEBUG1", "INFO", "WARNING", "ERROR", "BUG", "CRITICAL" };
+std::string textifyLogLevel(LOG_LEVEL level)
+{
+    // TODO: Check if this can be converted into a reference, so it
+    // doesn't have to be copied each time we decode it.
+    switch(level)
+    {
+    case LOG_LEVEL::DEBUG1:     return "DEBUG1";
+    case LOG_LEVEL::DEBUG2:     return "DEBUG2";
+    case LOG_LEVEL::DEBUG3:     return "DEBUG3";
+    case LOG_LEVEL::INFO:       return "INFO";
+    case LOG_LEVEL::WARNING:    return "WARNING";
+    case LOG_LEVEL::PR_ERROR:   return "ERROR";
+    case LOG_LEVEL::BUG:        return "BUG";
+    case LOG_LEVEL::CRITICAL:   return "CRITICAL";
+    default:                    return "-NDEF-";
+    }
+}
 
-/*
-*****************************************************
-Allways returns the same instance for the log.
-*****************************************************
-*/
+Log::Log() :
+m_capLevel(LOG_LEVEL::INFO)
+{
+
+}
+
 Log* Log::Instance()
 {
-	if (!m_pInstance){
-		m_pInstance = new Log;
-	}
-	return m_pInstance;
+    // TODO: Check if it's safe to return a pointer to a
+    // static variable within a function.
+    static Log logInstance;
+	return &logInstance;
 }
 
-/*
-*****************************************************
-Log level priority. It assigns the priority neccesary
-for the logs to be printed in the log file.
-*****************************************************
-*/
-void Log::logLevel(int num){
-	Log::caplevel = num;
+void Log::changeLevel(LOG_LEVEL newLevel){
+    // NOTE: If a write has already started but the level, at the moment
+    // before the check, wouldn't go through, then a change to the caplevel
+    // before the check would allow it to be written, even if it's posterior
+    // to the beginning of the write call.
+	m_capLevel = newLevel;
 }
 
+int Log::openLogFile(char* fileName){
+    {
+        tbb::mutex::scoped_lock lock(SYNC_operation);
+        if (m_logFile.is_open()){
+            return -1;
+        }
 
-/*
-*****************************************************
-Creates or replaces the old file with a new one.
-*****************************************************
-*/
-int Log::openLogFile(char* file){
-
-	if (m_fichero == NULL){
-		m_fichero = fopen(file, "w+");
-		if (m_fichero == NULL)
-		{
-			return -2;
-		}
-
-		return 0;
-	}
-	else
-	{
-		return -1;
-	}
-
-
+        m_logFile.open(fileName, std::ofstream::out | std::ofstream::trunc);
+        return m_logFile.is_open() ? 0 : -2;
+    }
 }
-/*
-*****************************************************
-Prints on the log file the string.
-*****************************************************
-*/
-void Log::writeToFile(char* entrada)
+
+void Log::writeToFile(char* text)
 {
-
-	time_t rawtime;
-	struct tm * timeinfo;
-	char buffer[80];
-
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-	strftime(buffer, 80, "[%I:%M:%S] ", timeinfo);
-
-	strcat(buffer, entrada);
-
-	fwrite(buffer, 1, strlen(buffer), m_fichero);
-
+    writeToFile(LOG_LEVEL::INFO, text);
 }
-/*
-*****************************************************
-Checks the loglevel and prints on the log file the
-string if it's priority is higher
-*****************************************************
-*/
-void Log::writeToFile(logLvlEnum enumEntry, char* entrada)
+
+void Log::writeToFile(LOG_LEVEL level, char* text)
 {
-	if (enumEntry >= Log::caplevel){
-		time_t rawtime;
-		struct tm * timeinfo;
-		char buffer[80];
+    if (!m_logFile.is_open()){
+        return;
+    }
 
-		time(&rawtime);
-		timeinfo = localtime(&rawtime);
-		strftime(buffer, 80, "[%I:%M:%S] ", timeinfo);
+    if (level < m_capLevel){
+        return;
+    }
 
-		char* loginfo = strcat(buffer, Log::numtostring[enumEntry]);
-		loginfo = strcat(buffer, ":");
-		loginfo = strcat(buffer, entrada);
-		fwrite(buffer, 1, strlen(buffer), m_fichero);
-	}
+    struct tm timeInfo;
+    __time64_t long_time;
+    char timeStr[64];
+    std::string levelText(textifyLogLevel(level));
+
+    errno_t err;
+
+    _time64(&long_time);
+    err = localtime_s(&timeInfo, &long_time);
+    assert(err == 0);
+
+    err = sprintf_s(timeStr, "%d:%d:%d", timeInfo.tm_hour, timeInfo.tm_min, timeInfo.tm_sec);
+    assert(err == 0);
+
+    {
+        tbb::mutex::scoped_lock lock(SYNC_operation);
+        // We have to check again because the rest of the
+        // function isn't within the lock.
+        if (!m_logFile.is_open()){
+            return;
+        }
+
+        m_logFile << timeStr << " " << levelText << ": "
+            << text << std::endl;
+        m_logFile.flush();
+    }
 }
 
-/*
-*****************************************************
-Closes the current file's descriptor
-*****************************************************
-*/
-int Log::closeLogFile(){
-	fclose(m_fichero);
-	return 0;
+void Log::closeLogFile(){
+    {
+        tbb::mutex::scoped_lock lock(SYNC_operation);
+        if (m_logFile.is_open()){
+            m_logFile.close();
+        }
+    }
 }
 
 
