@@ -47,7 +47,8 @@ int main(int argc, const char* argv[])
 	ZeroMemory(&si, sizeof(si));
 	si.cb = sizeof(si);
 	ZeroMemory(&pi, sizeof(pi));
-	CreateProcess(NULL, TEXT("./db/mongod.exe --dbpath=.\\data\\db\\"), NULL, NULL, false, 0, NULL, NULL, &si, &pi);
+    TCHAR lpszClientPath[500] = TEXT("./db/mongod.exe --dbpath=.\\data\\db\\");
+	CreateProcess(NULL, lpszClientPath, NULL, NULL, false, 0, NULL, NULL, &si, &pi);
 	mongo::DBClientConnection c;
 	c.connect("localhost");
 
