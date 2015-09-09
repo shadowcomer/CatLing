@@ -13,31 +13,31 @@ Executer::~Executer()
 
 bool Executer::hasRemainingTasks()
 {
-	return !m_queue.empty();
+    return !m_queue.empty();
 }
 
 bool Executer::executeSingleTask()
 {
-	Task* t;
-	m_queue.try_pop(t);
-	if (nullptr != t)
-	{
-		t->execute();
-		delete t;
-		return true;
-	}
+    Task* t;
+    m_queue.try_pop(t);
+    if (nullptr != t)
+    {
+        t->execute();
+        delete t;
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 int Executer::executeAllTasks()
 {
-	int executedTasks = 0;
-	while (hasRemainingTasks())
-	{
-		executeSingleTask();
-		executedTasks++;
-	}
+    int executedTasks = 0;
+    while (hasRemainingTasks())
+    {
+        executeSingleTask();
+        executedTasks++;
+    }
 
-	return executedTasks;
+    return executedTasks;
 }

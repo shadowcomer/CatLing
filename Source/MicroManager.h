@@ -27,25 +27,25 @@
 class MicroManager : public Module
 {
 public:
-	MicroManager(Tasker& tsk);
-	~MicroManager();
+    MicroManager(Tasker& tsk);
+    ~MicroManager();
 
     /*
     Implementation of Module's launch function.
     */
-	void launch();
+    void launch();
 
 private:
 
     /*
     Implementation of the MicroManager's shutdown procedure.
     */
-	bool shutdownHelper();
+    bool shutdownHelper();
 
     /*
     Implementation of the MicroManager's module process.
     */
-	static void run(MicroManager* m);
+    static void run(MicroManager* m);
 };
 #endif
 

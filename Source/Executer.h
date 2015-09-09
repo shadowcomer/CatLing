@@ -22,27 +22,27 @@ public:
     Do not call this constructor manually. The TaskManager is responsible
     for building this object, using for its queue parameter its own queue.
     */
-	Executer(tbb::concurrent_queue<Task*>& queue);
-	~Executer();
+    Executer(tbb::concurrent_queue<Task*>& queue);
+    ~Executer();
 
     /*
     Execute a single task from the Executer's queue.
     */
-	bool executeSingleTask();
+    bool executeSingleTask();
 
     /*
     Execute every task from the Executer's queue.
     */
-	int executeAllTasks();
+    int executeAllTasks();
 
     /*
     Returns whether the Executer has remaining tasks in the queue
     waiting for execution.
     */
-	bool hasRemainingTasks();
+    bool hasRemainingTasks();
 
 private:
-	tbb::concurrent_queue<Task*>& m_queue;
+    tbb::concurrent_queue<Task*>& m_queue;
 
 };
 

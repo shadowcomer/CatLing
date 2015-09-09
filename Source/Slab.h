@@ -1,8 +1,8 @@
 /*
-	A Slab is a container. Slabs contain a list of Entries [Entry] which
-	have the same topology.
+    A Slab is a container. Slabs contain a list of Entries [Entry] which
+    have the same topology.
 
-	This class is thread-safe.
+    This class is thread-safe.
 */
 
 #ifndef SLAB_H
@@ -24,56 +24,56 @@ typedef std::vector<Entry> EntryList;
 class Slab
 {
 private:
-	// WARNING: Keep the order of the next variables consistent with
-	// the constructors' initialization list order.
-	TypeList const m_fields;
-	TypeVec const m_fieldsVec;
-	// END-WARNING
+    // WARNING: Keep the order of the next variables consistent with
+    // the constructors' initialization list order.
+    TypeList const m_fields;
+    TypeVec const m_fieldsVec;
+    // END-WARNING
 
-	EntryList m_entries;
+    EntryList m_entries;
 
-	/*
-	Generates an easily iterable vector. This is called during construction to
-	guarantee that the TypeList is transcribed into something that will retain
-	it's topology after every call; a hash map does not have this property.
+    /*
+    Generates an easily iterable vector. This is called during construction to
+    guarantee that the TypeList is transcribed into something that will retain
+    it's topology after every call; a hash map does not have this property.
 
-	Do not call this function during the lifetime of the object.
-	*/
-	auto generateFieldsVector(TypeList fields)->TypeVec;
+    Do not call this function during the lifetime of the object.
+    */
+    auto generateFieldsVector(TypeList fields)->TypeVec;
 
-	tbb::mutex SYNC_operation;
+    tbb::mutex SYNC_operation;
 
 public:
-	Slab(TypeList const fields);
-	Slab() = delete;
-	Slab(Slab&) = delete;
+    Slab(TypeList const fields);
+    Slab() = delete;
+    Slab(Slab&) = delete;
 
-	~Slab();
+    ~Slab();
 
-	/*
-	Checks whether the given entry is compatible with this Slab.
-	Compatibility requires that each of the fields of the Entry match
-	the ones that this Slab uses, in the same order.
-	*/
-	auto isCompatible(Entry entry)->bool;
+    /*
+    Checks whether the given entry is compatible with this Slab.
+    Compatibility requires that each of the fields of the Entry match
+    the ones that this Slab uses, in the same order.
+    */
+    auto isCompatible(Entry entry)->bool;
 
-	/*
-	Appends an Entry to the Slab.
-	*/
-	auto appendEntry(Entry entry)->bool;
+    /*
+    Appends an Entry to the Slab.
+    */
+    auto appendEntry(Entry entry)->bool;
 
-	/*
-	Given an Entry's position, it removes it from the Slab.
-	*/
-	auto removeEntry(int i)->bool;
+    /*
+    Given an Entry's position, it removes it from the Slab.
+    */
+    auto removeEntry(int i)->bool;
 
-	/*
-	Given a TypeObj, it modifies the value of a given Entry's field.
-	The modification is a copy of the original value.
-	*/
-	auto modifyEntry(int i, int j, TypeObj* val)->bool;
+    /*
+    Given a TypeObj, it modifies the value of a given Entry's field.
+    The modification is a copy of the original value.
+    */
+    auto modifyEntry(int i, int j, TypeObj* val)->bool;
 
-	auto discover()->TypeList const;
+    auto discover()->TypeList const;
 };
 
 #endif

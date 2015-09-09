@@ -13,17 +13,17 @@ MicroManager::~MicroManager()
 }
 void MicroManager::launch()
 {
-	m_thread = tbb::tbb_thread(&MicroManager::run, this);
+    m_thread = tbb::tbb_thread(&MicroManager::run, this);
 }
 
 bool MicroManager::shutdownHelper()
 {
-	bool result = true;
-	return result;
+    bool result = true;
+    return result;
 }
 
 void MicroManager::run(MicroManager *m)
 {
-	std::cout << "Started MicroManager loop." << std::endl;
+    std::cout << "Started MicroManager loop." << std::endl;
 
 }

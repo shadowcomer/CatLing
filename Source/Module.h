@@ -17,20 +17,20 @@
 // detect the last element and work accordingly.
 enum ModuleType
 {
-	COMMANDER = 0,
-	MACROMGR,
-	MICROMGR,
-	LEARNING,
-	_END
+    COMMANDER = 0,
+    MACROMGR,
+    MICROMGR,
+    LEARNING,
+    _END
 };
 
 class Module
 {
 public:
-	Module(Tasker& tsk);
-	~Module();
+    Module(Tasker& tsk);
+    ~Module();
 
-	/*
+    /*
     Launches the module and thread.
     Each module must implement it's own launching method.
     As a requirement, m_thread must be set to the thread that is
@@ -42,50 +42,50 @@ public:
 
     is a valid launch.
     */
-	virtual void launch() = 0;
+    virtual void launch() = 0;
 
     /*
     Tells this module to shutdown.
     This should only be called by a different thread than the module's.
     */
-	bool shutdown();
+    bool shutdown();
 
     /*
     Returns whether this module is in a shutting down state.
     */
-	bool isTerminating();
+    bool isTerminating();
 
     /*
     Returns the number of frames that should pass inbetween wakes to
     this module.
     */
-	int getFramesToWake();
+    int getFramesToWake();
 
     /*
     Returns the thread that's in control of this module.
     */
-	tbb::tbb_thread& getThread();
+    tbb::tbb_thread& getThread();
 
     /*
     Sets the SlabAllocator that this module has access to.
     */
-	bool setAllocator(SlabAllocator* allocator);
+    bool setAllocator(SlabAllocator* allocator);
 
 protected:
-	tbb::tbb_thread m_thread;
-	Tasker& m_tasker;
-	SlabAllocator* m_allocator;
+    tbb::tbb_thread m_thread;
+    Tasker& m_tasker;
+    SlabAllocator* m_allocator;
 
-	Tasker& tasker();
+    Tasker& tasker();
 
 private:
-	int framesToWake;
-	bool m_shuttingDown;
+    int framesToWake;
+    bool m_shuttingDown;
 
     /*
     Extra shutdown functionality implemented by each specific module.
     */
-	virtual bool shutdownHelper() = 0;
+    virtual bool shutdownHelper() = 0;
 
 };
 

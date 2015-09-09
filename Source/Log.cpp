@@ -33,7 +33,7 @@ Log* Log::Instance()
     // TODO: Check if it's safe to return a pointer to a
     // static variable within a function.
     static Log logInstance;
-	return &logInstance;
+    return &logInstance;
 }
 
 void Log::changeLevel(LOG_LEVEL newLevel){
@@ -41,7 +41,7 @@ void Log::changeLevel(LOG_LEVEL newLevel){
     // before the check, wouldn't go through, then a change to the caplevel
     // before the check would allow it to be written, even if it's posterior
     // to the beginning of the write call.
-	m_capLevel = newLevel;
+    m_capLevel = newLevel;
 }
 
 int Log::openLogFile(char* fileName){

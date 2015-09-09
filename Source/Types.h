@@ -16,13 +16,13 @@
 
 namespace MM
 {
-	enum class Type
-	{
-		INT,
-		BOOL,
-		FLOAT,
-		STRING,
-	};
+    enum class Type
+    {
+        INT,
+        BOOL,
+        FLOAT,
+        STRING,
+    };
 }
 class IntType;
 class BoolType;
@@ -34,48 +34,48 @@ class TypeObj
 private:
 
 public:
-	TypeObj(MM::Type t);
-	virtual ~TypeObj() = 0 {};
+    TypeObj(MM::Type t);
+    virtual ~TypeObj() = 0 {};
 
-	auto toInt()->IntType*;
-	auto toBool()->BoolType*;
-	auto toFloat()->FloatType*;
-	auto toString()->StringType*;
+    auto toInt()->IntType*;
+    auto toBool()->BoolType*;
+    auto toFloat()->FloatType*;
+    auto toString()->StringType*;
 
-	operator IntType();
-	operator BoolType();
-	operator FloatType();
-	operator StringType();
+    operator IntType();
+    operator BoolType();
+    operator FloatType();
+    operator StringType();
 
-	MM::Type const type;
+    MM::Type const type;
 };
 
 class StringType : public TypeObj
 {
 public:
-	StringType(std::string s);
-	std::string value;
+    StringType(std::string s);
+    std::string value;
 };
 
 class FloatType : public TypeObj
 {
 public:
-	FloatType(float f);
-	float value;
+    FloatType(float f);
+    float value;
 };
 
 class BoolType : public TypeObj
 {
 public:
-	BoolType(bool b);
-	bool value;
+    BoolType(bool b);
+    bool value;
 };
 
 class IntType : public TypeObj
 {
 public:
-	IntType(int val);
-	int value;
+    IntType(int val);
+    int value;
 };
 
 /*

@@ -31,26 +31,26 @@
 class MacroManager : public Module
 {
 public:
-	MacroManager(Tasker& tsk);
-	~MacroManager();
+    MacroManager(Tasker& tsk);
+    ~MacroManager();
 
     /*
     Implementation of Module's launch function.
     */
-	void launch();
+    void launch();
 
 private:
-	BWAPI::Unit m_command;
+    BWAPI::Unit m_command;
 
     /*
     Implementation of the MacroManager's shutdown procedure.
     */
-	bool shutdownHelper();
+    bool shutdownHelper();
 
     /*
     Implementation of the MacroManager's module process.
     */
-	static void run(MacroManager* m);
+    static void run(MacroManager* m);
 
 };
 

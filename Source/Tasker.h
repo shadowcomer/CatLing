@@ -20,16 +20,16 @@ public:
     Do not call this constructor manually. The TaskManager is responsible
     for building this object, using for its queue parameter its own queue.
     */
-	Tasker(tbb::concurrent_queue<Task*>& queue);
-	~Tasker();
+    Tasker(tbb::concurrent_queue<Task*>& queue);
+    ~Tasker();
 
     /*
     Appends a Task to the end of the queue of this Tasker.
     */
-	bool requestTask(Task* t);
+    bool requestTask(Task* t);
 
 private:
-	tbb::concurrent_queue<Task*>& m_queue;
+    tbb::concurrent_queue<Task*>& m_queue;
 
 };
 

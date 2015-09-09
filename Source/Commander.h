@@ -26,25 +26,25 @@
 class Commander : public Module
 {
 public:
-	Commander(Tasker& tsk);
-	~Commander();
+    Commander(Tasker& tsk);
+    ~Commander();
 
     /*
     Implementation of Module's launch function.
     */
-	void launch();
+    void launch();
 
 private:
-	BWAPI::Unit m_command;
+    BWAPI::Unit m_command;
 
     /*
     Implementation of the Commander's shutdown procedure.
     */
-	bool shutdownHelper();
+    bool shutdownHelper();
 
     /*
     Implementation of the Commander's module process.
     */
-	static void run(Commander* m);
+    static void run(Commander* m);
 };
 #endif

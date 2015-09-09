@@ -9,7 +9,7 @@ queueCommand(shouldQueue){}
 
 void TGather::execute()
 {
-	unit->gather(target, queueCommand);
+    unit->gather(target, queueCommand);
 }
 
 
@@ -21,7 +21,7 @@ unit(unit){}
 
 void TTrain::execute()
 {
-	builder->train(unit);
+    builder->train(unit);
 }
 
 
@@ -34,13 +34,13 @@ location(location){}
 
 void TBuild::execute()
 {
-	//TODO: Use building verification
-	builder->build(building, location);
+    //TODO: Use building verification
+    builder->build(building, location);
 }
 
 bool TBuild::verifyBuildCapability()
 {
-	return (nullptr != builder) && (building.whatBuilds().first == builder->getType());
+    return (nullptr != builder) && (building.whatBuilds().first == builder->getType());
 }
 
 
@@ -53,6 +53,6 @@ queueCommand(shouldQueue){}
 
 void TAttack::execute()
 {
-	origin->attack(target, queueCommand);
+    origin->attack(target, queueCommand);
 }
 

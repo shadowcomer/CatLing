@@ -14,15 +14,15 @@ TaskManager::~TaskManager()
 
 bool TaskManager::hasRemainingTasks()
 {
-	return !m_taskQueue.empty();
+    return !m_taskQueue.empty();
 }
 
 Tasker& TaskManager::getInputInterface()
 {
-	return m_inputInterface;
+    return m_inputInterface;
 }
 
 Executer& TaskManager::getOutputInterface()
 {
-	return m_outputInterface;
+    return m_outputInterface;
 }

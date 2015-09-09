@@ -13,7 +13,7 @@ Tasker::~Tasker()
 
 bool Tasker::requestTask(Task* t)
 {
-	// TODO: Add safety to this call
-	m_queue.push(t);
-	return true;
+    // TODO: Add safety to this call
+    m_queue.push(t);
+    return true;
 }

@@ -21,7 +21,7 @@ public:
     /*
     Execution function to be implemented by each specific task separately.
     */
-	virtual void execute() = 0;
+    virtual void execute() = 0;
 private:
 
 };
@@ -38,12 +38,12 @@ public:
     shouldQueue - If true, this action is queued after any other
     already executing actions on the client side of Starcraft's process.
     */
-	TGather(BWAPI::Unit unit, BWAPI::Unit target, bool shouldQueue);
-	void execute();
+    TGather(BWAPI::Unit unit, BWAPI::Unit target, bool shouldQueue);
+    void execute();
 
-	const BWAPI::Unit unit;
-	const BWAPI::Unit target;
-	const bool queueCommand;
+    const BWAPI::Unit unit;
+    const BWAPI::Unit target;
+    const bool queueCommand;
 private:
 
 };
@@ -58,14 +58,14 @@ public:
     Task.
     Trains 'unit' from 'builder'.
     */
-	TTrain(BWAPI::Unit builder, BWAPI::UnitType unit);
-	void execute();
+    TTrain(BWAPI::Unit builder, BWAPI::UnitType unit);
+    void execute();
 
-	const BWAPI::Unit builder;
-	const BWAPI::UnitType unit;
+    const BWAPI::Unit builder;
+    const BWAPI::UnitType unit;
 
 private:
-	
+    
 
 };
 
@@ -79,18 +79,18 @@ public:
     Task.
     Sends 'builder' to build 'building' at 'location'.
     */
-	TBuild(BWAPI::Unit builder, BWAPI::UnitType building, BWAPI::TilePosition location);
-	void execute();
+    TBuild(BWAPI::Unit builder, BWAPI::UnitType building, BWAPI::TilePosition location);
+    void execute();
 
-	const BWAPI::Unit builder;
-	const BWAPI::UnitType building;
-	const BWAPI::TilePosition location;
+    const BWAPI::Unit builder;
+    const BWAPI::UnitType building;
+    const BWAPI::TilePosition location;
 
 private:
     /*
     Verifies whether the given 'builder' is a valid builder for the 'building'.
     */
-	bool verifyBuildCapability();
+    bool verifyBuildCapability();
 
 };
 
@@ -106,15 +106,15 @@ public:
     shouldQueue - If true, this action is queued after any other
     already executing actions on the client side of Starcraft's process.
     */
-	TAttack(BWAPI::Unit origin, BWAPI::PositionOrUnit target, bool shouldQueue);
-	void execute();
+    TAttack(BWAPI::Unit origin, BWAPI::PositionOrUnit target, bool shouldQueue);
+    void execute();
 
-	const BWAPI::Unit origin;
-	const BWAPI::PositionOrUnit target;
-	const bool queueCommand;
+    const BWAPI::Unit origin;
+    const BWAPI::PositionOrUnit target;
+    const bool queueCommand;
 
 private:
-	
+    
 };
 
 #endif

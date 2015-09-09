@@ -18,30 +18,30 @@
 class TaskManager
 {
 public:
-	TaskManager();
-	~TaskManager();
+    TaskManager();
+    ~TaskManager();
 
     /*
     Returns a reference to the input interface.
     */
-	Tasker& getInputInterface();
+    Tasker& getInputInterface();
 
     /*
     Returns a reference to the output interface.
     */
-	Executer& getOutputInterface();
+    Executer& getOutputInterface();
 
     /*
     Returns whether the TaskManager has remaining tasks in the queue
     waiting for execution.
     */
-	bool hasRemainingTasks();
+    bool hasRemainingTasks();
 
 private:
-	Tasker m_inputInterface;
-	Executer m_outputInterface;
+    Tasker m_inputInterface;
+    Executer m_outputInterface;
 
-	tbb::concurrent_queue<Task*> m_taskQueue;
+    tbb::concurrent_queue<Task*> m_taskQueue;
 
 };
 
