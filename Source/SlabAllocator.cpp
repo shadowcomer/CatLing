@@ -26,9 +26,6 @@ bool SlabAllocator::createSlab(std::string name, TypeList fields)
         a.release();
     }
 
-    if (completed)
-        std::cout << "Slab created with name: " << name << std::endl;
-
     return completed;
 }
 
@@ -53,12 +50,10 @@ auto SlabAllocator::find(std::string slabName, Slab** result)->bool
 {
     Slab* slab = nullptr;
     {
-        std::cout << "Looking up Slab with name: " << slabName << std::endl;
         SlabMap::accessor a;
         if(m_slabs.find(a, slabName))
             slab = a->second;
         a.release();
-        std::cout << "Found Slab at: " << slab << std::endl;
 
         if (result != nullptr)
             *result = slab;

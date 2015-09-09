@@ -38,7 +38,6 @@ void reconnect()
 
 int main(int argc, const char* argv[])
 {
-    std::cout << "Starting..." << std::endl;
     std::cout << "Initializing Database..." << std::endl;
     mongo::client::initialize();
 
@@ -77,7 +76,6 @@ int main(int argc, const char* argv[])
         }
 
         std::cout << "starting match!" << std::endl;
-        Broodwar->sendText("Hello world!");
         Broodwar << "The map is " << Broodwar->mapName() << ", a " << Broodwar->getStartLocations().size() << " player map" << std::endl;
         // Enable some cheat flags
         Broodwar->enableFlag(Flag::UserInput);
@@ -103,7 +101,6 @@ int main(int argc, const char* argv[])
                 Broodwar << "The match up is " << Broodwar->self()->getRace() << " vs " << Broodwar->enemy()->getRace() << std::endl;
         }
 
-        std::cout << "Loading modules..." << std::endl;
         Module* loadedModule = nullptr;
         loadedModule = link.loadModule(ModuleType::COMMANDER);
         assert(nullptr != loadedModule);
@@ -113,8 +110,6 @@ int main(int argc, const char* argv[])
 
         loadedModule = link.loadModule(ModuleType::MACROMGR);
         assert(nullptr != loadedModule);
-
-        std::cout << "Modules loaded." << std::endl;
 
         while (Broodwar->isInGame())
         {

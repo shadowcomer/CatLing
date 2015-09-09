@@ -21,21 +21,6 @@ m_executer(m_taskManager.getOutputInterface())
 
     // TODO: Change to stack allocation
     m_allocator = new SlabAllocator();
-
-    {
-        TypeList fields;
-        fields.insert(std::pair<std::string, TypeObj const * const>("minerals", &IntType(0)));
-        fields.insert(std::pair<std::string, TypeObj const * const>("gas", &IntType(0)));
-        m_allocator->createSlab("resources", fields);
-        // TODO: Change Slab implementation to use stack allocation
-        Slab* r = nullptr;
-
-        if (!m_allocator->find("resources", &r))
-            std::cout << "Failed to find 'resources' from ClientLink after creation." << std::endl;
-        else
-            std::cout << "Found 'resources' from ClientLink after creation."<< std::endl;
-    }
-    Broodwar << "Created 'resources' table." << std::endl;
 }
 
 ClientLink::~ClientLink()
@@ -62,19 +47,15 @@ Module* ClientLink::loadModule(ModuleType type)
     switch (type)
     {
     case ModuleType::COMMANDER:
-        std::cout << "Loading module: Commander." << std::endl;
         tmp = new Commander(m_taskManager.getInputInterface());
         break;
     case ModuleType::MACROMGR:
-        std::cout << "Loading module: MacroManager." << std::endl;
         tmp = new MacroManager(m_taskManager.getInputInterface());
         break;
     case ModuleType::MICROMGR:
-        std::cout << "Loading module: MicroManager." << std::endl;
         tmp = new MicroManager(m_taskManager.getInputInterface());
         break;
     default:
-        std::cout << "Requested module not supported." << std::endl;
         return nullptr;
         break;
     }
@@ -86,7 +67,6 @@ Module* ClientLink::loadModule(ModuleType type)
 
     m_modules[type] = tmp;
     m_modules[type]->launch();
-    std::cout << "Loaded." << std::endl;
 
     return m_modules[type];
 }
@@ -119,9 +99,7 @@ void ClientLink::waitForTermination()
 {
     for (int i = 0; i < ModuleType::_END; ++i)
     {
-        std::cout << "Waiting for module '" << i << "' to finish...";
         m_modules[i]->getThread().join();
-        std::cout << "\tFinished" << std::endl;
     }
 }
 
@@ -234,8 +212,6 @@ void ClientLink::spendProjectedCost(UnitType type)
 void ClientLink::onStart()
 {
     configOnStart();
-    // Hello World!
-    Broodwar->sendText("Hello world!");
     // Print the map name.
     // BWAPI returns std::string when retrieving a string, don't forget to add .c_str() when printing!
     Broodwar << "The map is " << Broodwar->mapName() << "!" << std::endl;
@@ -405,7 +381,6 @@ void ClientLink::onSendText(std::string text)
 
     // Send the text to the game if it is not being processed.
     Broodwar->sendText("%s", text.c_str());
-
 
     // Make sure to use %s and pass the text as a parameter,
     // otherwise you may run into problems when you use the %(percent) character!

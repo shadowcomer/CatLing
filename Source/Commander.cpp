@@ -26,8 +26,6 @@ bool Commander::shutdownHelper()
 
 void Commander::run(Commander* m)
 {
-    std::cout << "Started Commander loop." << std::endl;
-
     Unitset units = Broodwar->self()->getUnits();
     for (auto u : units)
     {
@@ -78,7 +76,5 @@ void Commander::run(Commander* m)
         }
         tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)0.25));
     }
-
-    std::cout << "Finished Commander loop." << std::endl;
 }
 
