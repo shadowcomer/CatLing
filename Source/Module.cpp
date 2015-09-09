@@ -2,7 +2,8 @@
 
 Module::Module(Tasker& tsk):
 m_shuttingDown(false),
-m_tasker(tsk)
+m_tasker(tsk),
+m_allocator(nullptr)
 {
 
 }

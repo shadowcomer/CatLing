@@ -104,9 +104,15 @@ int main(int argc, const char* argv[])
         }
 
         std::cout << "Loading modules..." << std::endl;
-        link.loadModule(ModuleType::COMMANDER);
-        link.loadModule(ModuleType::MICROMGR);
-        link.loadModule(ModuleType::MACROMGR);
+        Module* loadedModule = nullptr;
+        loadedModule = link.loadModule(ModuleType::COMMANDER);
+        assert(nullptr != loadedModule);
+
+        loadedModule = link.loadModule(ModuleType::MICROMGR);
+        assert(nullptr != loadedModule);
+
+        loadedModule = link.loadModule(ModuleType::MACROMGR);
+        assert(nullptr != loadedModule);
 
         std::cout << "Modules loaded." << std::endl;
 

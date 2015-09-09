@@ -79,8 +79,11 @@ Module* ClientLink::loadModule(ModuleType type)
         break;
     }
 
-    tmp->setAllocator(m_allocator);
-    _ReadWriteBarrier();
+    bool success = tmp->setAllocator(m_allocator);
+    if (!success){
+        return nullptr;
+    }
+
     m_modules[type] = tmp;
     m_modules[type]->launch();
     std::cout << "Loaded." << std::endl;
