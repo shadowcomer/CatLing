@@ -7,8 +7,14 @@
 #ifndef MODULE_H
 #define MODULE_H
 
+#include <BWAPI.h>
+
+#include <mutex>
+
 #include "../include/TBB/tbb/tbb.h"
 #include "../include/TBB/tbb/compat/thread"
+
+#include <condition_variable>
 
 #include "Tasker.h"
 #include "SlabAllocator.h"
@@ -56,10 +62,26 @@ public:
     bool isTerminating();
 
     /*
-    Returns the number of frames that should pass inbetween wakes to
-    this module.
+    Returns the last frame this module was called to execute.
     */
-    int getFramesToWake();
+    int lastExecFrame();
+
+    /*
+    Sets the minimum number of frames between which the module should 
+    wake after each complete execution.
+    */
+    void setFrameExecDelta(int delta);
+
+    /*
+    Returns the number of frames between which the module should wake
+    after each complete execution.
+    */
+    int getFrameExecDelta();
+
+    /*
+    Tells this module to start the next iteration of execution.
+    */
+    void startNextExecution();
 
     /*
     Returns the thread that's in control of this module.
@@ -78,9 +100,27 @@ protected:
 
     Tasker& tasker();
 
+    /*
+    Completes the current execution and blocks the thread until it's
+    awoken by a call by startNextExecution.
+    */
+    void terminateThisExecution();
+
 private:
-    int framesToWake;
+    long int m_lastExecFrame;
+    long int m_frameExecDelta;
+
     bool m_shuttingDown;
+
+    // Mutex and condition variables for controlling execution.
+    std::mutex m_workMutex;
+    std::condition_variable m_workCond;
+    bool m_shouldWake;
+
+    /*
+    Sets the frame the current execution started on.
+    */
+    void setLastExecFrame(int frame);
 
     /*
     Extra shutdown functionality implemented by each specific module.

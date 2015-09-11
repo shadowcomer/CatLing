@@ -1,9 +1,14 @@
 #include "Module.h"
 
-Module::Module(Tasker& tsk):
+#include <assert.h>
+
+Module::Module(Tasker& tsk) :
 m_shuttingDown(false),
 m_tasker(tsk),
-m_allocator(nullptr)
+m_allocator(nullptr),
+m_shouldWake(false),
+m_lastExecFrame(0),
+m_frameExecDelta(1)
 {
 
 }
@@ -20,16 +25,42 @@ bool Module::isTerminating()
 
 bool Module::shutdown()
 {
-    // TODO: WARNING! This is unsafe! The caller could wait indefinitely if the shutdownHelper reports a failure.
-    // It's unclear how to fix this, because we have to guarantee that the thread shuts down properly before we can leave, so we
-    // don't lose any data.
+    // TODO: Guarantee there's no deadlock.
     m_shuttingDown = shutdownHelper();
-    m_thread.join();
+    startNextExecution();
     return m_shuttingDown;
 }
 
-int Module::getFramesToWake(){
-    return framesToWake;
+int Module::lastExecFrame(){
+    return m_lastExecFrame;
+}
+
+void Module::setLastExecFrame(int frame){
+    m_lastExecFrame = frame;
+}
+
+void Module::setFrameExecDelta(int delta){
+    assert(delta > 0);
+    m_frameExecDelta = delta;
+}
+
+int Module::getFrameExecDelta(){
+    return m_frameExecDelta;
+}
+
+void Module::terminateThisExecution(){
+    {
+        std::unique_lock<std::mutex> lk(m_workMutex);
+        // m_shouldWake is there to stop spurious wakes.
+        m_workCond.wait(lk, [this]() -> bool { return m_shouldWake; });
+        m_shouldWake = false;
+    }
+}
+
+void Module::startNextExecution(){
+    m_shouldWake = true;
+    m_workCond.notify_one();
+    setLastExecFrame(BWAPI::Broodwar->getFrameCount());
 }
 
 tbb::tbb_thread& Module::getThread()

@@ -138,21 +138,19 @@ void ClientLink::processEvents()
             onUnitDestroy(e.getUnit());
             break;
         case EventType::MatchFrame:
-            for each (Module* var in m_modules)
+            // Wake up each module that should execute during this frame.
+            for each (Module* m in m_modules)
             {	
-                if (var != nullptr)
+                if (m != nullptr)
                 {
-                    // Wake up the module when a certain number of frames have passed
-                    // TODO: This is not exactly as it should be, because it's possible that a module hasn't finished executing
-                    // by the time it's time to wake it up again.
-                    // In general, this loop should manage loop execution (for example: when to wake, stop when it takes too long...)
-                    // This requires a little more advanced wake-up check.
-                    if ((var->getFramesToWake() != 0) && ((Broodwar->getFrameCount() % var->getFramesToWake()) == 0))
-                    {
-
+                    int currentFrame = Broodwar->getFrameCount();
+                    int elapsedFrames = currentFrame - m->lastExecFrame();
+                    if (elapsedFrames >= m->getFrameExecDelta()){
+                        m->startNextExecution();
                     }
                 }
             }
+
             onFrame();
             break;
         case EventType::NukeDetect:
@@ -256,6 +254,11 @@ void ClientLink::onStart()
 
 void ClientLink::onEnd(bool isWinner)
 {
+    for each(Module* m in m_modules){
+        if (nullptr != m){
+            m->shutdown();
+        }
+    }
     // Called when the game ends
     if (isWinner)
     {

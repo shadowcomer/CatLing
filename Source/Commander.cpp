@@ -36,6 +36,8 @@ void Commander::run(Commander* m)
         }
     }
 
+    m->setFrameExecDelta(3);
+
     while (!m->isTerminating())
     {
         // While enough minerals and supply, train a worker.
@@ -74,7 +76,8 @@ void Commander::run(Commander* m)
                 }
             }
         }
-        tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)0.25));
+
+        m->terminateThisExecution();
     }
 }
 

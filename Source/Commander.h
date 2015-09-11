@@ -19,8 +19,6 @@
 
 #include "Module.h"
 
-#include <BWAPI.h>
-
 #include <iostream>
 
 class Commander : public Module

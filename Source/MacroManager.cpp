@@ -37,6 +37,8 @@ void MacroManager::run(MacroManager* m)
         }
     }
 
+    m->setFrameExecDelta(48);
+
     while(!m->isTerminating())
     {
         // When we have plenty of minerals, build a barracks
@@ -63,7 +65,6 @@ void MacroManager::run(MacroManager* m)
             }
         }
 
-        // Sleep
-        tbb::this_tbb_thread::sleep(tbb::tick_count::interval_t((double)5));
+        m->terminateThisExecution();
     }
 }
