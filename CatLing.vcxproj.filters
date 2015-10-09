@@ -18,6 +18,9 @@
     <Filter Include="Source Files\AI">
       <UniqueIdentifier>{c9e6dd5c-e75b-40ed-a26e-fb435e68c9eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\BT">
+      <UniqueIdentifier>{965252e8-c3b0-4345-8ee3-2c3b742d0753}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source/ClientLink.cpp">
@@ -62,6 +65,9 @@
     <ClCompile Include="Source\SlabAllocator.cpp">
       <Filter>Source Files\Memory</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Node.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/ClientLink.h">
@@ -102,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="Source\SlabAllocator.h">
       <Filter>Source Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Node.h">
+      <Filter>Source Files\BT</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
