@@ -1,5 +1,6 @@
 #include "Node.h"
 
+#include <gtest.h>
 #include <exception>
 
 using namespace BT;
@@ -17,7 +18,8 @@ Node::~Node()
 
 void Node::addChild(Node* newChild)
 {
-    throw new std::exception("Not implemented");
+    ASSERT_NE(nullptr, newChild);
+    m_children.push_back(Child(newChild));
 }
 
 void Node::setParent(Node* newParent)
