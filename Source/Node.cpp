@@ -12,7 +12,7 @@ Node::Node()
 
 Node::~Node()
 {
-    throw new std::exception("Not implemented");
+
 }
 
 void Node::addChild(Node* newChild)
