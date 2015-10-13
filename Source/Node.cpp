@@ -39,7 +39,7 @@ void Node::setParent(Node* newParent)
 
 Parent Node::parent()
 {
-    throw new std::exception("Not implemented");
+    return m_parent;
 }
 
 Children Node::children()
