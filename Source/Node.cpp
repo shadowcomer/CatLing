@@ -24,7 +24,17 @@ void Node::addChild(Node* newChild)
 
 void Node::setParent(Node* newParent)
 {
-    throw new std::exception("Not implemented");
+    ASSERT_NE(nullptr, newParent);
+
+    // Copy construct the shared_ptr from a sibling, when it exists.
+    Children child = newParent->children();
+    if (child != newParent->m_children.end()){
+        Parent p = child->get()->m_parent;
+        m_parent = p;
+    }
+    else {
+        m_parent = Parent(newParent);
+    }
 }
 
 Parent Node::parent()
