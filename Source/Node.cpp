@@ -6,7 +6,8 @@ using namespace BT;
 
 Node::Node()
 {
-    throw new std::exception("Not implemented");
+    m_children = std::vector<Child>(0);
+    m_parent = Parent();
 }
 
 Node::~Node()
