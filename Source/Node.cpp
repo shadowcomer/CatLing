@@ -44,5 +44,5 @@ Parent Node::parent()
 
 Children Node::children()
 {
-    throw new std::exception("Not implemented");
+    return m_children.begin();
 }
