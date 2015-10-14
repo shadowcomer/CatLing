@@ -26,9 +26,6 @@
     <ClCompile Include="Source/ClientLink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source/main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Tasker.cpp">
       <Filter>Source Files\Tasking</Filter>
     </ClCompile>
