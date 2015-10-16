@@ -22,6 +22,7 @@ namespace BT {
         void setParent(Node* newParent);
         Parent parent();
         Children children();
+        Children children_end();
 
     private:
         Parent m_parent;

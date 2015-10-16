@@ -46,3 +46,8 @@ Children Node::children()
 {
     return m_children.begin();
 }
+
+Children Node::children_end()
+{
+    return m_children.end();
+}
