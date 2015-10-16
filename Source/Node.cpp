@@ -24,15 +24,22 @@ void Node::addChild(Node* newChild)
 
 void Node::setParent(Node* newParent)
 {
-    ASSERT_NE(nullptr, newParent);
+    if (!newParent){
+        m_parent = Parent();
+        return;
+    }
 
-    // Copy construct the shared_ptr from a sibling, when it exists.
     Children child = newParent->children();
     if (child != newParent->m_children.end()){
+        // Get the parent of the first child.
+        // This forces the smartpointer to use the same
+        // reference for memory management, instead of
+        // building a new one, which wouldn't be shared.
         Parent p = child->get()->m_parent;
         m_parent = p;
     }
     else {
+        // Create its own reference.
         m_parent = Parent(newParent);
     }
 }
