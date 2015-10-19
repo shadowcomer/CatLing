@@ -80,5 +80,40 @@ TEST_F(T_NodeBasic, SetParent)
     ASSERT_EQ(expected, setValue);
 }
 
+TEST_F(T_NodeBasic, Children)
+{
+    std::vector<BT::Child>* const childrenVar =
+        m_node->t_children();
+
+    BT::Children expected_ch = childrenVar->begin();
+    BT::Children ch = m_node->children();
+    EXPECT_TRUE(expected_ch == ch);
+
+    BT::Children expected_ch_end = childrenVar->end();
+    BT::Children ch_end = m_node->children_end();
+    EXPECT_TRUE(expected_ch_end == ch_end);
+
+}
+
+TEST_F(T_NodeBasic, Parent)
+{
+    BT::Parent* const parentVar =
+        m_node->t_parent();
+
+    {
+        BT::Node* expected_ptr = parentVar->get();
+        BT::Node* actual_ptr = m_node->parent().get();
+        EXPECT_EQ(expected_ptr, actual_ptr);
+    }
+
+    {
+        *parentVar = BT::Parent(m_extra);
+        BT::Node* expected_ptr = parentVar->get();
+        BT::Node* actual_ptr = m_node->parent().get();
+        EXPECT_EQ(expected_ptr, actual_ptr);
+    }
+    
+}
+
 
 #endif
