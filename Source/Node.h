@@ -24,9 +24,11 @@ namespace BT {
         Children children();
         Children children_end();
 
-    private:
+    protected:
         Parent m_parent;
         std::vector<Child> m_children;
+
+    private:
 
     };
 }

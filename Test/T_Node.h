@@ -3,15 +3,31 @@
 
 #include "gtest\gtest.h"
 
-#define private public
 #include "Node.h"
+
+class MockNode : public BT::Node
+{
+public:
+    // #####################################
+    // Functions to access protected members
+    // of the tested class.
+    // #####################################
+
+    BT::Parent* t_parent();
+    std::vector<BT::Child>* t_children();
+
+    // #####################################
+    // END access functions.
+    // #####################################
+
+};
 
 class T_NodeBasic : public ::testing::Test
 {
 protected:
     T_NodeBasic():
-        m_node(new BT::Node),
-        m_extra(new BT::Node)
+        m_node(new MockNode),
+        m_extra(new MockNode)
     {
 
     }
@@ -23,26 +39,45 @@ protected:
     virtual void SetUp() {}
     virtual void TearDown() { }
 
-    BT::Node* m_node;
-    BT::Node* m_extra;
+    MockNode* m_node;
+    MockNode* m_extra;
 };
+
+BT::Parent* MockNode::t_parent() {
+    return &m_parent;
+}
+
+std::vector<BT::Child>* MockNode::t_children() {
+    return &m_children;
+}
+
 
 TEST_F(T_NodeBasic, Constructor)
 {
-    EXPECT_EQ(nullptr, m_node->m_parent.get());
-    EXPECT_TRUE(m_node->m_children.empty());
+    BT::Parent* parent = m_node->t_parent();
+    std::vector<BT::Child>* children = m_node->t_children();
+
+    EXPECT_EQ(nullptr, parent->get());
+    EXPECT_TRUE(children->empty());
 }
 
 TEST_F(T_NodeBasic, SetNullParent)
 {
+    BT::Parent* parent = m_node->t_parent();
     m_node->setParent(nullptr);
-    EXPECT_EQ(nullptr, m_node->m_parent.get());
+    EXPECT_EQ(nullptr, parent->get());
 }
 
 TEST_F(T_NodeBasic, SetParent)
 {
+    BT::Parent* const parentVar = m_node->t_parent();
+    BT::Node* setValue = nullptr;
+    BT::Node* const expected = m_extra;
+
     m_node->setParent(m_extra);
-    ASSERT_EQ(m_node->m_parent.get(), m_extra);
+    setValue = parentVar->get();
+
+    ASSERT_EQ(expected, setValue);
 }
 
 
