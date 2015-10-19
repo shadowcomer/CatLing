@@ -112,7 +112,6 @@ TEST_F(T_NodeBasic, Parent)
         BT::Node* actual_ptr = m_node->parent().get();
         EXPECT_EQ(expected_ptr, actual_ptr);
     }
-    
 }
 
 
