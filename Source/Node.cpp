@@ -18,7 +18,10 @@ Node::~Node()
 
 void Node::addChild(Node* newChild)
 {
-    ASSERT_NE(nullptr, newChild);
+    if (!newChild){
+        return;
+    }
+
     m_children.push_back(Child(newChild));
 }
 
