@@ -78,11 +78,24 @@ TEST_F(T_NodeBasic, SetParent)
 
 TEST_F(T_NodeBasic, AddChild)
 {
+    int const CHILD_COUNT = 4;
     std::vector<BT::Child>* const childrenVar =
         m_node->t_children();
 
-    {
+    for (int i = 0; i < CHILD_COUNT; ++i){
+        m_node->addChild(m_extra);
+    }
 
+    {
+        ASSERT_EQ(CHILD_COUNT, childrenVar->size());
+        BT::Children children = childrenVar->begin();
+        BT::Node* expected = m_extra;
+
+        for (int i = 0; i < CHILD_COUNT; ++i){
+            BT::Node* current_node_ptr = children->get();
+            children++;
+            EXPECT_EQ(expected, current_node_ptr);
+        }
     }
 }
 
