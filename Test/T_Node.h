@@ -61,13 +61,6 @@ TEST_F(T_NodeBasic, Constructor)
     EXPECT_TRUE(children->empty());
 }
 
-TEST_F(T_NodeBasic, SetNullParent)
-{
-    BT::Parent* parent = m_node->t_parent();
-    m_node->setParent(nullptr);
-    EXPECT_EQ(nullptr, parent->get());
-}
-
 TEST_F(T_NodeBasic, SetParent)
 {
     BT::Parent* const parentVar = m_node->t_parent();
@@ -78,39 +71,18 @@ TEST_F(T_NodeBasic, SetParent)
     setValue = parentVar->get();
 
     ASSERT_EQ(expected, setValue);
+
+    m_node->setParent(nullptr);
+    EXPECT_EQ(nullptr, parentVar->get());
 }
 
-TEST_F(T_NodeBasic, Children)
+TEST_F(T_NodeBasic, AddChild)
 {
     std::vector<BT::Child>* const childrenVar =
         m_node->t_children();
 
-    BT::Children expected_ch = childrenVar->begin();
-    BT::Children ch = m_node->children();
-    EXPECT_TRUE(expected_ch == ch);
-
-    BT::Children expected_ch_end = childrenVar->end();
-    BT::Children ch_end = m_node->children_end();
-    EXPECT_TRUE(expected_ch_end == ch_end);
-
-}
-
-TEST_F(T_NodeBasic, Parent)
-{
-    BT::Parent* const parentVar =
-        m_node->t_parent();
-
     {
-        BT::Node* expected_ptr = parentVar->get();
-        BT::Node* actual_ptr = m_node->parent().get();
-        EXPECT_EQ(expected_ptr, actual_ptr);
-    }
 
-    {
-        *parentVar = BT::Parent(m_extra);
-        BT::Node* expected_ptr = parentVar->get();
-        BT::Node* actual_ptr = m_node->parent().get();
-        EXPECT_EQ(expected_ptr, actual_ptr);
     }
 }
 
