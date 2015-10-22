@@ -9,10 +9,10 @@
 namespace BT {
 
     enum class State {
-        INVALID,
+        INITIAL,
         RUNNING,
         SUCCESS,
-        FAILED,
+        FAILURE,
         ABORTED,
     };
 

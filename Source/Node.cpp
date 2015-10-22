@@ -6,7 +6,7 @@
 using namespace BT;
 
 Node::Node() :
-m_state(State::INVALID),
+m_state(State::INITIAL),
 m_enterHook(nullptr),
 m_iterationHook(nullptr),
 m_exitHook(nullptr)
@@ -115,7 +115,7 @@ void Node::callExitHook()
 State Node::iterate()
 {
     // Initialization
-    if (State::INVALID == m_state){
+    if (State::INITIAL == m_state){
         callEnterHook();
     }
 
