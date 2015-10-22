@@ -111,3 +111,21 @@ void Node::callExitHook()
         m_exitHook(m_state);
     }
 }
+
+State Node::iterate()
+{
+    // Initialization
+    if (State::INVALID == m_state){
+        callEnterHook();
+    }
+
+    // Execution
+    m_state = doIterate();
+
+    // Exit
+    if (State::RUNNING != m_state){
+        callExitHook();
+    }
+
+    return m_state;
+}

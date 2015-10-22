@@ -76,6 +76,11 @@ namespace BT {
         */
         bool is(State state);
 
+        // ----------
+        // Hooks
+        // ----------
+        // Hook configuration methods
+
         /**
         Sets the Node enter hook.
         */
@@ -91,12 +96,24 @@ namespace BT {
         */
         void setExitHook(Hook fn);
 
+        // ----------
+        // End hooks
+        // ----------
+
+        /**
+        Executes exactly one iteration.
+        */
+        State iterate();
+
     protected:
         Parent m_parent;
         std::vector<Child> m_children;
 
         State m_state; // The current state
 
+        // ----------
+        // Hooks
+        // ----------
         // Hooks to call on different events
         Hook m_enterHook;
         Hook m_iterationHook;
@@ -111,6 +128,17 @@ namespace BT {
 
         /** Calls the exit hook */
         void callExitHook();
+        // ----------
+        // End hooks
+        // ----------
+
+        /**
+        This function is called by the
+        public interface, 'iterate', to implement the
+        child's part without removing Node's implementation,
+        and as such must be overriden.
+        */
+        virtual State doIterate() = 0;
 
     private:
 
