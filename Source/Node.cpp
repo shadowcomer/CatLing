@@ -67,12 +67,12 @@ Children Node::children_end()
     return m_children.end();
 }
 
-State Node::state()
+State Node::state() const
 {
     return m_state;
 }
 
-bool Node::is(State state)
+bool Node::is(State state) const
 {
     return m_state == state;
 }

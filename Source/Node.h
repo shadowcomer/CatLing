@@ -69,12 +69,12 @@ namespace BT {
         /**
         Retrieves the current state.
         */
-        State state();
+        State state() const;
 
         /*
         Checks whether this Node is in the given State.
         */
-        bool is(State state);
+        bool is(State state) const;
 
         // ----------
         // Hooks
