@@ -81,6 +81,11 @@ namespace BT {
         */
         void setEnterHook(Hook fn);
 
+        /**
+        Sets the Node iteration hook.
+        */
+        void setIterationHook(Hook fn);
+
     protected:
         Parent m_parent;
         std::vector<Child> m_children;
@@ -89,9 +94,14 @@ namespace BT {
 
         // Hooks to call on different events
         Hook m_enterHook;
+        Hook m_iterationHook;
 
-        // Hook calls
+        // Calls to the currently set hooks
+        /** Calls the enter hook */
         void callEnterHook();
+
+        /** Calls the iteration hook */
+        void callIterationHook();
 
     private:
 

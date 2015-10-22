@@ -7,7 +7,8 @@ using namespace BT;
 
 Node::Node():
 m_state(State::INVALID),
-m_enterHook(nullptr)
+m_enterHook(nullptr),
+m_iterationHook(nullptr)
 {
     m_children = std::vector<Child>(0);
     m_parent = Parent();
@@ -83,5 +84,17 @@ void Node::callEnterHook()
 {
     if (nullptr != m_enterHook){
         m_enterHook(m_state);
+    }
+}
+
+void Node::setIterationHook(Hook fn)
+{
+    m_enterHook = fn;
+}
+
+void Node::callIterationHook()
+{
+    if (nullptr != m_iterationHook){
+        m_iterationHook(m_state);
     }
 }
