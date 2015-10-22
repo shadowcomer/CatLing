@@ -7,6 +7,7 @@ using namespace BT;
 
 Node::Node() :
 m_state(State::INITIAL),
+m_iterations(0),
 m_enterHook(nullptr),
 m_iterationHook(nullptr),
 m_exitHook(nullptr)
@@ -120,6 +121,7 @@ State Node::iterate()
     }
 
     // Execution
+    m_iterations++;
     m_state = doIterate();
 
     // Exit
@@ -128,4 +130,9 @@ State Node::iterate()
     }
 
     return m_state;
+}
+
+int Node::iterations() const
+{
+    return m_iterations;
 }

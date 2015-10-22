@@ -105,9 +105,16 @@ namespace BT {
         */
         State iterate();
 
+        /*
+        Number of iterations attempted.
+        */
+        int iterations() const;
+
     protected:
         Parent m_parent;
         std::vector<Child> m_children;
+
+        int m_iterations; // Number of iterations attempted.
 
         State m_state; // The current state
 
