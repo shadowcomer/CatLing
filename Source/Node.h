@@ -52,7 +52,7 @@ namespace BT {
         void setParent(Node* newParent);
 
         /**
-        Retrieves the current Parent of this Node.
+        Retrieves the current Parent.
         */
         Parent parent();
 
