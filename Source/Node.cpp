@@ -6,7 +6,8 @@
 using namespace BT;
 
 Node::Node():
-m_state(State::INVALID)
+m_state(State::INVALID),
+m_enterHook(nullptr)
 {
     m_children = std::vector<Child>(0);
     m_parent = Parent();
@@ -71,4 +72,16 @@ State Node::state()
 bool Node::is(State state)
 {
     return m_state == state;
+}
+
+void Node::setEnterHook(Hook fn)
+{
+    m_enterHook = fn;
+}
+
+void Node::callEnterHook()
+{
+    if (nullptr != m_enterHook){
+        m_enterHook(m_state);
+    }
 }

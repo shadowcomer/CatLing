@@ -4,6 +4,8 @@
 #include <memory>
 #include <vector>
 
+#include <functional>
+
 namespace BT {
 
     enum class State {
@@ -19,6 +21,8 @@ namespace BT {
     typedef std::shared_ptr<Node> Parent;
     typedef std::unique_ptr<Node> Child;
     typedef std::vector<Child>::iterator Children;
+
+    typedef std::function<void(State)> Hook;
 
     class Node {
     public:
@@ -72,11 +76,22 @@ namespace BT {
         */
         bool is(State state);
 
+        /**
+        Sets the Node enter hook.
+        */
+        void setEnterHook(Hook fn);
+
     protected:
         Parent m_parent;
         std::vector<Child> m_children;
 
         State m_state; // The current state
+
+        // Hooks to call on different events
+        Hook m_enterHook;
+
+        // Hook calls
+        void callEnterHook();
 
     private:
 
