@@ -53,19 +53,37 @@ int runCatling()
     ZeroMemory(&si, sizeof(si));
     si.cb = sizeof(si);
     ZeroMemory(&pi, sizeof(pi));
-    TCHAR lpszClientPath[500] = TEXT("./db/mongod.exe --dbpath=.\\data\\db\\");
-    CreateProcess(NULL, lpszClientPath, NULL, NULL, false, 0, NULL, NULL, &si, &pi);
+
+    TCHAR lpszClientPath[500] =
+        TEXT(".\\db\\mongod.exe --dbpath=.\\data\\db");
+
+    int created = CreateProcess(
+        NULL,
+        lpszClientPath,
+        NULL, NULL, false,
+        0, NULL, NULL,
+        &si, &pi);
+
+    if (created != 0){
+        std::cout << "Started mongo daemon." << std::endl;
+    }
+    else {
+        std::cout << "Error starting mongo. Exiting." << std::endl;
+        std::cout << GetLastError() << std::endl;
+        exit(1);
+    }
+
     mongo::DBClientConnection c;
-    c.connect("localhost");
-
-    std::cout << "Database initialized." << std::endl;
-
-    //mongo::BSONObj p = BSON("prueba" << "Si");
-    //c.insert("macro.prueba",p);
-    //c.insert("micro.prueba",p);
+    try {
+        c.connect("localhost");
+        std::cout << "Connected to mongo database." << std::endl;
+    }
+    catch (const mongo::DBException &e){
+        std::cout << "MongoDB Exception: " << e.what() << std::endl;
+    }
 
     ClientLink link;
-    std::cout << "Connecting..." << std::endl;
+    std::cout << "Waiting to connect to SC Client..." << std::endl;
     //std::cout << BWAPI::BWAPIClient.isConnected() << std::endl;
     reconnect();
     while (true)
