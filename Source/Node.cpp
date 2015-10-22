@@ -5,10 +5,11 @@
 
 using namespace BT;
 
-Node::Node():
+Node::Node() :
 m_state(State::INVALID),
 m_enterHook(nullptr),
-m_iterationHook(nullptr)
+m_iterationHook(nullptr),
+m_exitHook(nullptr)
 {
     m_children = std::vector<Child>(0);
     m_parent = Parent();
@@ -96,5 +97,17 @@ void Node::callIterationHook()
 {
     if (nullptr != m_iterationHook){
         m_iterationHook(m_state);
+    }
+}
+
+void Node::setExitHook(Hook fn)
+{
+    m_exitHook = fn;
+}
+
+void Node::callExitHook()
+{
+    if (nullptr != m_exitHook){
+        m_exitHook(m_state);
     }
 }
