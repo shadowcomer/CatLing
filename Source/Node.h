@@ -6,6 +6,14 @@
 
 namespace BT {
 
+    enum class State {
+        INVALID,
+        RUNNING,
+        SUCCESS,
+        FAILED,
+        ABORTED,
+    };
+
     class Node;
 
     typedef std::shared_ptr<Node> Parent;
