@@ -20,6 +20,9 @@ public:
     // END access functions.
     // #####################################
 
+protected:
+    BT::State doIterate() { return BT::State::SUCCESS; }
+
 };
 
 class T_NodeBasic : public ::testing::Test
