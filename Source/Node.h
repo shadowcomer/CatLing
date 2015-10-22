@@ -25,6 +25,7 @@ namespace BT {
         /**
         Creates a default Node with an empty Parent (nullptr)
         and no Child nodes.
+        The Node starts in an INVALID State.
         */
         Node();
         ~Node();
@@ -61,9 +62,21 @@ namespace BT {
         */
         Children children_end();
 
+        /**
+        Retrieves the current state.
+        */
+        State state();
+
+        /*
+        Checks whether this Node is in the given State.
+        */
+        bool is(State state);
+
     protected:
         Parent m_parent;
         std::vector<Child> m_children;
+
+        State m_state; // The current state
 
     private:
 

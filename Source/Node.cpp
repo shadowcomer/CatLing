@@ -5,7 +5,8 @@
 
 using namespace BT;
 
-Node::Node()
+Node::Node():
+m_state(State::INVALID)
 {
     m_children = std::vector<Child>(0);
     m_parent = Parent();
@@ -60,4 +61,14 @@ Children Node::children()
 Children Node::children_end()
 {
     return m_children.end();
+}
+
+State Node::state()
+{
+    return m_state;
+}
+
+bool Node::is(State state)
+{
+    return m_state == state;
 }
