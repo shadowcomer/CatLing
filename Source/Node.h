@@ -105,7 +105,7 @@ namespace BT {
         */
         State iterate();
 
-        /*
+        /**
         Number of iterations attempted.
         */
         int iterations() const;
