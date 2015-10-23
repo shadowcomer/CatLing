@@ -71,7 +71,7 @@ namespace BT {
         */
         State state() const;
 
-        /*
+        /**
         Checks whether this Node is in the given State.
         */
         bool is(State state) const;
