@@ -115,6 +115,8 @@ void Node::callExitHook()
 
 State Node::iterate()
 {
+    assert(!terminated());
+
     // Initialization
     if (State::INITIAL == m_state){
         callEnterHook();
