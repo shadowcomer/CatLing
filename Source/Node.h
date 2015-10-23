@@ -110,6 +110,12 @@ namespace BT {
         */
         int iterations() const;
 
+        /**
+        Checks for termination, which is all states that can't be
+        iterated over.
+        */
+        bool terminated() const;
+
     protected:
         Parent m_parent;
         std::vector<Child> m_children;

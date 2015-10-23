@@ -136,3 +136,9 @@ int Node::iterations() const
 {
     return m_iterations;
 }
+
+bool Node::terminated() const
+{
+    return !((m_state == State::INITIAL) ||
+        (m_state == State::RUNNING));
+}
