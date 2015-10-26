@@ -23,7 +23,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="T_Node.h">
+    <ClInclude Include="T_Behavior.h">
       <Filter>Source Files\BT</Filter>
     </ClInclude>
   </ItemGroup>

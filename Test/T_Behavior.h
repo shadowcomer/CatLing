@@ -3,9 +3,9 @@
 
 #include "gtest\gtest.h"
 
-#include "Node.h"
+#include "Behavior.h"
 
-class MockNode : public BT::Node
+class MockBehavior : public BT::Behavior
 {
 public:
     // #####################################
@@ -25,37 +25,37 @@ protected:
 
 };
 
-class T_NodeBasic : public ::testing::Test
+class T_BehaviorBasic : public ::testing::Test
 {
 protected:
-    T_NodeBasic():
-        m_node(new MockNode),
-        m_extra(new MockNode)
+    T_BehaviorBasic():
+        m_node(new MockBehavior),
+        m_extra(new MockBehavior)
     {
 
     }
 
-    virtual ~T_NodeBasic()
+    virtual ~T_BehaviorBasic()
     {
     }
 
     virtual void SetUp() {}
     virtual void TearDown() { }
 
-    MockNode* m_node;
-    MockNode* m_extra;
+    MockBehavior* m_node;
+    MockBehavior* m_extra;
 };
 
-BT::Parent* MockNode::t_parent() {
+BT::Parent* MockBehavior::t_parent() {
     return &m_parent;
 }
 
-std::vector<BT::Child>* MockNode::t_children() {
+std::vector<BT::Child>* MockBehavior::t_children() {
     return &m_children;
 }
 
 
-TEST_F(T_NodeBasic, Constructor)
+TEST_F(T_BehaviorBasic, Constructor)
 {
     BT::Parent* parent = m_node->t_parent();
     std::vector<BT::Child>* children = m_node->t_children();
@@ -64,11 +64,11 @@ TEST_F(T_NodeBasic, Constructor)
     EXPECT_TRUE(children->empty());
 }
 
-TEST_F(T_NodeBasic, SetParent)
+TEST_F(T_BehaviorBasic, SetParent)
 {
     BT::Parent* const parentVar = m_node->t_parent();
-    BT::Node* setValue = nullptr;
-    BT::Node* const expected = m_extra;
+    BT::Behavior* setValue = nullptr;
+    BT::Behavior* const expected = m_extra;
 
     m_node->setParent(m_extra);
     setValue = parentVar->get();
@@ -79,7 +79,7 @@ TEST_F(T_NodeBasic, SetParent)
     EXPECT_EQ(nullptr, parentVar->get());
 }
 
-TEST_F(T_NodeBasic, AddChild)
+TEST_F(T_BehaviorBasic, AddChild)
 {
     int const CHILD_COUNT = 4;
     std::vector<BT::Child>* const childrenVar =
@@ -92,10 +92,10 @@ TEST_F(T_NodeBasic, AddChild)
     {
         ASSERT_EQ(CHILD_COUNT, childrenVar->size());
         BT::Children children = childrenVar->begin();
-        BT::Node* expected = m_extra;
+        BT::Behavior* expected = m_extra;
 
         for (int i = 0; i < CHILD_COUNT; ++i){
-            BT::Node* current_node_ptr = children->get();
+            BT::Behavior* current_node_ptr = children->get();
             children++;
             EXPECT_EQ(expected, current_node_ptr);
         }

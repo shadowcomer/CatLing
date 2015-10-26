@@ -16,40 +16,40 @@ namespace BT {
         ABORTED,
     };
 
-    class Node;
+    class Behavior;
 
-    typedef std::shared_ptr<Node> Parent;
-    typedef std::unique_ptr<Node> Child;
+    typedef std::shared_ptr<Behavior> Parent;
+    typedef std::unique_ptr<Behavior> Child;
     typedef std::vector<Child>::iterator Children;
 
     typedef std::function<void(State)> Hook;
 
-    class Node {
+    class Behavior {
     public:
         /**
-        Creates a default Node with an empty Parent (nullptr)
-        and no Child nodes.
-        The Node starts in an INVALID State.
+        Creates a default Behavior with an empty Parent (nullptr)
+        and no Child behaviors.
+        The Behavior starts in an INVALID State.
         */
-        Node();
-        ~Node();
+        Behavior();
+        ~Behavior();
 
         /**
         Adds a new Child to the end of the list of Children.
 
-        newChild: The Node to add to the list of Children.
+        newChild: The Behavior to add to the list of Children.
         If it's a nullptr, then no action is taken.
         */
-        virtual void addChild(Node* newChild);
+        virtual void addChild(Behavior* newChild);
 
         /**
         Sets a new Parent.
 
-        newParent: The Node to set as the new Parent.
+        newParent: The Behavior to set as the new Parent.
         If it's a nullptr, then the current Parent is
         removed.
         */
-        void setParent(Node* newParent);
+        void setParent(Behavior* newParent);
 
         /**
         Retrieves the current Parent.
@@ -72,7 +72,7 @@ namespace BT {
         State state() const;
 
         /**
-        Checks whether this Node is in the given State.
+        Checks whether this Behavior is in the given State.
         */
         bool is(State state) const;
 
@@ -82,17 +82,17 @@ namespace BT {
         // Hook configuration methods
 
         /**
-        Sets the Node enter hook.
+        Sets the Behavior enter hook.
         */
         void setEnterHook(Hook fn);
 
         /**
-        Sets the Node iteration hook.
+        Sets the Behavior iteration hook.
         */
         void setIterationHook(Hook fn);
 
         /**
-        Sets the Node end hook.
+        Sets the Behavior end hook.
         */
         void setExitHook(Hook fn);
 
@@ -148,7 +148,7 @@ namespace BT {
         /**
         This function is called by the
         public interface, 'iterate', to implement the
-        child's part without removing Node's implementation,
+        child's part without removing Behavior's implementation,
         and as such must be overriden.
         */
         virtual State doIterate() = 0;

@@ -62,7 +62,7 @@
     <ClCompile Include="Source\SlabAllocator.cpp">
       <Filter>Source Files\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Node.cpp">
+    <ClCompile Include="Source\Behavior.cpp">
       <Filter>Source Files\BT</Filter>
     </ClCompile>
   </ItemGroup>
@@ -106,7 +106,7 @@
     <ClInclude Include="Source\SlabAllocator.h">
       <Filter>Source Files\Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Node.h">
+    <ClInclude Include="Source\Behavior.h">
       <Filter>Source Files\BT</Filter>
     </ClInclude>
   </ItemGroup>

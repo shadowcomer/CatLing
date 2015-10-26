@@ -1,11 +1,11 @@
-#include "Node.h"
+#include "Behavior.h"
 
 #include <gtest.h>
 #include <exception>
 
 using namespace BT;
 
-Node::Node() :
+Behavior::Behavior() :
 m_state(State::INITIAL),
 m_iterations(0),
 m_enterHook(nullptr),
@@ -16,12 +16,12 @@ m_exitHook(nullptr)
     m_parent = Parent();
 }
 
-Node::~Node()
+Behavior::~Behavior()
 {
 
 }
 
-void Node::addChild(Node* newChild)
+void Behavior::addChild(Behavior* newChild)
 {
     if (!newChild){
         return;
@@ -30,7 +30,7 @@ void Node::addChild(Node* newChild)
     m_children.push_back(Child(newChild));
 }
 
-void Node::setParent(Node* newParent)
+void Behavior::setParent(Behavior* newParent)
 {
     if (!newParent){
         m_parent = Parent();
@@ -52,68 +52,68 @@ void Node::setParent(Node* newParent)
     }
 }
 
-Parent Node::parent()
+Parent Behavior::parent()
 {
     return m_parent;
 }
 
-Children Node::children()
+Children Behavior::children()
 {
     return m_children.begin();
 }
 
-Children Node::children_end()
+Children Behavior::children_end()
 {
     return m_children.end();
 }
 
-State Node::state() const
+State Behavior::state() const
 {
     return m_state;
 }
 
-bool Node::is(State state) const
+bool Behavior::is(State state) const
 {
     return m_state == state;
 }
 
-void Node::setEnterHook(Hook fn)
+void Behavior::setEnterHook(Hook fn)
 {
     m_enterHook = fn;
 }
 
-void Node::callEnterHook()
+void Behavior::callEnterHook()
 {
     if (nullptr != m_enterHook){
         m_enterHook(m_state);
     }
 }
 
-void Node::setIterationHook(Hook fn)
+void Behavior::setIterationHook(Hook fn)
 {
     m_enterHook = fn;
 }
 
-void Node::callIterationHook()
+void Behavior::callIterationHook()
 {
     if (nullptr != m_iterationHook){
         m_iterationHook(m_state);
     }
 }
 
-void Node::setExitHook(Hook fn)
+void Behavior::setExitHook(Hook fn)
 {
     m_exitHook = fn;
 }
 
-void Node::callExitHook()
+void Behavior::callExitHook()
 {
     if (nullptr != m_exitHook){
         m_exitHook(m_state);
     }
 }
 
-State Node::iterate()
+State Behavior::iterate()
 {
     assert(!terminated());
 
@@ -134,12 +134,12 @@ State Node::iterate()
     return m_state;
 }
 
-int Node::iterations() const
+int Behavior::iterations() const
 {
     return m_iterations;
 }
 
-bool Node::terminated() const
+bool Behavior::terminated() const
 {
     return !((m_state == State::INITIAL) ||
         (m_state == State::RUNNING));
