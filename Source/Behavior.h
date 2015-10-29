@@ -50,7 +50,9 @@ namespace BT {
     typedef std::unique_ptr<Behavior> Child;
     typedef std::vector<Child>::iterator Children;
 
-    typedef std::function<void(State)> Hook;
+    typedef std::function<void(State)> EnterHook;
+    typedef std::function<void(State)> IterateHook;
+    typedef std::function<void(State)> ExitHook;
 
     class Behavior {
     public:
@@ -112,17 +114,17 @@ namespace BT {
         /**
         Sets the Behavior enter hook.
         */
-        void setEnterHook(Hook fn);
+        void setEnterHook(EnterHook fn);
 
         /**
         Sets the Behavior iteration hook.
         */
-        void setIterationHook(Hook fn);
+        void setIterationHook(IterateHook fn);
 
         /**
         Sets the Behavior end hook.
         */
-        void setExitHook(Hook fn);
+        void setExitHook(ExitHook fn);
 
         // ----------
         // End hooks
@@ -161,9 +163,9 @@ namespace BT {
         // Hooks
         // ----------
         // Hooks to call on different events
-        Hook m_enterHook;
-        Hook m_iterationHook;
-        Hook m_exitHook;
+        EnterHook m_enterHook;
+        IterateHook m_iterationHook;
+        ExitHook m_exitHook;
 
         // Calls to the currently set hooks
         /** Calls the enter hook */

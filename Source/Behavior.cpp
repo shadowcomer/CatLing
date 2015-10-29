@@ -77,7 +77,7 @@ bool Behavior::is(State state) const
     return m_state == state;
 }
 
-void Behavior::setEnterHook(Hook fn)
+void Behavior::setEnterHook(EnterHook fn)
 {
     m_enterHook = fn;
 }
@@ -89,7 +89,7 @@ void Behavior::callEnterHook()
     }
 }
 
-void Behavior::setIterationHook(Hook fn)
+void Behavior::setIterationHook(IterateHook fn)
 {
     m_enterHook = fn;
 }
@@ -101,7 +101,7 @@ void Behavior::callIterationHook()
     }
 }
 
-void Behavior::setExitHook(Hook fn)
+void Behavior::setExitHook(ExitHook fn)
 {
     m_exitHook = fn;
 }
