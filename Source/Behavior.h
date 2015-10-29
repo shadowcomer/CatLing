@@ -1,3 +1,31 @@
+/**
+    A Behavior is an abstract class that represents anything that
+    can be executed iteratively.
+
+    One of the main properties of a Behavior is that it can
+    represent any executable logic that C++ can define, giving
+    the ability to construct ordered sets of Behaviors.
+
+    Thus, Behaviors can be interrelated to form Behavior Trees.
+
+    This implementation of a Behavior Tree allows the user to set
+    functions to be called when the Behavior is entered, iterated
+    over, or exited, thus being able to monitorize it.
+
+    How it works:
+    Given a set of implementations of a Behavior, these may be
+    joined to each other to compose a Behavior Tree.
+
+    Starting at the root Behavior, the user may then call the
+    'iterate' method to do exactly one iteration of the logic of
+    the implementation. If its the first time this Behavior has
+    been executed, then the configured enter hook function is
+    called. Each iteration will call the configured iteration
+    hook. If the logic of the Behavior implementation changes
+    the state to a 'terminated' state, then the exit hook is
+    called.
+*/
+
 #ifndef BEHAVIOR_H
 #define BEHAVIOR_H
 
