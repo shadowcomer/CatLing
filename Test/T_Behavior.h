@@ -22,6 +22,7 @@ public:
 
 protected:
     BT::State doIterate() { return BT::State::SUCCESS; }
+    void notify(Behavior * who, BT::State newState) { }
 
 };
 

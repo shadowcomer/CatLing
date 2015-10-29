@@ -116,6 +116,11 @@ namespace BT {
         */
         bool terminated() const;
 
+        /**
+        Notifies this Behavior of the given State change.
+        */
+        virtual void notify(Behavior * who, State newState) = 0;
+
     protected:
         Parent m_parent;
         std::vector<Child> m_children;
