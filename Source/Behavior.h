@@ -1,5 +1,5 @@
-#ifndef NODE_H
-#define NODE_H
+#ifndef BEHAVIOR_H
+#define BEHAVIOR_H
 
 #include <memory>
 #include <vector>
