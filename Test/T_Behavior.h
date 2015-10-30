@@ -57,17 +57,20 @@ protected:
 class T_BehaviorBasic : public ::testing::Test
 {
 protected:
-    T_BehaviorBasic()
+    T_BehaviorBasic():
+        behavior(make_shared<MockBehavior>())
     {
-
+        assert(nullptr != behavior.get());
     }
 
     virtual ~T_BehaviorBasic()
     {
     }
 
-    virtual void SetUp() {}
+    virtual void SetUp() { }
     virtual void TearDown() { }
+
+    shared_ptr<MockBehavior> behavior;
 };
 
 BT::Parent* MockBehavior::t_parent() {
@@ -81,10 +84,6 @@ vector<BT::Child>* MockBehavior::t_children() {
 
 TEST_F(T_BehaviorBasic, Constructor)
 {
-    shared_ptr<MockBehavior> behavior = 
-        make_shared<MockBehavior>();
-    ASSERT_NE(nullptr, behavior);
-
     BT::Parent* parent = behavior->t_parent();
     vector<BT::Child>* children = behavior->t_children();
 
@@ -94,8 +93,6 @@ TEST_F(T_BehaviorBasic, Constructor)
 
 TEST_F(T_BehaviorBasic, SetParent)
 {
-    shared_ptr<MockBehavior> behavior =
-        make_shared<MockBehavior>();
     shared_ptr<MockBehavior> expected_set =
         make_shared<MockBehavior>();
     shared_ptr<MockBehavior> expected_clear = nullptr;
@@ -124,11 +121,6 @@ TEST_F(T_BehaviorBasic, SetParent)
 
 TEST_F(T_BehaviorBasic, Iterate)
 {
-    std::shared_ptr<MockBehavior> behavior =
-        make_shared<MockBehavior>();
-
-    assert(nullptr != behavior.get());
-
     int iteration_count = behavior->iterations();
     EXPECT_EQ(0, iteration_count);
 
@@ -144,8 +136,6 @@ TEST_F(T_BehaviorBasic, Iterate)
 TEST_F(T_BehaviorBasic, IterateWithHooks)
 {
     using namespace std::placeholders;
-    std::shared_ptr<MockBehavior> behavior =
-        make_shared<MockBehavior>();
 
     BT::EnterHook enter_h =
         std::bind(&MockBehavior::incEnter, behavior, _1);
