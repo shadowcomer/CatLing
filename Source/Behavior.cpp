@@ -21,35 +21,18 @@ Behavior::~Behavior()
 
 }
 
-void Behavior::addChild(Behavior* newChild)
+void Behavior::addChild(Child const & newChild)
 {
-    if (!newChild){
+    if (nullptr == newChild.get()){
         return;
     }
 
-    m_children.push_back(Child(newChild));
+    m_children.push_back(newChild);
 }
 
-void Behavior::setParent(Behavior* newParent)
+void Behavior::setParent(Parent const & newParent)
 {
-    if (!newParent){
-        m_parent = Parent();
-        return;
-    }
-
-    Children child = newParent->children();
-    if (child != newParent->m_children.end()){
-        // Get the parent of the first child.
-        // This forces the smartpointer to use the same
-        // reference for memory management, instead of
-        // building a new one, which wouldn't be shared.
-        Parent p = child->get()->m_parent;
-        m_parent = p;
-    }
-    else {
-        // Create its own reference.
-        m_parent = Parent(newParent);
-    }
+    m_parent = newParent;
 }
 
 Parent Behavior::parent()

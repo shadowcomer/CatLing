@@ -47,7 +47,7 @@ namespace BT {
     class Behavior;
 
     typedef std::shared_ptr<Behavior> Parent;
-    typedef std::unique_ptr<Behavior> Child;
+    typedef std::shared_ptr<Behavior> Child;
     typedef std::vector<Child>::iterator Children;
 
     typedef std::function<void(State)> EnterHook;
@@ -70,7 +70,7 @@ namespace BT {
         newChild: The Behavior to add to the list of Children.
         If it's a nullptr, then no action is taken.
         */
-        virtual void addChild(Behavior* newChild);
+        virtual void addChild(Child const & newChild);
 
         /**
         Sets a new Parent.
@@ -79,7 +79,7 @@ namespace BT {
         If it's a nullptr, then the current Parent is
         removed.
         */
-        void setParent(Behavior* newParent);
+        void setParent(Parent const & newParent);
 
         /**
         Retrieves the current Parent.
@@ -149,7 +149,7 @@ namespace BT {
         /**
         Notifies this Behavior of the given State change.
         */
-        virtual void notify(Behavior * who, State newState) = 0;
+        virtual void notify(Parent const & who, State newState) = 0;
 
     protected:
         Parent m_parent;

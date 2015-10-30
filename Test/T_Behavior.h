@@ -21,10 +21,11 @@ public:
     // #####################################
     // END access functions.
     // #####################################
+    void notify(BT::Parent const & who, BT::State newState) { 3 + 3; }
+    BT::State doIterate() { return BT::State::SUCCESS; }
 
 protected:
-    BT::State doIterate() { return BT::State::SUCCESS; }
-    void notify(Behavior * who, BT::State newState) { }
+    
 
 };
 
@@ -55,7 +56,8 @@ vector<BT::Child>* MockBehavior::t_children() {
 
 TEST_F(T_BehaviorBasic, Constructor)
 {
-    MockBehavior* const behavior = new MockBehavior();
+    shared_ptr<MockBehavior> behavior = 
+        make_shared<MockBehavior>();
     ASSERT_NE(nullptr, behavior);
 
     BT::Parent* parent = behavior->t_parent();
@@ -67,9 +69,11 @@ TEST_F(T_BehaviorBasic, Constructor)
 
 TEST_F(T_BehaviorBasic, SetParent)
 {
-    MockBehavior* const behavior = new MockBehavior();
-    MockBehavior* const expected_set = new MockBehavior();
-    MockBehavior* const expected_clear = nullptr;
+    shared_ptr<MockBehavior> behavior = 
+        make_shared<MockBehavior>();
+    shared_ptr<MockBehavior> expected_set =
+        make_shared<MockBehavior>();
+    shared_ptr<MockBehavior> expected_clear = nullptr;
     ASSERT_NE(nullptr, behavior);
     ASSERT_NE(nullptr, expected_set);
 
@@ -82,7 +86,7 @@ TEST_F(T_BehaviorBasic, SetParent)
 
     // CHECK
     current_setValue = parentVar->get();
-    ASSERT_EQ(expected_set, current_setValue);
+    ASSERT_EQ(expected_set.get(), current_setValue);
 
     // Check whether we can remove the current Parent
     // OPERATION
@@ -90,7 +94,7 @@ TEST_F(T_BehaviorBasic, SetParent)
 
     // CHECK
     current_setValue = parentVar->get();
-    EXPECT_EQ(expected_clear, parentVar->get());
+    EXPECT_EQ(expected_clear.get(), parentVar->get());
 }
 
 #endif
