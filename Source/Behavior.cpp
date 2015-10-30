@@ -108,6 +108,7 @@ State Behavior::iterate()
     // Execution
     m_iterations++;
     m_state = doIterate();
+    callIterationHook();
 
     // Exit
     if (State::RUNNING != m_state){
