@@ -69,7 +69,7 @@ TEST_F(T_BehaviorBasic, Constructor)
 
 TEST_F(T_BehaviorBasic, SetParent)
 {
-    shared_ptr<MockBehavior> behavior = 
+    shared_ptr<MockBehavior> behavior =
         make_shared<MockBehavior>();
     shared_ptr<MockBehavior> expected_set =
         make_shared<MockBehavior>();
