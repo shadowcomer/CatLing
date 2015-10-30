@@ -5,6 +5,8 @@
 
 #include "Behavior.h"
 
+using namespace std;
+
 class MockBehavior : public BT::Behavior
 {
 public:
@@ -14,7 +16,7 @@ public:
     // #####################################
 
     BT::Parent* t_parent();
-    std::vector<BT::Child>* t_children();
+    vector<BT::Child>* t_children();
 
     // #####################################
     // END access functions.
@@ -29,9 +31,7 @@ protected:
 class T_BehaviorBasic : public ::testing::Test
 {
 protected:
-    T_BehaviorBasic():
-        m_node(new MockBehavior),
-        m_extra(new MockBehavior)
+    T_BehaviorBasic()
     {
 
     }
@@ -42,24 +42,24 @@ protected:
 
     virtual void SetUp() {}
     virtual void TearDown() { }
-
-    MockBehavior* m_node;
-    MockBehavior* m_extra;
 };
 
 BT::Parent* MockBehavior::t_parent() {
     return &m_parent;
 }
 
-std::vector<BT::Child>* MockBehavior::t_children() {
+vector<BT::Child>* MockBehavior::t_children() {
     return &m_children;
 }
 
 
 TEST_F(T_BehaviorBasic, Constructor)
 {
-    BT::Parent* parent = m_node->t_parent();
-    std::vector<BT::Child>* children = m_node->t_children();
+    MockBehavior* const behavior = new MockBehavior();
+    ASSERT_NE(nullptr, behavior);
+
+    BT::Parent* parent = behavior->t_parent();
+    vector<BT::Child>* children = behavior->t_children();
 
     EXPECT_EQ(nullptr, parent->get());
     EXPECT_TRUE(children->empty());
@@ -67,41 +67,30 @@ TEST_F(T_BehaviorBasic, Constructor)
 
 TEST_F(T_BehaviorBasic, SetParent)
 {
-    BT::Parent* const parentVar = m_node->t_parent();
-    BT::Behavior* setValue = nullptr;
-    BT::Behavior* const expected = m_extra;
+    MockBehavior* const behavior = new MockBehavior();
+    MockBehavior* const expected_set = new MockBehavior();
+    MockBehavior* const expected_clear = nullptr;
+    ASSERT_NE(nullptr, behavior);
+    ASSERT_NE(nullptr, expected_set);
 
-    m_node->setParent(m_extra);
-    setValue = parentVar->get();
+    BT::Parent* const parentVar = behavior->t_parent();
+    BT::Behavior* current_setValue = nullptr;
 
-    ASSERT_EQ(expected, setValue);
+    // Check whether we can set a new Parent
+    // OPERATION
+    behavior->setParent(expected_set);
 
-    m_node->setParent(nullptr);
-    EXPECT_EQ(nullptr, parentVar->get());
+    // CHECK
+    current_setValue = parentVar->get();
+    ASSERT_EQ(expected_set, current_setValue);
+
+    // Check whether we can remove the current Parent
+    // OPERATION
+    behavior->setParent(nullptr);
+
+    // CHECK
+    current_setValue = parentVar->get();
+    EXPECT_EQ(expected_clear, parentVar->get());
 }
-
-TEST_F(T_BehaviorBasic, AddChild)
-{
-    int const CHILD_COUNT = 4;
-    std::vector<BT::Child>* const childrenVar =
-        m_node->t_children();
-
-    for (int i = 0; i < CHILD_COUNT; ++i){
-        m_node->addChild(m_extra);
-    }
-
-    {
-        ASSERT_EQ(CHILD_COUNT, childrenVar->size());
-        BT::Children children = childrenVar->begin();
-        BT::Behavior* expected = m_extra;
-
-        for (int i = 0; i < CHILD_COUNT; ++i){
-            BT::Behavior* current_node_ptr = children->get();
-            children++;
-            EXPECT_EQ(expected, current_node_ptr);
-        }
-    }
-}
-
 
 #endif
