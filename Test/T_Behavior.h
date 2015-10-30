@@ -27,8 +27,11 @@ public:
     // #####################################
     // END access functions.
     // #####################################
-    void notify(BT::Parent const & who, BT::State newState) { 3 + 3; }
-    BT::State doIterate() { return BT::State::SUCCESS; }
+    void notify(BT::Parent const & who, BT::State newState) { }
+    BT::State doIterate() {
+        return iter_count >= 1 ?
+            BT::State::SUCCESS : BT::State::RUNNING;
+    }
 
     void incEnter(BT::State) {
         enter_count++;
@@ -144,8 +147,15 @@ TEST_F(T_BehaviorBasic, Iterate)
 
     EXPECT_EQ(1, behavior->enter_count);
     EXPECT_EQ(1, behavior->iter_count);
+    EXPECT_EQ(0, behavior->exit_count);
+
+    behavior->iterate();
+
+    EXPECT_EQ(1, behavior->enter_count);
+    EXPECT_EQ(2, behavior->iter_count);
     EXPECT_EQ(1, behavior->exit_count);
 
+    EXPECT_DEATH(behavior->iterate(), "^");
 }
 
 #endif
