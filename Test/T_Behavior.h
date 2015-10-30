@@ -74,8 +74,8 @@ TEST_F(T_BehaviorBasic, SetParent)
     shared_ptr<MockBehavior> expected_set =
         make_shared<MockBehavior>();
     shared_ptr<MockBehavior> expected_clear = nullptr;
-    ASSERT_NE(nullptr, behavior);
-    ASSERT_NE(nullptr, expected_set);
+    ASSERT_NE(nullptr, behavior.get());
+    ASSERT_NE(nullptr, expected_set.get());
 
     BT::Parent* const parentVar = behavior->t_parent();
     BT::Behavior* current_setValue = nullptr;
