@@ -74,7 +74,7 @@ void Behavior::callEnterHook()
 
 void Behavior::setIterationHook(IterateHook fn)
 {
-    m_enterHook = fn;
+    m_iterationHook = fn;
 }
 
 void Behavior::callIterationHook()
