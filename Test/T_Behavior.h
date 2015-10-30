@@ -124,6 +124,25 @@ TEST_F(T_BehaviorBasic, SetParent)
 
 TEST_F(T_BehaviorBasic, Iterate)
 {
+    std::shared_ptr<MockBehavior> behavior =
+        make_shared<MockBehavior>();
+
+    assert(nullptr != behavior.get());
+
+    int iteration_count = behavior->iterations();
+    EXPECT_EQ(0, iteration_count);
+
+    behavior->iterate();
+    iteration_count = behavior->iterations();
+    EXPECT_EQ(1, iteration_count);
+
+    behavior->iterate();
+    iteration_count = behavior->iterations();
+    EXPECT_EQ(2, iteration_count);
+}
+
+TEST_F(T_BehaviorBasic, IterateWithHooks)
+{
     using namespace std::placeholders;
     std::shared_ptr<MockBehavior> behavior =
         make_shared<MockBehavior>();
