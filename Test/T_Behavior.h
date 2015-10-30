@@ -156,6 +156,7 @@ TEST_F(T_BehaviorBasic, Iterate)
     EXPECT_EQ(1, behavior->exit_count);
 
     EXPECT_DEATH(behavior->iterate(), "^");
+    // From here on, behavior is INVALID.
 }
 
 #endif
