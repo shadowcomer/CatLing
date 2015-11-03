@@ -12,22 +12,12 @@ m_enterHook(nullptr),
 m_iterationHook(nullptr),
 m_exitHook(nullptr)
 {
-    m_children = std::vector<Child>(0);
     m_parent = Parent();
 }
 
 Behavior::~Behavior()
 {
 
-}
-
-void Behavior::addChild(Child const & newChild)
-{
-    if (nullptr == newChild.get()){
-        return;
-    }
-
-    m_children.push_back(newChild);
 }
 
 void Behavior::setParent(Parent const & newParent)
@@ -38,16 +28,6 @@ void Behavior::setParent(Parent const & newParent)
 Parent Behavior::parent()
 {
     return m_parent;
-}
-
-Children Behavior::children()
-{
-    return m_children.begin();
-}
-
-Children Behavior::children_end()
-{
-    return m_children.end();
 }
 
 State Behavior::state() const

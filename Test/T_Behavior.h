@@ -4,6 +4,7 @@
 #include "gtest\gtest.h"
 
 #include "Behavior.h"
+#include <vector>
 
 using namespace std;
 
@@ -22,7 +23,6 @@ public:
     {};
 
     BT::Parent* t_parent();
-    vector<BT::Child>* t_children();
 
     // #####################################
     // END access functions.
@@ -77,18 +77,12 @@ BT::Parent* MockBehavior::t_parent() {
     return &m_parent;
 }
 
-vector<BT::Child>* MockBehavior::t_children() {
-    return &m_children;
-}
-
 
 TEST_F(T_BehaviorBasic, Constructor)
 {
     BT::Parent* parent = behavior->t_parent();
-    vector<BT::Child>* children = behavior->t_children();
 
     EXPECT_EQ(nullptr, parent->get());
-    EXPECT_TRUE(children->empty());
 }
 
 TEST_F(T_BehaviorBasic, SetParent)
