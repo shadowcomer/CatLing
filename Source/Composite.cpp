@@ -3,7 +3,7 @@
 using namespace BT;
 
 Composite::Composite():
-m_children(std::vector<Child>(3))
+m_children(std::vector<Child>())
 {
 
 }
