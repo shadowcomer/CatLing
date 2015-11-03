@@ -10,7 +10,11 @@ class MockComposite : BT::Composite
 public:
     std::vector<BT::Child>* t_children();
 
+    void notify(BT::Parent const &who,
+        BT::State newState) {}
+
 protected:
+    BT::State doIterate() {}
 
 };
 

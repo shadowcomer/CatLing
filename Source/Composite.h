@@ -35,7 +35,7 @@ namespace BT {
         /**
         Notifies this Sequence of the given State change.
         */
-        virtual void notify(Parent const &who, State newState);
+        virtual void notify(Parent const &who, State newState) = 0;
 
     protected:
         std::vector<Child> m_children;
