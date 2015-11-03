@@ -44,15 +44,19 @@ namespace BT {
         */
         Children children_end();
 
-        /**
-        Notifies this Composite of the given State change.
-        */
-        virtual void notify(Parent const &who, State newState) = 0;
-
     protected:
         std::vector<Child> m_children;
 
         virtual State doIterate() = 0;
+
+    private:
+
+        /**
+        Implementation of what to do when the Behavior
+        implementation has been notified through 'notifyParent'.
+        */
+        virtual void treatNotification(Behavior const * const who,
+            State oldState) = 0;
 
     };
 };

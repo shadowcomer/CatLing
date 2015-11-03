@@ -10,12 +10,12 @@ class MockComposite : public BT::Composite
 public:
     std::vector<BT::Child>* t_children();
 
-    void notify(BT::Parent const &who,
-        BT::State newState) {}
-
 protected:
     BT::State doIterate() { return BT::State::SUCCESS; }
 
+private:
+    void treatNotification(Behavior const * const who,
+        BT::State oldState) { }
 };
 
 std::vector<BT::Child>* MockComposite::t_children() {

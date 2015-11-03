@@ -27,7 +27,9 @@ public:
     // #####################################
     // END access functions.
     // #####################################
-    void notify(BT::Parent const & who, BT::State newState) { }
+    void treatNotification(Behavior const * const who,
+        BT::State oldState) { }
+
     BT::State doIterate() {
         return iter_count >= 1 ?
             BT::State::SUCCESS : BT::State::RUNNING;
