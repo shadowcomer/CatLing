@@ -1,5 +1,5 @@
-#ifndef SEQUENCE_H
-#define SEQUENCE_H
+#ifndef COMPOSITE_H
+#define COMPOSITE_H
 
 #include "Behavior.h"
 
@@ -10,7 +10,7 @@ namespace BT {
     typedef std::shared_ptr<Behavior> Child;
     typedef std::vector<Child>::iterator Children;
 
-    class Sequence : public Behavior
+    class Composite : public Behavior
     {
     public:
 
@@ -39,6 +39,8 @@ namespace BT {
 
     protected:
         std::vector<Child> m_children;
+
+        virtual State doIterate() = 0;
 
     };
 };

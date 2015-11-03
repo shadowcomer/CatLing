@@ -3,9 +3,9 @@
 
 #include "gtest\gtest.h"
 
-#include "Sequence.h"
+#include "Composite.h"
 
-class MockSequence : BT::Sequence
+class MockComposite : BT::Composite
 {
 public:
     std::vector<BT::Child>* t_children();
@@ -14,17 +14,17 @@ protected:
 
 };
 
-std::vector<BT::Child>* MockSequence::t_children() {
+std::vector<BT::Child>* MockComposite::t_children() {
     return &m_children;
 }
 
-class T_SequenceBasic : public ::testing::Test
+class T_CompositeBasic : public ::testing::Test
 {
 protected:
 
-    T_SequenceBasic() {}
+    T_CompositeBasic() {}
 
-    virtual ~T_SequenceBasic()
+    virtual ~T_CompositeBasic()
     {
     }
 
