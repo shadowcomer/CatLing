@@ -8,6 +8,11 @@ m_children(std::vector<Child>(3))
 
 }
 
+Composite::~Composite()
+{
+
+}
+
 void Composite::addChild(Child const & newChild)
 {
     if (nullptr == newChild.get()){
