@@ -1,3 +1,12 @@
+/**
+    A Composite is an abstract class that inherits from Behavior.
+    Expanding on a Behavior, the purpose of a Composite is to
+    give the ability to have multiple Behaviors related to it.
+
+    Composites support adding new children to the hierarchy, and
+    iteration over them.
+*/
+
 #ifndef COMPOSITE_H
 #define COMPOSITE_H
 
