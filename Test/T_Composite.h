@@ -61,6 +61,12 @@ TEST_F(T_CompositeBasic, AddChildren)
     }
 
     // Test
+
+    // Check the number of references prior to the test
+    for (int i = 0; i < expected_children_count; i++){
+        ASSERT_EQ(1, expected[0].use_count());
+    }
+
     // Add 2 expected children
     composite->addChild(expected[0]);
     composite->addChild(expected[1]);
