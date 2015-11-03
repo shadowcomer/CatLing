@@ -25,8 +25,3 @@ State Composite::doIterate()
 {
     return State::SUCCESS;
 }
-
-void Composite::notify(Parent const &who, State newState)
-{
-
-}
