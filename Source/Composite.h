@@ -14,6 +14,9 @@ namespace BT {
     {
     public:
 
+        Composite();
+        ~Composite();
+
         /**
         Adds a new Child to the end of the list of Children.
 

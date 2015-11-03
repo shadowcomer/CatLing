@@ -2,6 +2,12 @@
 
 using namespace BT;
 
+Composite::Composite():
+m_children(std::vector<Child>(3))
+{
+
+}
+
 void Composite::addChild(Child const & newChild)
 {
     if (nullptr == newChild.get()){
