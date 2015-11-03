@@ -82,6 +82,11 @@ TEST_F(T_CompositeBasic, AddChildren)
     EXPECT_EQ(expected[1].get(), (*children)[1].get());
     EXPECT_EQ(expected[2].get(), (*children)[2].get());
     EXPECT_EQ(expected[3].get(), (*children)[3].get());
+
+    // Check the number of references
+    for (int i = 0; i < expected_children_count; i++){
+        EXPECT_EQ(2, expected[0].use_count());
+    }
 }
 
 #endif
