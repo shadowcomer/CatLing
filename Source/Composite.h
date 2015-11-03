@@ -33,7 +33,7 @@ namespace BT {
         Children children_end();
 
         /**
-        Notifies this Sequence of the given State change.
+        Notifies this Composite of the given State change.
         */
         virtual void notify(Parent const &who, State newState) = 0;
 
