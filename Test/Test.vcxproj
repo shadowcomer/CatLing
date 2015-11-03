@@ -72,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="T_Behavior.h" />
-    <ClInclude Include="T_Sequence.h" />
+    <ClInclude Include="T_Composite.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,5 @@
-#ifndef T_SEQUENCE_H
-#define T_SEQUENCE_H
+#ifndef T_COMPOSITE_H
+#define T_COMPOSITE_H
 
 #include "gtest\gtest.h"
 
