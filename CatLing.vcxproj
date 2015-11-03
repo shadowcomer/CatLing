@@ -104,6 +104,7 @@
     <ClCompile Include="Source\MicroManager.cpp" />
     <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\Behavior.cpp" />
+    <ClCompile Include="Source\Composite.cpp" />
     <ClCompile Include="Source\SlabAllocator.cpp" />
     <ClCompile Include="Source\Module.cpp" />
     <ClCompile Include="Source\Slab.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="Source\MicroManager.h" />
     <ClInclude Include="Source\MacroManager.h" />
     <ClInclude Include="Source\Behavior.h" />
+    <ClInclude Include="Source\Composite.h" />
     <ClInclude Include="Source\SlabAllocator.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\Slab.h" />

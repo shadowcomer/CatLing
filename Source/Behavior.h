@@ -30,7 +30,6 @@
 #define BEHAVIOR_H
 
 #include <memory>
-#include <vector>
 
 #include <functional>
 
@@ -47,8 +46,6 @@ namespace BT {
     class Behavior;
 
     typedef std::shared_ptr<Behavior> Parent;
-    typedef std::shared_ptr<Behavior> Child;
-    typedef std::vector<Child>::iterator Children;
 
     typedef std::function<void(State)> EnterHook;
     typedef std::function<void(State)> IterateHook;
@@ -64,13 +61,7 @@ namespace BT {
         Behavior();
         ~Behavior();
 
-        /**
-        Adds a new Child to the end of the list of Children.
 
-        newChild: The Behavior to add to the list of Children.
-        If it's a nullptr, then no action is taken.
-        */
-        virtual void addChild(Child const & newChild);
 
         /**
         Sets a new Parent.
@@ -85,16 +76,6 @@ namespace BT {
         Retrieves the current Parent.
         */
         Parent parent();
-
-        /**
-        Retrieves an iterator to the first Child.
-        */
-        Children children();
-
-        /**
-        Retrieves an iterator to the end of the list of Children.
-        */
-        Children children_end();
 
         /**
         Retrieves the current state.
@@ -153,7 +134,6 @@ namespace BT {
 
     protected:
         Parent m_parent;
-        std::vector<Child> m_children;
 
         int m_iterations; // Number of iterations attempted.
 
