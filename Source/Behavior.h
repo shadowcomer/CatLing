@@ -54,14 +54,11 @@ namespace BT {
     class Behavior {
     public:
         /**
-        Creates a default Behavior with an empty Parent (nullptr)
-        and no Child behaviors.
+        Creates a default Behavior with an empty Parent (nullptr).
         The Behavior starts in an INVALID State.
         */
         Behavior();
         ~Behavior();
-
-
 
         /**
         Sets a new Parent.
