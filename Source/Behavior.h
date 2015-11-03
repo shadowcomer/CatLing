@@ -124,11 +124,6 @@ namespace BT {
         */
         bool terminated() const;
 
-        /**
-        Notifies this Behavior of the given State change.
-        */
-        virtual void notify(Parent const & who, State newState) = 0;
-
     protected:
         Parent m_parent;
 
@@ -165,8 +160,20 @@ namespace BT {
         */
         virtual State doIterate() = 0;
 
+        /**
+        Notifies the parent Behavior to execute its
+        'treatNotification' function.
+        */
+        void notifyParent(State oldState);
+
     private:
 
+        /**
+        Implementation of what to do when the Behavior
+        implementation has been notified through 'notifyParent'.
+        */
+        virtual void treatNotification(Behavior const * const who,
+            State oldState) = 0;
     };
 }
 

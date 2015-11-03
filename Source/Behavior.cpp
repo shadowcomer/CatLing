@@ -108,3 +108,10 @@ bool Behavior::terminated() const
     return !((m_state == State::INITIAL) ||
         (m_state == State::RUNNING));
 }
+
+void Behavior::notifyParent(State oldState)
+{
+    if (m_parent.get() != nullptr){
+        m_parent->treatNotification(this, oldState);
+    }
+}
