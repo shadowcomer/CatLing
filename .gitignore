@@ -1,35 +1,4 @@
 #################
-## Eclipse
-#################
-
-*.pydevproject
-.project
-.metadata
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.classpath
-.settings/
-.loadpath
-
-# External tool builders
-.externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
-*.launch
-
-# CDT-specific
-.cproject
-
-# PDT-specific
-.buildpath
-
-
-#################
 ## Visual Studio
 #################
 
@@ -40,8 +9,12 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+
+# Libraries
 lib/Boost/
 lib/mongo/
+
+#Includes
 include/boost/
 include/mongo/
 
@@ -186,35 +159,8 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
-
-#############
-## Python
-#############
-
-*.py[cod]
-
-# Packages
-*.egg
-*.egg-info
-dist/
-build/
-eggs/
-parts/
-var/
-sdist/
-develop-eggs/
-.installed.cfg
-
-# Installer logs
-pip-log.txt
-
-# Unit test / coverage reports
-.coverage
-.tox
-
-#Translations
-*.mo
-
-#Mr Developer
-.mr.developer.cfg
->>>>>>> 88cfedb2fe75f6da02c530440fee174637baea1c
+############
+## Mongo Database
+############
+CatExec/db
+CatExec/data
