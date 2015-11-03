@@ -35,6 +35,13 @@ protected:
     virtual void SetUp() { }
     virtual void TearDown() { }
 
+    std::shared_ptr<MockComposite> composite;
 };
+
+TEST_F(T_CompositeBasic, Constructor)
+{
+    std::vector<BT::Child>* children = composite->t_children();
+    EXPECT_EQ(children->size(), 0);
+}
 
 #endif
