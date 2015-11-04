@@ -68,6 +68,9 @@
     <ClCompile Include="Source\Composite.cpp">
       <Filter>Source Files\BT</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Sequence.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/ClientLink.h">
@@ -113,6 +116,9 @@
       <Filter>Source Files\BT</Filter>
     </ClInclude>
     <ClInclude Include="Source\Composite.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sequence.h">
       <Filter>Source Files\BT</Filter>
     </ClInclude>
   </ItemGroup>
