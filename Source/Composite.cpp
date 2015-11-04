@@ -32,7 +32,3 @@ Children Composite::children_end()
     return m_children.end();
 }
 
-State Composite::doIterate()
-{
-    return State::SUCCESS;
-}
