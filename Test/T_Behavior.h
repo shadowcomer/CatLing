@@ -1,5 +1,5 @@
-#ifndef T_NODE_H
-#define T_NODE_H
+#ifndef T_BEHAVIOR_H
+#define T_BEHAVIOR_H
 
 #include "gtest\gtest.h"
 
