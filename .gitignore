@@ -218,3 +218,9 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 >>>>>>> 88cfedb2fe75f6da02c530440fee174637baea1c
+
+##########
+# UMLet
+##########
+
+docs/diagrams/*.jpg
