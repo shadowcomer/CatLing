@@ -207,7 +207,7 @@ layer=1</panel_attributes>
     <coordinates>
       <x>88</x>
       <y>656</y>
-      <w>256</w>
+      <w>216</w>
       <h>144</h>
     </coordinates>
     <panel_attributes>Sequence
@@ -255,9 +255,9 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>528</x>
+      <x>504</x>
       <y>656</y>
-      <w>168</w>
+      <w>192</w>
       <h>72</h>
     </coordinates>
     <panel_attributes>Conditional
@@ -274,16 +274,21 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>352</x>
+      <x>312</x>
       <y>656</y>
-      <w>168</w>
-      <h>80</h>
+      <w>184</w>
+      <h>144</h>
     </coordinates>
     <panel_attributes>Selector
 --
+private:
+m_behaviors: Behavior [*]
+m_currentBehavior: int
 
 --
 public:
+Selector(behaviors: Behavior [1..*])
+
 nextBehavior(): Behavior
 tick(): void
 
@@ -304,13 +309,13 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>424</x>
+      <x>384</x>
       <y>560</y>
-      <w>136</w>
+      <w>176</w>
       <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>150.0;10.0;10.0;120.0</additional_attributes>
+    <additional_attributes>200.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
