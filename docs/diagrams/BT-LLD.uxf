@@ -7,13 +7,15 @@
       <x>440</x>
       <y>24</y>
       <w>184</w>
-      <h>152</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>BehaviorTree::BTIterator
 --
 private:
 m_currentBehavior: Behavior [1]
 m_end: BTIterator [1]
+m_owner: BehaviorTree [1]
+
 --
 public:
 BTIterator(BehaviorTree)
@@ -35,8 +37,6 @@ operator++(): BTIterator</panel_attributes>
 private:
 	m_behaviors: Behavior [*]
 	m_monitor: Monitor [1]
-	m_iteratorEnd: BTIterator [1]
-	m_iterCount: int [1]
 	
 --
 public:
@@ -95,12 +95,12 @@ layer=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>520</x>
-      <y>168</y>
+      <y>176</y>
       <w>24</w>
-      <h>56</h>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -343,5 +343,17 @@ layer=1</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;70.0;40.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>352</x>
+      <y>72</y>
+      <w>104</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+iterated with</panel_attributes>
+    <additional_attributes>110.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
