@@ -55,8 +55,8 @@ currentBehavior(): Behavior</panel_attributes>
     <coordinates>
       <x>80</x>
       <y>0</y>
-      <w>800</w>
-      <h>800</h>
+      <w>824</w>
+      <h>864</h>
     </coordinates>
     <panel_attributes>BT
 --
@@ -208,14 +208,16 @@ layer=1</panel_attributes>
       <x>88</x>
       <y>656</y>
       <w>256</w>
-      <h>136</h>
+      <h>144</h>
     </coordinates>
     <panel_attributes>Sequence
 --
+private:
 m_behaviors: Behavior [*]
 m_currentBehavior: Behavior [1]
 
 --
+public:
 Sequence(behaviors: Behavior [1..*])
 
 nextBehavior(): Behavior
@@ -229,13 +231,21 @@ layer=1</panel_attributes>
     <coordinates>
       <x>704</x>
       <y>656</y>
-      <w>168</w>
-      <h>80</h>
+      <w>184</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>Loop
 --
+private:
+m_repeatedBehavior: Behavior [1]
+m_maxRepetitions: int
+m_currentRepetitions: int
 
 --
+public:
+Loop(maxRepetitions: int,
+         repeatedBehavior: Behavior)
+
 nextBehavior(): Behavior
 tick(): void
 
@@ -254,6 +264,7 @@ layer=1</panel_attributes>
 --
 
 --
+public:
 nextBehavior(): Behavior
 tick(): void
 
@@ -266,12 +277,13 @@ layer=1</panel_attributes>
       <x>352</x>
       <y>656</y>
       <w>168</w>
-      <h>72</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>Selector
 --
 
 --
+public:
 nextBehavior(): Behavior
 tick(): void
 
