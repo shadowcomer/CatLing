@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
+      <x>392</x>
       <y>24</y>
       <w>184</w>
       <h>160</h>
@@ -27,7 +27,7 @@ operator++(): BTIterator</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>160</x>
+      <x>112</x>
       <y>24</y>
       <w>200</w>
       <h>200</h>
@@ -53,9 +53,9 @@ currentBehavior(): Behavior</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>80</x>
+      <x>32</x>
       <y>0</y>
-      <w>832</w>
+      <w>848</w>
       <h>864</h>
     </coordinates>
     <panel_attributes>BT
@@ -68,7 +68,7 @@ fg=blue</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
+      <x>392</x>
       <y>208</y>
       <w>184</w>
       <h>192</h>
@@ -94,7 +94,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
+      <x>472</x>
       <y>176</y>
       <w>24</w>
       <h>48</h>
@@ -105,7 +105,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>704</x>
+      <x>656</x>
       <y>24</y>
       <w>168</w>
       <h>104</h>
@@ -125,7 +125,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>704</x>
+      <x>656</x>
       <y>136</y>
       <w>168</w>
       <h>48</h>
@@ -140,7 +140,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>176</x>
+      <x>128</x>
       <y>464</y>
       <w>168</w>
       <h>144</h>
@@ -164,7 +164,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>248</x>
+      <x>200</x>
       <y>392</y>
       <w>280</w>
       <h>88</h>
@@ -175,7 +175,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>464</x>
+      <x>416</x>
       <y>488</y>
       <w>168</w>
       <h>80</h>
@@ -194,7 +194,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>544</x>
+      <x>496</x>
       <y>392</y>
       <w>32</w>
       <h>112</h>
@@ -205,7 +205,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
+      <x>40</x>
       <y>656</y>
       <w>192</w>
       <h>144</h>
@@ -229,9 +229,9 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>720</x>
+      <x>672</x>
       <y>656</y>
-      <w>184</w>
+      <w>200</w>
       <h>176</h>
     </coordinates>
     <panel_attributes>Loop
@@ -244,7 +244,7 @@ m_currentRepetitions: int
 --
 public:
 Loop(maxRepetitions: int,
-         repeatedBehavior: Behavior)
+         repeatedBehavior: Behavior [1])
 
 nextBehavior(): Behavior
 tick(): void
@@ -255,7 +255,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>480</x>
+      <x>432</x>
       <y>656</y>
       <w>232</w>
       <h>160</h>
@@ -280,7 +280,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>288</x>
+      <x>240</x>
       <y>656</y>
       <w>184</w>
       <h>144</h>
@@ -304,7 +304,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>248</x>
+      <x>200</x>
       <y>560</y>
       <w>288</w>
       <h>112</h>
@@ -315,7 +315,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>360</x>
+      <x>312</x>
       <y>560</y>
       <w>200</w>
       <h>112</h>
@@ -326,7 +326,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>560</x>
+      <x>512</x>
       <y>560</y>
       <w>48</w>
       <h>112</h>
@@ -337,7 +337,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>576</x>
+      <x>528</x>
       <y>560</y>
       <w>248</w>
       <h>112</h>
@@ -348,7 +348,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>352</x>
+      <x>304</x>
       <y>152</y>
       <w>104</w>
       <h>104</h>
@@ -359,7 +359,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>616</x>
+      <x>568</x>
       <y>224</y>
       <w>72</w>
       <h>48</h>
@@ -370,7 +370,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>352</x>
+      <x>304</x>
       <y>72</y>
       <w>104</w>
       <h>32</h>
@@ -382,7 +382,7 @@ iterated with</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>704</x>
+      <x>656</x>
       <y>192</y>
       <w>168</w>
       <h>48</h>
