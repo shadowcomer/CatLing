@@ -140,10 +140,10 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>184</x>
+      <x>176</x>
       <y>464</y>
       <w>168</w>
-      <h>104</h>
+      <h>144</h>
     </coordinates>
     <panel_attributes>ActionBehavior
 --
@@ -152,8 +152,11 @@ m_action: Action [1]
 
 --
 public:
-/nextBehavior(): Behavior/
-/tick(): void/
+nextBehavior(): Behavior
+tick(): void
+
+private:
+executeAction(): void
 
 layer=1</panel_attributes>
     <additional_attributes/>
@@ -161,19 +164,19 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>256</x>
+      <x>248</x>
       <y>392</y>
-      <w>272</w>
+      <w>280</w>
       <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>320.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>330.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>464</x>
-      <y>464</y>
+      <y>488</y>
       <w>168</w>
       <h>80</h>
     </coordinates>
@@ -194,16 +197,16 @@ layer=1</panel_attributes>
       <x>544</x>
       <y>392</y>
       <w>32</w>
-      <h>88</h>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>20.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>20.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>88</x>
-      <y>616</y>
+      <y>656</y>
       <w>256</w>
       <h>136</h>
     </coordinates>
@@ -225,7 +228,7 @@ layer=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>704</x>
-      <y>616</y>
+      <y>656</y>
       <w>168</w>
       <h>80</h>
     </coordinates>
@@ -243,7 +246,7 @@ layer=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>528</x>
-      <y>616</y>
+      <y>656</y>
       <w>168</w>
       <h>72</h>
     </coordinates>
@@ -261,7 +264,7 @@ layer=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>352</x>
-      <y>616</y>
+      <y>656</y>
       <w>168</w>
       <h>72</h>
     </coordinates>
@@ -279,45 +282,45 @@ layer=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>248</x>
-      <y>536</y>
+      <y>560</y>
       <w>288</w>
-      <h>96</h>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>340.0;10.0;10.0;100.0</additional_attributes>
+    <additional_attributes>340.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>424</x>
-      <y>536</y>
+      <y>560</y>
       <w>136</w>
-      <h>96</h>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>150.0;10.0;10.0;100.0</additional_attributes>
+    <additional_attributes>150.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>560</x>
-      <y>536</y>
+      <y>560</y>
       <w>72</w>
-      <h>96</h>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;70.0;100.0</additional_attributes>
+    <additional_attributes>10.0;10.0;70.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>576</x>
-      <y>536</y>
+      <y>560</y>
       <w>232</w>
-      <h>96</h>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;270.0;100.0</additional_attributes>
+    <additional_attributes>10.0;10.0;270.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
