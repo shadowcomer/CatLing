@@ -214,7 +214,7 @@ layer=1</panel_attributes>
 --
 private:
 m_behaviors: Behavior [*]
-m_currentBehavior: Behavior [1]
+m_currentBehavior: int
 
 --
 public:
