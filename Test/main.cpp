@@ -1,6 +1,3 @@
-#include "T_Behavior.h"
-#include "T_Composite.h"
-
 #include "gtest\gtest.h"
 
 #include <iostream>

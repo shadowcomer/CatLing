@@ -22,12 +22,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="T_Behavior.h">
-      <Filter>Source Files\BT</Filter>
-    </ClInclude>
-    <ClInclude Include="T_Composite.h">
-      <Filter>Source Files\BT</Filter>
-    </ClInclude>
-  </ItemGroup>
 </Project>
