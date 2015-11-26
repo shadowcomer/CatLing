@@ -101,8 +101,10 @@
     <ClCompile Include="Source/ClientLink.cpp" />
     <ClCompile Include="Source\ActionBehavior.cpp" />
     <ClCompile Include="Source\BehaviorTree.cpp" />
+    <ClCompile Include="Source\Conditional.cpp" />
     <ClCompile Include="Source\Executer.cpp" />
     <ClCompile Include="Source\Log.cpp" />
+    <ClCompile Include="Source\Loop.cpp" />
     <ClCompile Include="Source\MicroManager.cpp" />
     <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\Behavior.cpp" />
@@ -121,8 +123,10 @@
     <ClInclude Include="Source/ClientLink.h" />
     <ClInclude Include="Source\ActionBehavior.h" />
     <ClInclude Include="Source\BehaviorTree.h" />
+    <ClInclude Include="Source\Conditional.h" />
     <ClInclude Include="Source\Executer.h" />
     <ClInclude Include="Source\Log.h" />
+    <ClInclude Include="Source\Loop.h" />
     <ClInclude Include="Source\MicroManager.h" />
     <ClInclude Include="Source\MacroManager.h" />
     <ClInclude Include="Source\Behavior.h" />
