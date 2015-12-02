@@ -46,7 +46,9 @@ BehaviorTree::BehaviorTree(BehaviorTree const & original) {
 }
 
 BehaviorTree::BTIterator BehaviorTree::begin() {
-    return BTIterator(*this, nullptr);
+    Behavior * head = m_behaviors.empty() ?
+        nullptr : m_behaviors[0].get();
+    return BTIterator(*this, head);
 }
 
 BehaviorTree::BTIterator BehaviorTree::end() {
