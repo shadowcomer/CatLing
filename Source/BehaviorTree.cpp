@@ -34,7 +34,8 @@ bool BehaviorTree::BTIterator::operator!=(BTIterator const & other) {
 BehaviorTree
 *************************/
 
-BehaviorTree::BehaviorTree(BehaviorList&& behaviors) {
+BehaviorTree::BehaviorTree(BehaviorList&& behaviors):
+m_behaviors(std::move(behaviors)) {
 
 }
 

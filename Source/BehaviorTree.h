@@ -17,6 +17,14 @@ namespace bt {
     private: // This is to keep the interface at the top
         class BTIterator;
     public:
+/**
+The BehaviorTree constructor acquires ownership of the BehaviorList
+given. This list is moved into the BehaviorTree, and thus the given
+list becomes invalidated.
+
+For this BehaviorTree to be valid, the root must be the first
+element of the list.
+*/
         BehaviorTree(BehaviorList&& behaviors);
         BehaviorTree(BehaviorTree const & original);
 
