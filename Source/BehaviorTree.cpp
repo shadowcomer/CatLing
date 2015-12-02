@@ -1,5 +1,7 @@
 #include "BehaviorTree.h"
 
+#include <exception>
+
 using namespace bt;
 
 /************************
@@ -40,7 +42,7 @@ m_behaviors(std::move(behaviors)) {
 }
 
 BehaviorTree::BehaviorTree(BehaviorTree const & original) {
-
+    throw new std::exception("Copy Constructor not implemented.");
 }
 
 BehaviorTree::BTIterator BehaviorTree::begin() {
