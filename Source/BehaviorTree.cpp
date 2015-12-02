@@ -31,7 +31,8 @@ BehaviorTree::BTIterator& BehaviorTree::BTIterator::operator++() {
 }
 
 bool BehaviorTree::BTIterator::operator!=(BTIterator const & other) {
-    return true;
+    assert(&m_owner == &(other.m_owner));
+    return m_currentBehavior != other.m_currentBehavior;
 }
 
 /************************
