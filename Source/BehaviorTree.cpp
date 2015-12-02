@@ -1,6 +1,7 @@
 #include "BehaviorTree.h"
 
 #include <exception>
+#include <assert.h>
 
 using namespace bt;
 
@@ -24,7 +25,8 @@ Behavior * BehaviorTree::BTIterator::operator*() {
 }
 
 BehaviorTree::BTIterator& BehaviorTree::BTIterator::operator++() {
-
+    assert(nullptr != m_currentBehavior);
+    m_currentBehavior = m_currentBehavior->nextBehavior();
     return *this;
 }
 
