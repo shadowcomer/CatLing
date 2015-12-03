@@ -3,7 +3,8 @@
 using namespace bt;
 
 Behavior::Behavior(Behavior * parent, BehaviorMonitor monitor) :
-m_parentBehavior(parent) {
+m_parentBehavior(parent),
+m_monitor(monitor) {
 
 }
 
