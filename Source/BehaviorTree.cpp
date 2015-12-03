@@ -1,5 +1,8 @@
 #include "BehaviorTree.h"
 
+#include <exception>
+#include <assert.h>
+
 using namespace bt;
 
 /************************
@@ -22,28 +25,33 @@ Behavior * BehaviorTree::BTIterator::operator*() {
 }
 
 BehaviorTree::BTIterator& BehaviorTree::BTIterator::operator++() {
-
+    assert(nullptr != m_currentBehavior);
+    m_currentBehavior = m_currentBehavior->nextBehavior();
     return *this;
 }
 
 bool BehaviorTree::BTIterator::operator!=(BTIterator const & other) {
-    return true;
+    assert(&m_owner == &(other.m_owner));
+    return m_currentBehavior != other.m_currentBehavior;
 }
 
 /************************
 BehaviorTree
 *************************/
 
-BehaviorTree::BehaviorTree(BehaviorList&& behaviors) {
+BehaviorTree::BehaviorTree(BehaviorList&& behaviors):
+m_behaviors(std::move(behaviors)) {
 
 }
 
 BehaviorTree::BehaviorTree(BehaviorTree const & original) {
-
+    throw new std::exception("Copy Constructor not implemented.");
 }
 
 BehaviorTree::BTIterator BehaviorTree::begin() {
-    return BTIterator(*this, nullptr);
+    Behavior * head = m_behaviors.empty() ?
+        nullptr : m_behaviors[0].get();
+    return BTIterator(*this, head);
 }
 
 BehaviorTree::BTIterator BehaviorTree::end() {
