@@ -17,7 +17,6 @@ BehaviorTrees are ranged for compliant.
 */
     class BehaviorTree;
 
-    typedef std::function<void(BehaviorTree const &)> TreeMonitor;
     typedef std::vector<std::unique_ptr<Behavior>> BehaviorList;
 
     class BehaviorTree {
