@@ -9,16 +9,19 @@
 
 namespace bt {
 
+    class BehaviorTree;
+
+    typedef std::vector<std::unique_ptr<Behavior>> BehaviorList;
+
+/*********
+BehaviorTree
+**********/
 /*
 A BehaviorTree is a high-level container which manages both the
 lifetime and the execution of the Behaviors it's constructed with.
 
 BehaviorTrees are ranged for compliant.
 */
-    class BehaviorTree;
-
-    typedef std::vector<std::unique_ptr<Behavior>> BehaviorList;
-
     class BehaviorTree {
     private: // This is to keep the interface at the top
         class BTIterator;
@@ -46,6 +49,10 @@ Returns an iterator to the end of the BehaviorTree.
 
     private:
         BehaviorList m_behaviors;
+
+/*********
+BTIterator
+**********/
 
 /*
 The BTIterator is an iterator implementation for a BehaviorTree.
