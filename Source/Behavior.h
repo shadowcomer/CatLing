@@ -31,7 +31,7 @@ namespace bt {
         virtual void tick() = 0;
 
     private:
-        Behavior * const m_parentBehavior;
+        Behavior * m_parentBehavior;
         BehaviorMonitor m_monitor;
         State m_currentState;
     };
