@@ -8,6 +8,13 @@
 #include "Behavior.h"
 
 namespace bt {
+
+/*
+A BehaviorTree is a high-level container which manages both the
+lifetime and the execution of the Behaviors it's constructed with.
+
+BehaviorTrees are ranged for compliant.
+*/
     class BehaviorTree;
 
     typedef std::function<void(BehaviorTree const &)> TreeMonitor;
