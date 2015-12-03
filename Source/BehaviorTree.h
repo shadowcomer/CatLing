@@ -28,12 +28,30 @@ element of the list.
         BehaviorTree(BehaviorList&& behaviors);
         BehaviorTree(BehaviorTree const & original);
 
+/*
+Returns an iterator to the root of the BehaviorTree.
+*/
         BTIterator begin();
+
+/*
+Returns an iterator to the end of the BehaviorTree.
+*/
         BTIterator end();
 
     private:
         BehaviorList m_behaviors;
 
+/*
+The BTIterator is an iterator implementation for a BehaviorTree.
+This iterator begins at the root and ends at an asociated BTIterator
+to the BehaviorTree.
+
+The end iterator is always a nullptr.
+The consistency of the BehaviorTree, iterated with the BTIterator,
+is dependent on the correct implementation of a Behavior's
+'nextBehavior' virtual method, which is wrapped into BTIterator's
+'++' operator.
+*/
         class BTIterator {
         public:
             BTIterator(BehaviorTree const & origin,
