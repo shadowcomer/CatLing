@@ -48,7 +48,7 @@ Interface for invocation of a single iteration over this Behavior.
 */
         virtual void tick() = 0;
 
-    private:
+    protected:
         Behavior * m_parentBehavior;
         BehaviorMonitor m_monitor;
         State m_currentState;
