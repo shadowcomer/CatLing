@@ -5,7 +5,8 @@ using namespace bt;
 ActionBehavior::ActionBehavior(Behavior * parent,
             BehaviorMonitor monitor,
             Action&& action) :
-Behavior(parent, monitor) {
+Behavior(parent, monitor),
+m_action(std::move(action)) {
 
 }
 
