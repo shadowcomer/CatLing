@@ -1,6 +1,7 @@
 #include "Conditional.h"
 
 #include <exception>
+#include <assert.h>
 
 using namespace bt;
 
@@ -20,7 +21,19 @@ Behavior(other) {
 }
 
 Behavior * Conditional::nextBehavior() {
-    return nullptr;
+    Behavior * nextBehavior = nullptr;
+    switch (m_currentState){
+    case State::INVALID:
+        nextBehavior = m_optionalBehavior;
+        m_currentState = State::RUNNING;
+    case State::RUNNING:
+        nextBehavior = m_parentBehavior;
+        m_currentState = State::SUCCESS;
+    default:
+        assert(false); // Reached unexpected state
+    }
+
+    return nextBehavior;
 }
 
 void Conditional::tick() {
