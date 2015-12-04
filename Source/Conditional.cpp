@@ -1,5 +1,7 @@
 #include "Conditional.h"
 
+#include <exception>
+
 using namespace bt;
 
 Conditional::Conditional(Behavior * parent,
@@ -14,7 +16,7 @@ m_condition(condition) {
 
 Conditional::Conditional(Conditional const & other) :
 Behavior(other) {
-
+    throw new std::exception("Copy constructor not implemented.");
 }
 
 Behavior * Conditional::nextBehavior() {
