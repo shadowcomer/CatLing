@@ -6,8 +6,10 @@ Conditional::Conditional(Behavior * parent,
     BehaviorMonitor monitor,
     Behavior * optionalBehavior,
     BehaviorCondition condition) :
-Behavior(parent, monitor) {
-    
+Behavior(parent, monitor),
+m_optionalBehavior(optionalBehavior),
+m_condition(condition) {
+
 }
 
 Conditional::Conditional(Conditional const & other) :
