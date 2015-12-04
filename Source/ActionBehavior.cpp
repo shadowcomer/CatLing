@@ -18,7 +18,7 @@ Behavior(other) {
 }
 
 Behavior * ActionBehavior::nextBehavior() {
-    return nullptr;
+    return m_parentBehavior;
 }
 
 void ActionBehavior::tick() {
