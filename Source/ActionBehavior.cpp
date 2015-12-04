@@ -1,6 +1,7 @@
 #include "ActionBehavior.h"
 
 #include <exception>
+#include <assert.h>
 
 using namespace bt;
 
@@ -22,9 +23,12 @@ Behavior * ActionBehavior::nextBehavior() {
 }
 
 void ActionBehavior::tick() {
-
+    // Pre-tick monitorization
+    m_monitor(this);
+    executeAction();
 }
 
 void ActionBehavior::executeAction() {
-
+    m_action->execute();
+    m_currentState = State::SUCCESS;
 }
