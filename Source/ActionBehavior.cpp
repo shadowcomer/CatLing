@@ -29,6 +29,10 @@ void ActionBehavior::tick() {
 }
 
 void ActionBehavior::executeAction() {
+    // TODO: At the moment, execute does not return a termination
+    // result, and thus we can't assess whether it was a success
+    // or a failure. This has to be changed in the Task
+    // implementation, and then here.
     m_action->execute();
     m_currentState = State::SUCCESS;
 }
