@@ -1,5 +1,7 @@
 #include "ActionBehavior.h"
 
+#include <exception>
+
 using namespace bt;
 
 ActionBehavior::ActionBehavior(Behavior * parent,
@@ -12,7 +14,7 @@ m_action(std::move(action)) {
 
 ActionBehavior::ActionBehavior(ActionBehavior const & other) :
 Behavior(other) {
-
+    throw new std::exception("Copy constructor not implemented.");
 }
 
 Behavior * ActionBehavior::nextBehavior() {
