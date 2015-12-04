@@ -8,11 +8,13 @@
 
 namespace bt {
 
+    typedef std::unique_ptr<Task> Action;
+
     class ActionBehavior : public Behavior {
     public:
         ActionBehavior(Behavior * parent,
             BehaviorMonitor monitor,
-            std::unique_ptr<Task>&& action);
+            Action&& action);
         ActionBehavior(ActionBehavior const & other);
 
         Behavior * nextBehavior() override;

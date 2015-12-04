@@ -4,7 +4,7 @@ using namespace bt;
 
 ActionBehavior::ActionBehavior(Behavior * parent,
             BehaviorMonitor monitor,
-            std::unique_ptr<Task>&& action) :
+            Action&& action) :
 Behavior(parent, monitor) {
 
 }
