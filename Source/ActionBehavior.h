@@ -31,6 +31,12 @@ AI.
             Action&& action);
         ActionBehavior(ActionBehavior const & other);
 
+/**
+Change the Task managed by this ActionBehavior. The old Task, if
+any, is deleted.
+*/
+        void changeAction(Action&& newAction);
+
         Behavior * nextBehavior() override;
         void tick() override;
 
