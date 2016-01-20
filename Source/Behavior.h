@@ -48,6 +48,12 @@ Interface for invocation of a single iteration over this Behavior.
 */
         virtual void tick() = 0;
 
+/**
+Set the current parent behavior. If nullptr is given, the parent
+is cleared.
+*/
+        void setParent(Behavior* newParent);
+
     protected:
         Behavior * m_parentBehavior;
         BehaviorMonitor m_monitor;

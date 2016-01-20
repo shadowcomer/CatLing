@@ -12,6 +12,10 @@ Behavior::~Behavior() {
 
 }
 
+void Behavior::setParent(Behavior* newParent) {
+    m_parentBehavior = newParent;
+}
+
 State Behavior::currentState() const {
     return m_currentState;
 }
