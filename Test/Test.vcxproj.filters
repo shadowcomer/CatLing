@@ -22,4 +22,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="T_BehaviorTree.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
