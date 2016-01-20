@@ -18,7 +18,7 @@ Behavior(other) {
     throw new std::exception("Copy constructor not implemented.");
 }
 
-void ActionBehavior::changeAction(Action&& newAction) {
+void ActionBehavior::setAction(Action&& newAction) {
     m_action = std::move(newAction);
 }
 

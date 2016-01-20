@@ -35,7 +35,7 @@ AI.
 Change the Task managed by this ActionBehavior. The old Task, if
 any, is deleted.
 */
-        void changeAction(Action&& newAction);
+        void setAction(Action&& newAction);
 
         Behavior * nextBehavior() override;
         void tick() override;
