@@ -17,6 +17,11 @@ namespace bt {
 
         Conditional(Conditional const & other);
 
+/**
+Set the current optional behavior.
+*/
+        void setOptionalBehavior(Behavior* newBehavior);
+
         Behavior * nextBehavior() override;
         void tick() override;
 
