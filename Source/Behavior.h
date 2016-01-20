@@ -54,6 +54,11 @@ is cleared.
 */
         void setParent(Behavior* newParent);
 
+/**
+Set the current monitor.
+*/
+        void setMonitor(BehaviorMonitor newMonitor);
+
     protected:
         Behavior * m_parentBehavior;
         BehaviorMonitor m_monitor;
