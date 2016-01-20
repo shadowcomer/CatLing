@@ -13,6 +13,11 @@ namespace bt {
 
         Selector(Selector const & other);
 
+/**
+Set the list of behaviors.
+*/
+        void setBehaviors(std::vector<Behavior *> newBehaviors);
+
         Behavior * nextBehavior() override;
         void tick() override;
 
