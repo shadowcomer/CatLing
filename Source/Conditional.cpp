@@ -20,6 +20,10 @@ Behavior(other) {
     throw new std::exception("Copy constructor not implemented.");
 }
 
+void Conditional::setOptionalBehavior(Behavior* newBehavior) {
+    m_optionalBehavior = newBehavior;
+}
+
 Behavior * Conditional::nextBehavior() {
     Behavior * nextBehavior = nullptr;
     switch (m_currentState){

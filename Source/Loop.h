@@ -13,6 +13,16 @@ namespace bt {
 
         Loop(Loop const & other);
 
+/**
+Set the repeated behavior.
+*/
+        void setRepeatedBehavior(Behavior* newBehavior);
+
+/**
+Set the max number of repetitions.
+*/
+        void setRepetitions(int newMax);
+
         Behavior * nextBehavior() override;
         void tick() override;
 

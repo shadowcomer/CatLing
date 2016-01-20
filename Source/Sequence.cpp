@@ -14,6 +14,10 @@ Behavior(other) {
 
 }
 
+void Sequence::setBehaviors(std::vector<Behavior *> newBehaviors) {
+    m_behaviors = newBehaviors;
+}
+
 Behavior * Sequence::nextBehavior() {
     return nullptr;
 }

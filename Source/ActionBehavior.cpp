@@ -18,6 +18,10 @@ Behavior(other) {
     throw new std::exception("Copy constructor not implemented.");
 }
 
+void ActionBehavior::setAction(Action&& newAction) {
+    m_action = std::move(newAction);
+}
+
 Behavior * ActionBehavior::nextBehavior() {
     return m_parentBehavior;
 }

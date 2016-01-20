@@ -17,6 +17,14 @@ Behavior(other) {
 
 }
 
+void Loop::setRepeatedBehavior(Behavior* newBehavior) {
+    m_repeatedBehavior = newBehavior;
+}
+
+void Loop::setRepetitions(int newMax) {
+    m_maxRepetitions = newMax;
+}
+
 Behavior * Loop::nextBehavior() {
     return nullptr;
 }

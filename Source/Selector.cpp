@@ -14,6 +14,10 @@ Behavior(other) {
 
 }
 
+void Selector::setBehaviors(std::vector<Behavior *> newBehaviors) {
+    m_behaviors = newBehaviors;
+}
+
 Behavior * Selector::nextBehavior() {
     return nullptr;
 }
