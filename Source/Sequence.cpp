@@ -7,7 +7,8 @@ using namespace bt;
 Sequence::Sequence(Behavior * parent,
     BehaviorMonitor monitor,
     std::vector<Behavior *> behaviors) :
-    Behavior(parent, monitor) {
+    Behavior(parent, monitor),
+    m_currentBehavior(0) {
 
 }
 
