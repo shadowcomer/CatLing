@@ -23,7 +23,18 @@ void ActionBehavior::setAction(Action&& newAction) {
 }
 
 Behavior * ActionBehavior::nextBehavior() {
-    return m_parentBehavior;
+    switch (m_currentState){
+        case State::INVALID: // Cascade
+        case State::RUNNING:
+            return this;
+        case State::ABORTED: // Cascade
+        case State::FAILURE: // Cascade
+        case State::SUCCESS:
+            return !m_parentBehavior ? nullptr :
+                m_parentBehavior->nextBehavior();
+        default:
+            throw new std::exception("Unexpected State.");
+    }
 }
 
 void ActionBehavior::tick() {
