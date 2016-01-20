@@ -8,7 +8,8 @@ Sequence::Sequence(Behavior * parent,
     BehaviorMonitor monitor,
     std::vector<Behavior *> behaviors) :
     Behavior(parent, monitor),
-    m_currentBehavior(0) {
+    m_currentBehavior(0),
+    m_behaviors(behaviors) {
 
 }
 
