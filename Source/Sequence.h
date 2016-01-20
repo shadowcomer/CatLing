@@ -17,6 +17,11 @@ namespace bt {
         Behavior * nextBehavior() override;
         void tick() override;
 
+/**
+Set the list of behaviors.
+*/
+        void setBehaviors(std::vector<Behavior *> newBehaviors);
+
     private:
         std::vector<Behavior *> m_behaviors;
         int m_currentBehavior;
