@@ -138,10 +138,14 @@ BehaviorTree implementation test setup
     { std::cout << "T-Sequence F" << std::endl; };
 
     std::vector<Behavior*> f_sequenceBehaviors;
-    f_sequenceBehaviors.push_back(s_sequence.get());
-    for (size_t i = 0; i < LAYER_SIZE; i++) {
+    for (size_t i = 0; i < LAYER_SIZE - 2; i++) {
         f_sequenceBehaviors.push_back(f_simples[i].get());
     }
+    f_sequenceBehaviors.push_back(s_sequence.get());
+    for (size_t i = LAYER_SIZE - 2; i < LAYER_SIZE; i++) {
+        f_sequenceBehaviors.push_back(f_simples[i].get());
+    }
+
 
     std::unique_ptr<Behavior> f_sequence =
         std::make_unique<Sequence>(nullptr,
