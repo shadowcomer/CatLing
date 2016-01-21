@@ -68,6 +68,6 @@ Behavior * Sequence::nextBehavior() {
 }
 
 void Sequence::tick() {
-
+    throw new std::exception("Unexpected tick.");
 }
 
