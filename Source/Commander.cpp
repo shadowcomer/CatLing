@@ -5,6 +5,7 @@ BT Test headers
 */
 #include "BehaviorTree.h"
 #include "ActionBehavior.h" // At the moment, include each 1 by 1
+#include "Sequence.h"
 /*
 BT Test headers
 */
@@ -42,6 +43,9 @@ BehaviorTree implementation test setup
 
     std::cout << "Building tree..." << std::endl;
     // Create behaviors
+    //
+    // ActionBehavior
+    //
     auto simpleMonitor =
         [](Behavior* b) -> void
     { std::cout << "M-Simple" << std::endl; };
@@ -56,8 +60,27 @@ BehaviorTree implementation test setup
         simpleMonitor,
         std::move(simpleAction));
 
+    //
+    // Sequence
+    //
+    auto sequenceMonitor =
+        [](Behavior* b) -> void
+    { std::wcout << "M-Sequence" << std::endl; };
+
+    auto sequenceTask =
+        []() -> void
+    { std::wcout << "T-Sequence" << std::endl; };
+
+    std::vector<Behavior*> sequenceBehaviors{ simple.get() };
+
+    std::unique_ptr<Behavior> sequence =
+        std::make_unique<Sequence>(nullptr,
+        sequenceMonitor,
+        sequenceBehaviors);
+
     // Insert into list
     BehaviorList behaviors;
+    behaviors.push_back(std::move(sequence));
     behaviors.push_back(std::move(simple));
 
     // Put tree together
