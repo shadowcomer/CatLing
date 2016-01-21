@@ -47,26 +47,27 @@ BehaviorTree implementation test setup
     // ActionBehavior
     // First layer simples
     //
+    const int LAYER_SIZE = 5;
 
-    BehaviorMonitor f_monitors[5];
-    for (size_t i = 0; i < 5; i++) {
+    BehaviorMonitor f_monitors[LAYER_SIZE];
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         f_monitors[i] = [i](Behavior* b) -> void
         { std::cout << "M-Simple F " << i << std::endl; };
     }
 
-    std::function<void(void)> f_tasks[5];
-    for (size_t i = 0; i < 5; i++) {
+    std::function<void(void)> f_tasks[LAYER_SIZE];
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         f_tasks[i] = [i]() -> void
         { std::cout << "T-Simple F " << i << std::endl; };
     }
 
-    Action f_actions[5];
-    for (size_t i = 0; i < 5; i++) {
+    Action f_actions[LAYER_SIZE];
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         f_actions[i] = std::make_unique<TWildcard>(f_tasks[i]);
     }
 
-    std::unique_ptr<Behavior> f_simples[5];
-    for (size_t i = 0; i < 5; i++) {
+    std::unique_ptr<Behavior> f_simples[LAYER_SIZE];
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         f_simples[i] = std::make_unique<ActionBehavior>(nullptr,
             f_monitors[i],
             std::move(f_actions[i]));
@@ -75,25 +76,25 @@ BehaviorTree implementation test setup
     //
     // Second layer simples
     //
-    BehaviorMonitor s_monitors[5];
-    for (size_t i = 0; i < 5; i++) {
+    BehaviorMonitor s_monitors[LAYER_SIZE];
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         s_monitors[i] = [i](Behavior* b) -> void
         { std::cout << "M-Simple S " << i << std::endl; };
     }
 
-    std::function<void(void)> s_tasks[5];
-    for (size_t i = 0; i < 5; i++) {
+    std::function<void(void)> s_tasks[LAYER_SIZE];
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         s_tasks[i] = [i]() -> void
         { std::cout << "T-Simple S " << i << std::endl; };
     }
 
-    Action s_actions[5];
-    for (size_t i = 0; i < 5; i++) {
+    Action s_actions[LAYER_SIZE];
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         s_actions[i] = std::make_unique<TWildcard>(s_tasks[i]);
     }
 
-    std::unique_ptr<Behavior> s_simples[5];
-    for (size_t i = 0; i < 5; i++) {
+    std::unique_ptr<Behavior> s_simples[LAYER_SIZE];
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         s_simples[i] = std::make_unique<ActionBehavior>(nullptr,
             s_monitors[i],
             std::move(s_actions[i]));
@@ -111,7 +112,7 @@ BehaviorTree implementation test setup
     { std::cout << "T-Sequence S " << std::endl; };
 
     std::vector<Behavior*> s_sequenceBehaviors;
-    for (size_t i = 0; i < 5; i++) {
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         s_sequenceBehaviors.push_back(s_simples[i].get());
     }
 
@@ -121,7 +122,7 @@ BehaviorTree implementation test setup
         s_sequenceBehaviors);
 
     // Reconfigure the children to point to the sequence
-    for (size_t i = 0; i < 5; i++) {
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         s_simples[i]->setParent(s_sequence.get());
     }
 
@@ -138,7 +139,7 @@ BehaviorTree implementation test setup
 
     std::vector<Behavior*> f_sequenceBehaviors;
     f_sequenceBehaviors.push_back(s_sequence.get());
-    for (size_t i = 0; i < 5; i++) {
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         f_sequenceBehaviors.push_back(f_simples[i].get());
     }
 
@@ -148,7 +149,7 @@ BehaviorTree implementation test setup
         f_sequenceBehaviors);
 
     // Reconfigure the children to point to the sequence
-    for (size_t i = 0; i < 5; i++) {
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         f_simples[i]->setParent(f_sequence.get());
     }
     s_sequence->setParent(f_sequence.get());
@@ -157,10 +158,10 @@ BehaviorTree implementation test setup
     BehaviorList behaviors;
     behaviors.push_back(std::move(f_sequence));
     behaviors.push_back(std::move(s_sequence));
-    for (size_t i = 0; i < 5; i++) {
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         behaviors.push_back(std::move(s_simples[i]));
     }
-    for (size_t i = 0; i < 5; i++) {
+    for (size_t i = 0; i < LAYER_SIZE; i++) {
         behaviors.push_back(std::move(f_simples[i]));
     }
 
