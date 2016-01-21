@@ -46,48 +46,71 @@ BehaviorTree implementation test setup
     //
     // ActionBehavior
     //
-    auto simpleMonitor =
-        [](Behavior* b) -> void
-    { std::cout << "M-Simple" << std::endl; };
 
-    auto simpleTask =
-        []() -> void
-    { std::cout << "T-Simple" << std::endl; };
+    BehaviorMonitor monitors[5];
+    for (size_t i = 0; i < 5; i++) {
+        monitors[i] = [i](Behavior* b) -> void
+        { std::cout << "M-Simple " << i << std::endl; };
+    }
 
-    Action simpleAction = std::make_unique<TWildcard>(simpleTask);
-    std::unique_ptr<Behavior> simple =
-        std::make_unique<ActionBehavior>(nullptr,
-        simpleMonitor,
-        std::move(simpleAction));
+    std::function<void(void)> tasks[5];
+    for (size_t i = 0; i < 5; i++) {
+        tasks[i] = [i]() -> void
+        { std::cout << "T-Simple " << i << std::endl; };
+    }
+
+    Action actions[5];
+    for (size_t i = 0; i < 5; i++) {
+        actions[i] = std::make_unique<TWildcard>(tasks[i]);
+    }
+
+    std::unique_ptr<Behavior> simples[5];
+    for (size_t i = 0; i < 5; i++) {
+        simples[i] = std::make_unique<ActionBehavior>(nullptr,
+            monitors[i],
+            std::move(actions[i]));
+    }
 
     //
     // Sequence
     //
-    auto sequenceMonitor =
+    BehaviorMonitor sequenceMonitor =
         [](Behavior* b) -> void
     { std::wcout << "M-Sequence" << std::endl; };
 
-    auto sequenceTask =
+    std::function<void(void)> sequenceTask =
         []() -> void
     { std::wcout << "T-Sequence" << std::endl; };
 
-    std::vector<Behavior*> sequenceBehaviors{ simple.get() };
+    std::vector<Behavior*> sequenceBehaviors;
+    for (size_t i = 0; i < 5; i++) {
+        sequenceBehaviors.push_back(simples[i].get());
+    }
 
     std::unique_ptr<Behavior> sequence =
         std::make_unique<Sequence>(nullptr,
         sequenceMonitor,
         sequenceBehaviors);
 
+    // Reconfigure the children to point to the sequence
+    for (size_t i = 0; i < 5; i++) {
+        simples[i]->setParent(sequence.get());
+    }
+
     // Insert into list
     BehaviorList behaviors;
     behaviors.push_back(std::move(sequence));
-    behaviors.push_back(std::move(simple));
+    for (size_t i = 0; i < 5; i++) {
+        behaviors.push_back(std::move(simples[i]));
+    }
 
     // Put tree together
     BehaviorTree tree(std::move(behaviors));
     std::cout << "Tree built." << std::endl;
 /*
 End BT test setup
+
+Begin BT iteration test
 */
     std::cout << "Iterating tree..." << std::endl;
     for (auto b : tree) {
@@ -96,6 +119,9 @@ End BT test setup
         std::cout << "--End iteration." << std::endl;
     }
     std::cout << "Tree iterated." << std::endl;
+/*
+End BT iteration test
+*/
 
     Unitset units = Broodwar->self()->getUnits();
     for (auto u : units)
