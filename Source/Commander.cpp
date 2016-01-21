@@ -45,63 +45,123 @@ BehaviorTree implementation test setup
     // Create behaviors
     //
     // ActionBehavior
+    // First layer simples
     //
 
-    BehaviorMonitor monitors[5];
+    BehaviorMonitor f_monitors[5];
     for (size_t i = 0; i < 5; i++) {
-        monitors[i] = [i](Behavior* b) -> void
-        { std::cout << "M-Simple " << i << std::endl; };
+        f_monitors[i] = [i](Behavior* b) -> void
+        { std::cout << "M-Simple F " << i << std::endl; };
     }
 
-    std::function<void(void)> tasks[5];
+    std::function<void(void)> f_tasks[5];
     for (size_t i = 0; i < 5; i++) {
-        tasks[i] = [i]() -> void
-        { std::cout << "T-Simple " << i << std::endl; };
+        f_tasks[i] = [i]() -> void
+        { std::cout << "T-Simple F " << i << std::endl; };
     }
 
-    Action actions[5];
+    Action f_actions[5];
     for (size_t i = 0; i < 5; i++) {
-        actions[i] = std::make_unique<TWildcard>(tasks[i]);
+        f_actions[i] = std::make_unique<TWildcard>(f_tasks[i]);
     }
 
-    std::unique_ptr<Behavior> simples[5];
+    std::unique_ptr<Behavior> f_simples[5];
     for (size_t i = 0; i < 5; i++) {
-        simples[i] = std::make_unique<ActionBehavior>(nullptr,
-            monitors[i],
-            std::move(actions[i]));
+        f_simples[i] = std::make_unique<ActionBehavior>(nullptr,
+            f_monitors[i],
+            std::move(f_actions[i]));
     }
 
     //
-    // Sequence
+    // Second layer simples
     //
-    BehaviorMonitor sequenceMonitor =
+    BehaviorMonitor s_monitors[5];
+    for (size_t i = 0; i < 5; i++) {
+        s_monitors[i] = [i](Behavior* b) -> void
+        { std::cout << "M-Simple S " << i << std::endl; };
+    }
+
+    std::function<void(void)> s_tasks[5];
+    for (size_t i = 0; i < 5; i++) {
+        s_tasks[i] = [i]() -> void
+        { std::cout << "T-Simple S " << i << std::endl; };
+    }
+
+    Action s_actions[5];
+    for (size_t i = 0; i < 5; i++) {
+        s_actions[i] = std::make_unique<TWildcard>(s_tasks[i]);
+    }
+
+    std::unique_ptr<Behavior> s_simples[5];
+    for (size_t i = 0; i < 5; i++) {
+        s_simples[i] = std::make_unique<ActionBehavior>(nullptr,
+            s_monitors[i],
+            std::move(s_actions[i]));
+    }
+
+    //
+    // Second layer Sequence
+    //
+    BehaviorMonitor s_sequenceMonitor =
         [](Behavior* b) -> void
-    { std::wcout << "M-Sequence" << std::endl; };
+    { std::cout << "M-Sequence S " << std::endl; };
 
-    std::function<void(void)> sequenceTask =
+    std::function<void(void)> s_sequenceTask =
         []() -> void
-    { std::wcout << "T-Sequence" << std::endl; };
+    { std::cout << "T-Sequence S " << std::endl; };
 
-    std::vector<Behavior*> sequenceBehaviors;
+    std::vector<Behavior*> s_sequenceBehaviors;
     for (size_t i = 0; i < 5; i++) {
-        sequenceBehaviors.push_back(simples[i].get());
+        s_sequenceBehaviors.push_back(s_simples[i].get());
     }
 
-    std::unique_ptr<Behavior> sequence =
+    std::unique_ptr<Behavior> s_sequence =
         std::make_unique<Sequence>(nullptr,
-        sequenceMonitor,
-        sequenceBehaviors);
+        s_sequenceMonitor,
+        s_sequenceBehaviors);
 
     // Reconfigure the children to point to the sequence
     for (size_t i = 0; i < 5; i++) {
-        simples[i]->setParent(sequence.get());
+        s_simples[i]->setParent(s_sequence.get());
     }
+
+    //
+    // First layer Sequence
+    //
+    BehaviorMonitor f_sequenceMonitor =
+        [](Behavior* b) -> void
+    { std::cout << "M-Sequence F" << std::endl; };
+
+    std::function<void(void)> f_sequenceTask =
+        []() -> void
+    { std::cout << "T-Sequence F" << std::endl; };
+
+    std::vector<Behavior*> f_sequenceBehaviors;
+    f_sequenceBehaviors.push_back(s_sequence.get());
+    for (size_t i = 0; i < 5; i++) {
+        f_sequenceBehaviors.push_back(f_simples[i].get());
+    }
+
+    std::unique_ptr<Behavior> f_sequence =
+        std::make_unique<Sequence>(nullptr,
+        f_sequenceMonitor,
+        f_sequenceBehaviors);
+
+    // Reconfigure the children to point to the sequence
+    for (size_t i = 0; i < 5; i++) {
+        f_simples[i]->setParent(f_sequence.get());
+    }
+    s_sequence->setParent(f_sequence.get());
 
     // Insert into list
     BehaviorList behaviors;
-    behaviors.push_back(std::move(sequence));
+    behaviors.push_back(std::move(f_sequence));
+    behaviors.push_back(std::move(s_sequence));
     for (size_t i = 0; i < 5; i++) {
-        behaviors.push_back(std::move(simples[i]));
+        behaviors.push_back(std::move(s_simples[i]));
+    }
+    for (size_t i = 0; i < 5; i++) {
+        behaviors.push_back(std::move(f_simples[i]));
     }
 
     // Put tree together
