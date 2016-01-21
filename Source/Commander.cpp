@@ -3,6 +3,8 @@
 /*
 BT Test headers
 */
+#include <chrono>
+
 #include "BehaviorTree.h"
 #include "ActionBehavior.h" // At the moment, include each 1 by 1
 #include "Sequence.h"
@@ -10,33 +12,29 @@ BT Test headers
 BT Test headers
 */
 
-using namespace BWAPI;
-
-Commander::Commander(Tasker& tsk) :
-Module(tsk)
-{
-
-}
-
-Commander::~Commander()
-{
-
-}
-
-void Commander::launch()
-{
-    m_thread = tbb::tbb_thread(&Commander::run, this);
-}
-
-bool Commander::shutdownHelper()
-{
-
-    return true;
-}
-
-void Commander::run(Commander* m)
-{
 /*
+BT Measuring
+*/
+template<typename TimeT = std::chrono::milliseconds>
+struct Measure {
+    template<typename F, typename ...Args>
+    static typename TimeT::rep execution(F func, Args&&... args) {
+        auto start = std::chrono::system_clock::now();
+        func(std::forward<Args>(args)...);
+        auto duration = std::chrono::duration_cast<TimeT>(
+            std::chrono::system_clock::now() - start);
+        return duration.count();
+    }
+};
+/*
+BT Measuring end
+*/
+
+/*
+BT test
+*/
+void testTree() {
+    /*
 BehaviorTree implementation test setup
 */
     using namespace bt;
@@ -47,18 +45,18 @@ BehaviorTree implementation test setup
     // ActionBehavior
     // First layer simples
     //
-    const int LAYER_SIZE = 5;
+    const int LAYER_SIZE = 10000;
 
     BehaviorMonitor f_monitors[LAYER_SIZE];
     for (size_t i = 0; i < LAYER_SIZE; i++) {
         f_monitors[i] = [i](Behavior* b) -> void
-        { std::cout << "M-Simple F " << i << std::endl; };
+        {};
     }
 
     std::function<void(void)> f_tasks[LAYER_SIZE];
     for (size_t i = 0; i < LAYER_SIZE; i++) {
         f_tasks[i] = [i]() -> void
-        { std::cout << "T-Simple F " << i << std::endl; };
+        {};
     }
 
     Action f_actions[LAYER_SIZE];
@@ -79,13 +77,13 @@ BehaviorTree implementation test setup
     BehaviorMonitor s_monitors[LAYER_SIZE];
     for (size_t i = 0; i < LAYER_SIZE; i++) {
         s_monitors[i] = [i](Behavior* b) -> void
-        { std::cout << "M-Simple S " << i << std::endl; };
+        {};
     }
 
     std::function<void(void)> s_tasks[LAYER_SIZE];
     for (size_t i = 0; i < LAYER_SIZE; i++) {
         s_tasks[i] = [i]() -> void
-        { std::cout << "T-Simple S " << i << std::endl; };
+        {};
     }
 
     Action s_actions[LAYER_SIZE];
@@ -105,11 +103,11 @@ BehaviorTree implementation test setup
     //
     BehaviorMonitor s_sequenceMonitor =
         [](Behavior* b) -> void
-    { std::cout << "M-Sequence S " << std::endl; };
+    {};
 
     std::function<void(void)> s_sequenceTask =
         []() -> void
-    { std::cout << "T-Sequence S " << std::endl; };
+    {};
 
     std::vector<Behavior*> s_sequenceBehaviors;
     for (size_t i = 0; i < LAYER_SIZE; i++) {
@@ -131,11 +129,11 @@ BehaviorTree implementation test setup
     //
     BehaviorMonitor f_sequenceMonitor =
         [](Behavior* b) -> void
-    { std::cout << "M-Sequence F" << std::endl; };
+    {};
 
     std::function<void(void)> f_sequenceTask =
         []() -> void
-    { std::cout << "T-Sequence F" << std::endl; };
+    {};
 
     std::vector<Behavior*> f_sequenceBehaviors;
     for (size_t i = 0; i < LAYER_SIZE - 2; i++) {
@@ -172,21 +170,58 @@ BehaviorTree implementation test setup
     // Put tree together
     BehaviorTree tree(std::move(behaviors));
     std::cout << "Tree built." << std::endl;
-/*
-End BT test setup
 
-Begin BT iteration test
-*/
-    std::cout << "Iterating tree..." << std::endl;
+    /*
+    End BT test setup
+    */
+
+    /*
+    Begin BT iteration test
+    */
+    std::cout << "Ticking..." << std::endl;
     for (auto b : tree) {
-        std::cout << "++Begin iteration." << std::endl;
         b->tick();
-        std::cout << "--End iteration." << std::endl;
     }
-    std::cout << "Tree iterated." << std::endl;
+    std::cout << std::endl << "Ticked." << std::endl;
+    /*
+    End BT iteration test
+    */
+
 /*
-End BT iteration test
+BT test end
 */
+
+}
+
+using namespace BWAPI;
+
+Commander::Commander(Tasker& tsk) :
+Module(tsk)
+{
+
+}
+
+Commander::~Commander()
+{
+
+}
+
+void Commander::launch()
+{
+    m_thread = tbb::tbb_thread(&Commander::run, this);
+}
+
+bool Commander::shutdownHelper()
+{
+
+    return true;
+}
+
+void Commander::run(Commander* m)
+{
+    std::cout << "Tree test duration: " <<
+        Measure<>::execution(testTree) <<
+        std::endl;
 
     Unitset units = Broodwar->self()->getUnits();
     for (auto u : units)
