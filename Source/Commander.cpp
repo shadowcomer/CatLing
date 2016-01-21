@@ -1,5 +1,14 @@
 #include "Commander.h"
 
+/*
+BT Test headers
+*/
+#include "BehaviorTree.h"
+#include "ActionBehavior.h" // At the moment, include each 1 by 1
+/*
+BT Test headers
+*/
+
 using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk) :
@@ -26,6 +35,45 @@ bool Commander::shutdownHelper()
 
 void Commander::run(Commander* m)
 {
+/*
+BehaviorTree implementation test setup
+*/
+    using namespace bt;
+
+    std::cout << "Building tree..." << std::endl;
+    // Create behaviors
+    auto simpleMonitor =
+        [](Behavior* b) -> void
+    { std::cout << "M-Simple" << std::endl; };
+
+    auto simpleTask =
+        []() -> void
+    { std::cout << "T-Simple" << std::endl; };
+
+    Action simpleAction = std::make_unique<TWildcard>(simpleTask);
+    std::unique_ptr<Behavior> simple =
+        std::make_unique<ActionBehavior>(nullptr,
+        simpleMonitor,
+        std::move(simpleAction));
+
+    // Insert into list
+    BehaviorList behaviors;
+    behaviors.push_back(std::move(simple));
+
+    // Put tree together
+    BehaviorTree tree(std::move(behaviors));
+    std::cout << "Tree built." << std::endl;
+/*
+End BT test setup
+*/
+    std::cout << "Iterating tree..." << std::endl;
+    for (auto b : tree) {
+        std::cout << "++Begin iteration." << std::endl;
+        b->tick();
+        std::cout << "--End iteration." << std::endl;
+    }
+    std::cout << "Tree iterated." << std::endl;
+
     Unitset units = Broodwar->self()->getUnits();
     for (auto u : units)
     {
