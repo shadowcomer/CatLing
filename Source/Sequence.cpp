@@ -8,7 +8,7 @@ Sequence::Sequence(Behavior * parent,
     BehaviorMonitor monitor,
     std::vector<Behavior *> behaviors) :
     Behavior(parent, monitor),
-    m_currentBehavior(0),
+    m_currentBehavior(-1),
     m_behaviors(behaviors) {
 
 }
@@ -35,14 +35,12 @@ Behavior * Sequence::nextBehavior() {
 A Sequence should never be queried for the next behavior by the
 iterator when it's in an invalid state.
 */
-
     assert(State::INVALID == m_currentState);
     switch (m_currentState) {
     case State::RUNNING:
-        return hasNextBehaviorChild() &&
-            behaviorSucceeded(m_currentBehavior) ?
-            m_behaviors[m_currentBehavior + 1] :
-            m_parentBehavior;
+            return hasNextBehaviorChild() ?
+                m_behaviors[m_currentBehavior + 1] :
+                m_parentBehavior;
 
     case State::SUCCESS: // Cascade
     case State::FAILURE: // Cascade
@@ -57,6 +55,26 @@ iterator when it's in an invalid state.
 }
 
 void Sequence::tick() {
-    throw new std::exception("Unexpected tick.");
+    // Failure and success states shouldn't be called, because
+    // they're not considered in the iterator's call to nextBehavior.
+    assert(State::FAILURE == m_currentState ||
+        State::SUCCESS == m_currentState);
+    m_monitor(this);
+    switch (m_currentState) {
+    case State::RUNNING:
+        // TODO: This check should be redesigned into something
+        // that doesn't require the check on each iteration.
+        m_currentState = m_currentBehavior < 0 ?
+            State::RUNNING :
+            m_behaviors[m_currentBehavior]->currentState();
+        ++m_currentBehavior;
+
+    case State::INVALID:
+        m_currentState = State::RUNNING;
+        break;
+
+    default:
+        throw new std::exception("Unexpected tick state.");
+    }
 }
 
