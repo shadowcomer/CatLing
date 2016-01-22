@@ -30,8 +30,7 @@ Behavior * ActionBehavior::nextBehavior() {
         case State::ABORTED: // Cascade
         case State::FAILURE: // Cascade
         case State::SUCCESS:
-            return !m_parentBehavior ? nullptr :
-                m_parentBehavior->nextBehavior();
+            return m_parentBehavior; // Could be null
         default:
             throw new std::exception("Unexpected State.");
     }
