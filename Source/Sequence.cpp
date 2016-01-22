@@ -31,36 +31,25 @@ bool Sequence::hasNextBehaviorChild() {
 }
 
 Behavior * Sequence::nextBehavior() {
+/*
+A Sequence should never be queried for the next behavior by the
+iterator when it's in an invalid state.
+*/
+
+    assert(State::INVALID == m_currentState);
     switch (m_currentState) {
     case State::RUNNING:
-        if (hasNextBehaviorChild() &&
-            behaviorSucceeded(m_currentBehavior)) {
-            return
-                m_behaviors[++m_currentBehavior]->nextBehavior();
-        }
-        else {
-            // We're leaving the sequence, so we must update the
-            // state.
-            m_currentState =
-                m_behaviors[m_currentBehavior]->currentState();
+        return hasNextBehaviorChild() &&
+            behaviorSucceeded(m_currentBehavior) ?
+            m_behaviors[m_currentBehavior + 1] :
+            m_parentBehavior;
 
-            return m_parentBehavior ?
-                m_parentBehavior->nextBehavior() :
-                nullptr;
-        }
-
-    case State::INVALID:
-        m_currentState = State::RUNNING;
-        assert(0 == m_currentBehavior);
-        return m_behaviors[m_currentBehavior]->nextBehavior();
-
-        /*
-        A Sequence should never be ticked, thus it should never
-        be able to encounter the following states.
-        */
-    case State::FAILURE: // Cascade
-    case State::ABORTED: // Cascade
     case State::SUCCESS: // Cascade
+    case State::FAILURE: // Cascade
+    case State::ABORTED: // Cascade. TODO: Abort should have special
+                         // treatment.
+        return m_parentBehavior;
+
     default:
         throw new std::exception("Unexpected state.");
     }
