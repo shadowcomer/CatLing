@@ -27,7 +27,7 @@ bool Sequence::behaviorSucceeded(int behavior) {
 }
 
 bool Sequence::hasNextBehaviorChild() {
-    return m_currentBehavior < (m_behaviors.size() - 1);
+    return m_currentBehavior < (int)(m_behaviors.size() - 1);
 }
 
 Behavior * Sequence::nextBehavior() {
@@ -35,7 +35,7 @@ Behavior * Sequence::nextBehavior() {
 A Sequence should never be queried for the next behavior by the
 iterator when it's in an invalid state.
 */
-    assert(State::INVALID == m_currentState);
+    assert(State::INVALID != m_currentState);
     switch (m_currentState) {
     case State::RUNNING:
             return hasNextBehaviorChild() ?
@@ -57,8 +57,8 @@ iterator when it's in an invalid state.
 void Sequence::tick() {
     // Failure and success states shouldn't be called, because
     // they're not considered in the iterator's call to nextBehavior.
-    assert(State::FAILURE == m_currentState ||
-        State::SUCCESS == m_currentState);
+    assert(State::FAILURE != m_currentState &&
+        State::SUCCESS != m_currentState);
     m_monitor(this);
     switch (m_currentState) {
     case State::RUNNING:
