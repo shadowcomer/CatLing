@@ -145,5 +145,6 @@
     <ClInclude Include="Source\Loop.h">
       <Filter>Source Files\BT</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Measure.h" />
   </ItemGroup>
 </Project>
