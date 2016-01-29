@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>368</x>
+      <y>24</y>
+      <w>216</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>BehaviorTree::BTIterator
+--
+private:
+m_currentBehavior: Behavior [1]
+m_owner: BehaviorTree [1]
+
+--
+public:
+BTIterator(origin: BehaviorTree [1],
+                 currentBehavior: Behavior [1])
+
+operator*(): Behavior
+operator!=(other: BTIterator): bool
+operator++(): BTIterator</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>88</x>
+      <y>24</y>
+      <w>200</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>BehaviorTree
+--
+private:
+	m_behaviors: Behavior [*]
+	
+--
+public:
+BehaviorTree(behaviors: Behavior[*])
+BehaviorTree(original: BehaviorTree)
+
+begin(): BTIterator
+end(): BTIterator</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>8</x>
+      <y>0</y>
+      <w>912</w>
+      <h>1096</h>
+    </coordinates>
+    <panel_attributes>BT
+--
+
+bg=white
+fg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>368</x>
+      <y>256</y>
+      <w>184</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>Behavior
+--
+private:
+m_parentBehavior: Behavior [1]
+m_monitor: BehaviorMonitor [1]
+m_currentState: State [1]
+
+--
+public:
+Behavior(parent: Behavior,
+               monitor: BehaviorMonitor)
+
+currentState(): State
+/nextBehavior(): Behavior/
+/tick(): void/
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>448</x>
+      <y>192</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>632</x>
+      <y>24</y>
+      <w>168</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+State
+--
+INVALID
+RUNNING
+SUCCESS
+FAILURE
+ABORTED
+
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>632</x>
+      <y>136</y>
+      <w>168</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;typedef&gt;&gt;
+function&lt;void(Behavior)&gt;
+BehaviorMonitor
+
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>488</y>
+      <w>232</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>ActionBehavior
+--
+private:
+m_action: Task [1]
+
+--
+public:
+ActionBehavior(parent: Behavior [1],
+                         monitor: BehaviorMonitor [1],
+                         action: Task [1])
+
+ActionBehavior(other: ActionBehavior [1])
+
+nextBehavior(): Behavior
+tick(): void
+
+private:
+executeAction(): void
+
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>88</x>
+      <y>440</y>
+      <w>368</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>440.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>32</x>
+      <y>784</y>
+      <w>208</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Sequence
+--
+private:
+m_behaviors: Behavior [*]
+m_currentBehavior: int
+
+--
+public:
+Sequence(parent: Behavior [1],
+                 monitor: BehaviorMonitor [1],
+                 behaviors: Behavior [1..*])
+
+Sequence(other: Sequence [1])
+
+nextBehavior(): Behavior
+tick(): void
+
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>696</x>
+      <y>784</y>
+      <w>200</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>Loop
+--
+private:
+m_repeatedBehavior: Behavior [1]
+m_maxRepetitions: int
+m_currentRepetitions: int
+
+--
+public:
+Loop(parent: Behavior [1],
+         monitor: BehaviorMonitor [1],
+         repetitions: int,
+         repeatedBehavior: Behavior [1])
+
+Loop(other: Loop [1])
+
+nextBehavior(): Behavior
+tick(): void
+
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>456</x>
+      <y>784</y>
+      <w>232</w>
+      <h>208</h>
+    </coordinates>
+    <panel_attributes>Conditional
+--
+private:
+m_optionalBehavior: Behavior [1]
+m_condition: BehaviorCondition
+
+--
+public:
+Conditional(parent: Behavior [1],
+                   monitor: BehaviorMonitor [1],
+                   optionalBehavior: Behavior [1],
+                   condition: BehaviorCondition [1])
+
+Conditional(other: Conditional [1])
+
+nextBehavior(): Behavior
+tick(): void
+
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>248</x>
+      <y>784</y>
+      <w>200</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Selector
+--
+private:
+m_behaviors: Behavior [*]
+m_currentBehavior: int
+
+--
+public:
+Selector(parent: Behavior [1],
+               monitor: BehaviorMonitor [1],
+               behaviors: Behavior [1..*])
+
+Selector(other: Selector [1])
+
+nextBehavior(): Behavior
+tick(): void
+
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>192</x>
+      <y>440</y>
+      <w>272</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>320.0;10.0;10.0;430.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>320</x>
+      <y>440</y>
+      <w>152</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;430.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>456</x>
+      <y>440</y>
+      <w>128</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;140.0;430.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>464</x>
+      <y>440</y>
+      <w>336</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;400.0;430.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>152</y>
+      <w>104</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;170.0;110.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>544</x>
+      <y>272</y>
+      <w>72</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;40.0;70.0;40.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>72</y>
+      <w>104</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+iterated with</panel_attributes>
+    <additional_attributes>110.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>632</x>
+      <y>192</y>
+      <w>168</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;typedef&gt;&gt;
+function&lt;bool(void)&gt;
+BehaviorCondition
+
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>304</x>
+      <y>616</y>
+      <w>352</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;420.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>536</x>
+      <y>520</y>
+      <w>152</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;140.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>672</x>
+      <y>496</y>
+      <w>112</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Control Behaviors are non-terminal.
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

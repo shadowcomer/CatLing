@@ -18,12 +18,12 @@
     <Filter Include="Source Files\AI">
       <UniqueIdentifier>{c9e6dd5c-e75b-40ed-a26e-fb435e68c9eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\BT">
+      <UniqueIdentifier>{965252e8-c3b0-4345-8ee3-2c3b742d0753}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source/ClientLink.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source/main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Tasker.cpp">
@@ -61,6 +61,27 @@
     </ClCompile>
     <ClCompile Include="Source\SlabAllocator.cpp">
       <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Behavior.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BehaviorTree.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionBehavior.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sequence.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Selector.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Conditional.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Loop.cpp">
+      <Filter>Source Files\BT</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,5 +124,27 @@
     <ClInclude Include="Source\SlabAllocator.h">
       <Filter>Source Files\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Behavior.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BehaviorTree.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ActionBehavior.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sequence.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Selector.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Conditional.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Loop.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Measure.h" />
   </ItemGroup>
 </Project>
