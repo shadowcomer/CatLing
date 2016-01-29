@@ -39,7 +39,7 @@ void MacroManager::run(MacroManager* m)
 
     m->setFrameExecDelta(48);
 
-    while(!m->isTerminating())
+    while(!m->isShuttingDown())
     {
         // When we have plenty of minerals, build a barracks
         if(Broodwar->self()->minerals() > 200)
@@ -65,6 +65,6 @@ void MacroManager::run(MacroManager* m)
             }
         }
 
-        m->terminateThisExecution();
+        m->sleepExecution();
     }
 }

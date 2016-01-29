@@ -18,7 +18,7 @@ Module::~Module()
 
 }
 
-bool Module::isTerminating()
+bool Module::isShuttingDown()
 {
     return m_shuttingDown;
 }
@@ -27,7 +27,7 @@ bool Module::shutdown()
 {
     // TODO: Guarantee there's no deadlock.
     m_shuttingDown = shutdownHelper();
-    startNextExecution();
+    resumeExecution();
     return m_shuttingDown;
 }
 
@@ -48,7 +48,7 @@ int Module::getFrameExecDelta(){
     return m_frameExecDelta;
 }
 
-void Module::terminateThisExecution(){
+void Module::sleepExecution(){
     {
         std::unique_lock<std::mutex> lk(m_workMutex);
         // m_shouldWake is there to stop spurious wakes.
@@ -57,7 +57,7 @@ void Module::terminateThisExecution(){
     }
 }
 
-void Module::startNextExecution(){
+void Module::resumeExecution(){
     m_shouldWake = true;
     m_workCond.notify_one();
     setLastExecFrame(BWAPI::Broodwar->getFrameCount());

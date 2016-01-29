@@ -376,7 +376,7 @@ void ClientLink::processEvents()
                     int currentFrame = Broodwar->getFrameCount();
                     int elapsedFrames = currentFrame - m->lastExecFrame();
                     if (elapsedFrames >= m->getFrameExecDelta()){
-                        m->startNextExecution();
+                        m->resumeExecution();
                     }
                 }
             }

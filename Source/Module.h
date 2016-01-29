@@ -59,7 +59,7 @@ public:
     /*
     Returns whether this module is in a shutting down state.
     */
-    bool isTerminating();
+    bool isShuttingDown();
 
     /*
     Returns the last frame this module was called to execute.
@@ -81,7 +81,7 @@ public:
     /*
     Tells this module to start the next iteration of execution.
     */
-    void startNextExecution();
+    void resumeExecution();
 
     /*
     Returns the thread that's in control of this module.
@@ -102,9 +102,9 @@ protected:
 
     /*
     Completes the current execution and blocks the thread until it's
-    awoken by a call by startNextExecution.
+    awoken by a call by resumeExecution.
     */
-    void terminateThisExecution();
+    void sleepExecution();
 
 private:
     long int m_lastExecFrame;
