@@ -99,12 +99,17 @@
   <ItemGroup>
     <ClCompile Include="Source/Commander.cpp" />
     <ClCompile Include="Source/ClientLink.cpp" />
+    <ClCompile Include="Source\ActionBehavior.cpp" />
+    <ClCompile Include="Source\BehaviorTree.cpp" />
+    <ClCompile Include="Source\Conditional.cpp" />
     <ClCompile Include="Source\Executer.cpp" />
     <ClCompile Include="Source\Log.cpp" />
+    <ClCompile Include="Source\Loop.cpp" />
     <ClCompile Include="Source\MicroManager.cpp" />
     <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\Behavior.cpp" />
-    <ClCompile Include="Source\Composite.cpp" />
+    <ClCompile Include="Source\Selector.cpp" />
+    <ClCompile Include="Source\Sequence.cpp" />
     <ClCompile Include="Source\SlabAllocator.cpp" />
     <ClCompile Include="Source\Module.cpp" />
     <ClCompile Include="Source\Slab.cpp" />
@@ -116,12 +121,18 @@
   <ItemGroup>
     <ClInclude Include="Source/Commander.h" />
     <ClInclude Include="Source/ClientLink.h" />
+    <ClInclude Include="Source\ActionBehavior.h" />
+    <ClInclude Include="Source\BehaviorTree.h" />
+    <ClInclude Include="Source\Conditional.h" />
     <ClInclude Include="Source\Executer.h" />
     <ClInclude Include="Source\Log.h" />
+    <ClInclude Include="Source\Loop.h" />
+    <ClInclude Include="Source\Measure.h" />
     <ClInclude Include="Source\MicroManager.h" />
     <ClInclude Include="Source\MacroManager.h" />
     <ClInclude Include="Source\Behavior.h" />
-    <ClInclude Include="Source\Composite.h" />
+    <ClInclude Include="Source\Selector.h" />
+    <ClInclude Include="Source\Sequence.h" />
     <ClInclude Include="Source\SlabAllocator.h" />
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\Slab.h" />

@@ -1,7 +1,9 @@
-#include "T_Behavior.h"
-#include "T_Composite.h"
-
 #include "gtest\gtest.h"
+
+/* Unit Test headers */
+#include "T_BehaviorTree.h"
+
+/* END Unit Test headers */
 
 #include <iostream>
 

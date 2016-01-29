@@ -65,7 +65,22 @@
     <ClCompile Include="Source\Behavior.cpp">
       <Filter>Source Files\BT</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Composite.cpp">
+    <ClCompile Include="Source\BehaviorTree.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ActionBehavior.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sequence.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Selector.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Conditional.cpp">
+      <Filter>Source Files\BT</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Loop.cpp">
       <Filter>Source Files\BT</Filter>
     </ClCompile>
   </ItemGroup>
@@ -112,8 +127,24 @@
     <ClInclude Include="Source\Behavior.h">
       <Filter>Source Files\BT</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Composite.h">
+    <ClInclude Include="Source\BehaviorTree.h">
       <Filter>Source Files\BT</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ActionBehavior.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sequence.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Selector.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Conditional.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Loop.h">
+      <Filter>Source Files\BT</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Measure.h" />
   </ItemGroup>
 </Project>

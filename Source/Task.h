@@ -117,4 +117,20 @@ private:
     
 };
 
+
+
+
+class TWildcard : public Task
+{
+public:
+    TWildcard(std::function<void(void)> action) :
+        m_action(action) {}
+
+    void execute() override {
+        m_action();
+    }
+
+    std::function<void(void)> m_action;
+};
+
 #endif

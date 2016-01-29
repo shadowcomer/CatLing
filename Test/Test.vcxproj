@@ -71,8 +71,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="T_Behavior.h" />
-    <ClInclude Include="T_Composite.h" />
+    <ClInclude Include="T_BehaviorTree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
