@@ -127,6 +127,7 @@
     <ClInclude Include="Source\Executer.h" />
     <ClInclude Include="Source\Log.h" />
     <ClInclude Include="Source\Loop.h" />
+    <ClInclude Include="Source\Measure.h" />
     <ClInclude Include="Source\MicroManager.h" />
     <ClInclude Include="Source\MacroManager.h" />
     <ClInclude Include="Source\Behavior.h" />
