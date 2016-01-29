@@ -26,6 +26,17 @@ Set the list of behaviors.
         std::vector<Behavior *> m_behaviors;
         int m_currentBehavior;
 
+/**
+Checks whether the given behavior succeeded.
+*/
+        bool behaviorSucceeded(int behavior);
+
+/**
+Checks whether there's another behavior after the current one
+from the list of children behaviors.
+*/
+        bool hasNextBehaviorChild();
+
     };
 }
 
