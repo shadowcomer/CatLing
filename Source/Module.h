@@ -53,13 +53,16 @@ public:
     /*
     Tells this module to shutdown.
     This should only be called by a different thread than the module's.
+
+    Calling this function will make the caller's thread wait on the
+    module to notify back it's termination.
     */
     bool shutdown();
 
     /*
     Returns whether this module is in a shutting down state.
     */
-    bool isTerminating();
+    bool isShuttingDown();
 
     /*
     Returns the last frame this module was called to execute.
@@ -81,7 +84,7 @@ public:
     /*
     Tells this module to start the next iteration of execution.
     */
-    void startNextExecution();
+    void resumeExecution();
 
     /*
     Returns the thread that's in control of this module.
@@ -93,6 +96,12 @@ public:
     */
     bool setAllocator(SlabAllocator* allocator);
 
+    /*
+    Notifies anyone who might be waiting on the execution of the
+    module to terminate that it has finished shutting down.
+    */
+    void notifyShutdownCompletion();
+
 protected:
     tbb::tbb_thread m_thread;
     Tasker& m_tasker;
@@ -102,20 +111,24 @@ protected:
 
     /*
     Completes the current execution and blocks the thread until it's
-    awoken by a call by startNextExecution.
+    awoken by a call by resumeExecution.
     */
-    void terminateThisExecution();
+    void sleepExecution();
 
 private:
     long int m_lastExecFrame;
     long int m_frameExecDelta;
 
-    bool m_shuttingDown;
-
     // Mutex and condition variables for controlling execution.
     std::mutex m_workMutex;
     std::condition_variable m_workCond;
     bool m_shouldWake;
+
+    // Mutex and condition variables for shutdown control
+    std::mutex m_shutdownMutex;
+    std::condition_variable m_shutdownCond;
+    bool m_shutdown;
+    bool m_shuttingDown;
 
     /*
     Sets the frame the current execution started on.

@@ -376,7 +376,7 @@ void ClientLink::processEvents()
                     int currentFrame = Broodwar->getFrameCount();
                     int elapsedFrames = currentFrame - m->lastExecFrame();
                     if (elapsedFrames >= m->getFrameExecDelta()){
-                        m->startNextExecution();
+                        m->resumeExecution();
                     }
                 }
             }
@@ -400,7 +400,6 @@ void ClientLink::processEvents()
             break;
         case EventType::MatchEnd:
             onEnd(e.isWinner());
-            terminate();
             break;
         case EventType::SaveGame:
             onSaveGame(e.getText());
@@ -484,11 +483,7 @@ void ClientLink::onStart()
 
 void ClientLink::onEnd(bool isWinner)
 {
-    for each(Module* m in m_modules){
-        if (nullptr != m){
-            m->shutdown();
-        }
-    }
+    terminate();
     // Called when the game ends
     if (isWinner)
     {

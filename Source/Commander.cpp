@@ -38,7 +38,7 @@ void Commander::run(Commander* m)
 
     m->setFrameExecDelta(3);
 
-    while (!m->isTerminating())
+    while (!m->isShuttingDown())
     {
         // While enough minerals and supply, train a worker.
         if (Broodwar->self()->minerals() >= 50 &&
@@ -77,7 +77,9 @@ void Commander::run(Commander* m)
             }
         }
 
-        m->terminateThisExecution();
+        m->sleepExecution();
     }
+
+    m->notifyShutdownCompletion();
 }
 
