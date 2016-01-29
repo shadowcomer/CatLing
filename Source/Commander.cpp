@@ -79,5 +79,7 @@ void Commander::run(Commander* m)
 
         m->sleepExecution();
     }
+
+    m->notifyShutdownCompletion();
 }
 

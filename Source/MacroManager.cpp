@@ -67,4 +67,6 @@ void MacroManager::run(MacroManager* m)
 
         m->sleepExecution();
     }
+
+    m->notifyShutdownCompletion();
 }

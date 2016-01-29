@@ -53,6 +53,9 @@ public:
     /*
     Tells this module to shutdown.
     This should only be called by a different thread than the module's.
+
+    Calling this function will make the caller's thread wait on the
+    module to notify back it's termination.
     */
     bool shutdown();
 
@@ -93,6 +96,12 @@ public:
     */
     bool setAllocator(SlabAllocator* allocator);
 
+    /*
+    Notifies anyone who might be waiting on the execution of the
+    module to terminate that it has finished shutting down.
+    */
+    void notifyShutdownCompletion();
+
 protected:
     tbb::tbb_thread m_thread;
     Tasker& m_tasker;
@@ -110,12 +119,16 @@ private:
     long int m_lastExecFrame;
     long int m_frameExecDelta;
 
-    bool m_shuttingDown;
-
     // Mutex and condition variables for controlling execution.
     std::mutex m_workMutex;
     std::condition_variable m_workCond;
     bool m_shouldWake;
+
+    // Mutex and condition variables for shutdown control
+    std::mutex m_shutdownMutex;
+    std::condition_variable m_shutdownCond;
+    bool m_shutdown;
+    bool m_shuttingDown;
 
     /*
     Sets the frame the current execution started on.

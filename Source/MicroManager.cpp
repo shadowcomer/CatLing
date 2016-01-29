@@ -25,4 +25,5 @@ bool MicroManager::shutdownHelper()
 void MicroManager::run(MicroManager *m)
 {
 
+    m->notifyShutdownCompletion();
 }

@@ -4,6 +4,7 @@
 
 Module::Module(Tasker& tsk) :
 m_shuttingDown(false),
+m_shutdown(false),
 m_tasker(tsk),
 m_allocator(nullptr),
 m_shouldWake(false),
@@ -28,7 +29,25 @@ bool Module::shutdown()
     // TODO: Guarantee there's no deadlock.
     m_shuttingDown = shutdownHelper();
     resumeExecution();
+
+    {
+        std::unique_lock<std::mutex> lk(m_shutdownMutex);
+        if (!m_shutdown){
+            m_workCond.wait(lk);
+        }
+        // At this point, m_shutdown should always be true
+        assert(m_shutdown);
+    }
+
     return m_shuttingDown;
+}
+
+void Module::notifyShutdownCompletion() {
+    {
+        std::unique_lock<std::mutex> lk(m_shutdownMutex);
+        m_shutdown = true;
+        m_workCond.notify_all();
+    }
 }
 
 int Module::lastExecFrame(){
