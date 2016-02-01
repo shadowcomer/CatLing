@@ -1,5 +1,7 @@
 #include "Task.h"
 
+#include <assert.h>
+
 using namespace BWAPI;
 
 TGather::TGather(Unit unit, Unit target, bool shouldQueue) :
@@ -86,5 +88,15 @@ m_storage(storage) {
 }
 
 void TAllGatherMinerals::execute() {
+    std::vector<Entry> workers = m_storage.getEntries();
+    for (Entry e : workers) {
+        SlabTypes::UnitType* worker = e[0]->toUnit();
+        assert(nullptr != worker);
 
+        Unit closestPatch = worker->value->
+            getClosestUnit(
+            Filter::GetType == UnitTypes::Resource_Mineral_Field);
+
+        worker->value->gather(closestPatch);
+    }
 }
