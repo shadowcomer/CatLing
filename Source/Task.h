@@ -148,4 +148,18 @@ public:
 private:
     Slab& m_storage;
 };
+
+
+
+
+class TAllGatherMinerals : public Task
+{
+public:
+    TAllGatherMinerals(Slab& storage);
+
+    void execute() override;
+
+private:
+    Slab& m_storage;
+};
 #endif

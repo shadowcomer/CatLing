@@ -76,3 +76,15 @@ void TRetrieveWorkers::execute() {
     }
 
 }
+
+
+
+
+TAllGatherMinerals::TAllGatherMinerals(Slab& storage) :
+m_storage(storage) {
+
+}
+
+void TAllGatherMinerals::execute() {
+
+}
