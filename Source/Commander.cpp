@@ -29,8 +29,7 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
 
 
     bt::BehaviorList behaviors;
-    return std::make_unique<bt::BehaviorTree>(
-        bt::BehaviorTree(std::move(behaviors)));
+    return std::make_unique<bt::BehaviorTree>(std::move(behaviors));
 }
 
 void Commander::run(Commander* m)
