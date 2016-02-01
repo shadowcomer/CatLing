@@ -19,6 +19,10 @@
 
 #include "Module.h"
 
+#include "BehaviorTree.h"
+#include "Sequence.h"
+#include "ActionBehavior.h"
+
 #include <iostream>
 
 class Commander : public Module
