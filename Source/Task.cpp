@@ -65,6 +65,14 @@ m_storage(storage) {
 }
 
 void TRetrieveWorkers::execute() {
-    BWAPI::Unitset workers;
-    
+    BWAPI::Unitset units = Broodwar->self()->getUnits();
+    for (Unit u : units) {
+        if (u->getType() == UnitTypes::Terran_SCV) {
+            Entry e;
+            SlabTypes::UnitType worker(u);
+            e.push_back(&worker);
+            m_storage.appendEntry(e);
+        }
+    }
+
 }
