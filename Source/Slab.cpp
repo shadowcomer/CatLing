@@ -26,6 +26,17 @@ auto Slab::generateFieldsVector(TypeList fields)->TypeVec
     return vec;
 }
 
+auto Slab::getEntry(size_t pos, Entry& out_entry)->bool
+{
+    if (pos < m_entries.size()){
+        out_entry = m_entries[pos];
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 auto Slab::isCompatible(Entry entry)->bool
 {
     if (entry.size() != m_fieldsVec.size())
