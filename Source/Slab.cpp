@@ -26,6 +26,24 @@ auto Slab::generateFieldsVector(TypeList fields)->TypeVec
     return vec;
 }
 
+auto Slab::getEntry(size_t pos, Entry& out_entry)->bool
+{
+    tbb::mutex::scoped_lock lock(SYNC_operation);
+    if (pos < m_entries.size()){
+        out_entry = m_entries[pos];
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+auto Slab::getEntries()->std::vector<Entry>
+{
+    tbb::mutex::scoped_lock lock(SYNC_operation);
+    return m_entries;
+}
+
 auto Slab::isCompatible(Entry entry)->bool
 {
     if (entry.size() != m_fieldsVec.size())

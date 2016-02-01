@@ -51,6 +51,19 @@ public:
     ~Slab();
 
     /*
+    Retrieves the Entry at the given position. Returns true if the
+    entry was retrieved successfully, and copies the entry into
+    out_entry; returns false otherwise and leaves out_entry
+    unmodified.
+    */
+    auto getEntry(size_t pos, Entry& entry)->bool;
+
+    /*
+    Retrieves a vector that contains copies of each entry.
+    */
+    auto getEntries()->std::vector<Entry>;
+
+    /*
     Checks whether the given entry is compatible with this Slab.
     Compatibility requires that each of the fields of the Entry match
     the ones that this Slab uses, in the same order.
