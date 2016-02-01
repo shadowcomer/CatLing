@@ -16,7 +16,7 @@
 
 #include "BWAPI\Unit.h"
 
-namespace MM
+namespace SlabTypes
 {
     enum class Type
     {
@@ -26,74 +26,75 @@ namespace MM
         STRING,
         UNIT
     };
+
+    class IntType;
+    class BoolType;
+    class FloatType;
+    class StringType;
+    class UnitType;
+
+    class TypeObj
+    {
+    private:
+
+    public:
+        TypeObj(Type t);
+        virtual ~TypeObj() = 0 {};
+
+        auto toInt()->IntType*;
+        auto toBool()->BoolType*;
+        auto toFloat()->FloatType*;
+        auto toString()->StringType*;
+        auto toUnit()->UnitType*;
+
+        operator IntType();
+        operator BoolType();
+        operator FloatType();
+        operator StringType();
+        operator UnitType();
+
+        Type const type;
+    };
+
+    class StringType : public TypeObj
+    {
+    public:
+        StringType(std::string s);
+        std::string value;
+    };
+
+    class FloatType : public TypeObj
+    {
+    public:
+        FloatType(float f);
+        float value;
+    };
+
+    class BoolType : public TypeObj
+    {
+    public:
+        BoolType(bool b);
+        bool value;
+    };
+
+    class IntType : public TypeObj
+    {
+    public:
+        IntType(int val);
+        int value;
+    };
+
+    class UnitType : public TypeObj
+    {
+    public:
+        UnitType(BWAPI::Unit val);
+        BWAPI::Unit value;
+    };
+
+    /*
+    Compares whether two given TypeObj are the same specific type.
+    */
+    auto isSameType(TypeObj const * const t1, TypeObj const * const t2)->bool;
+
 }
-class IntType;
-class BoolType;
-class FloatType;
-class StringType;
-class UnitType;
-
-class TypeObj
-{
-private:
-
-public:
-    TypeObj(MM::Type t);
-    virtual ~TypeObj() = 0 {};
-
-    auto toInt()->IntType*;
-    auto toBool()->BoolType*;
-    auto toFloat()->FloatType*;
-    auto toString()->StringType*;
-    auto toUnit()->UnitType*;
-
-    operator IntType();
-    operator BoolType();
-    operator FloatType();
-    operator StringType();
-    operator UnitType();
-
-    MM::Type const type;
-};
-
-class StringType : public TypeObj
-{
-public:
-    StringType(std::string s);
-    std::string value;
-};
-
-class FloatType : public TypeObj
-{
-public:
-    FloatType(float f);
-    float value;
-};
-
-class BoolType : public TypeObj
-{
-public:
-    BoolType(bool b);
-    bool value;
-};
-
-class IntType : public TypeObj
-{
-public:
-    IntType(int val);
-    int value;
-};
-
-class UnitType : public TypeObj
-{
-public:
-    UnitType(BWAPI::Unit val);
-    BWAPI::Unit value;
-};
-
-/*
-Compares whether two given TypeObj are the same specific type.
-*/
-auto isSameType(TypeObj const * const t1, TypeObj const * const t2)->bool;
-
 #endif

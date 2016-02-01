@@ -16,9 +16,9 @@
 
 #include "Types.h"
 
-typedef tbb::concurrent_hash_map<std::string, TypeObj const * const> TypeList;
-typedef std::vector<TypeObj const * const > TypeVec;
-typedef std::vector<TypeObj*> Entry;
+typedef tbb::concurrent_hash_map<std::string, SlabTypes::TypeObj const * const> TypeList;
+typedef std::vector<SlabTypes::TypeObj const * const > TypeVec;
+typedef std::vector<SlabTypes::TypeObj*> Entry;
 typedef std::vector<Entry> EntryList;
 
 class Slab
@@ -71,7 +71,7 @@ public:
     Given a TypeObj, it modifies the value of a given Entry's field.
     The modification is a copy of the original value.
     */
-    auto modifyEntry(int i, int j, TypeObj* val)->bool;
+    auto modifyEntry(int i, int j, SlabTypes::TypeObj* val)->bool;
 
     auto discover()->TypeList const;
 };

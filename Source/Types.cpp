@@ -1,5 +1,7 @@
 #include "Types.h"
 
+using namespace SlabTypes;
+
 // Implicit conversion operators
 
 TypeObj::operator IntType()
@@ -57,18 +59,18 @@ auto TypeObj::toUnit() -> UnitType*
 
 // Constructors
 
-TypeObj::TypeObj(MM::Type t) : type(t) {}
+TypeObj::TypeObj(Type t) : type(t) {}
 
-IntType::IntType(int val) : TypeObj(MM::Type::INT), value(val) {}
-BoolType::BoolType(bool val) : TypeObj(MM::Type::BOOL), value(val) {}
-FloatType::FloatType(float val) : TypeObj(MM::Type::FLOAT), value(val) {}
-StringType::StringType(std::string val) : TypeObj(MM::Type::STRING), value(val) {}
-UnitType::UnitType(BWAPI::Unit val) : TypeObj(MM::Type::UNIT), value(val) {}
+IntType::IntType(int val) : TypeObj(Type::INT), value(val) {}
+BoolType::BoolType(bool val) : TypeObj(Type::BOOL), value(val) {}
+FloatType::FloatType(float val) : TypeObj(Type::FLOAT), value(val) {}
+StringType::StringType(std::string val) : TypeObj(Type::STRING), value(val) {}
+UnitType::UnitType(BWAPI::Unit val) : TypeObj(Type::UNIT), value(val) {}
 
 
 // Inter functionality
 
-auto isSameType(TypeObj const * const t1, TypeObj const * const t2)->bool
+auto SlabTypes::isSameType(TypeObj const * const t1, TypeObj const * const t2)->bool
 {
     if (t1 == nullptr || t2 == nullptr)
         return false;

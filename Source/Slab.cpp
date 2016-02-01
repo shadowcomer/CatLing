@@ -1,6 +1,8 @@
 #include "Slab.h"
 #include <assert.h>
 
+using namespace SlabTypes;
+
 Slab::Slab(TypeList const fields) :
 m_fields(fields),
 m_fieldsVec(generateFieldsVector(m_fields))
@@ -13,9 +15,9 @@ Slab::~Slab()
 
 }
 
-auto Slab::generateFieldsVector(TypeList fields)->std::vector<TypeObj const * const>
+auto Slab::generateFieldsVector(TypeList fields)->TypeVec
 {
-    std::vector < TypeObj const * const> vec;
+    TypeVec vec;
     for each(auto elem in m_fields)
     {
         vec.push_back(elem.second);
@@ -114,7 +116,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
 
         switch (val->type)
         {
-        case MM::Type::INT:
+        case Type::INT:
             iParamObj = val->toInt();
             iTargetObj = entryField->toInt();
 
@@ -124,7 +126,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
             iTargetObj->value = iParamObj->value;
             break;
 
-        case MM::Type::BOOL:
+        case Type::BOOL:
             bParamObj = val->toBool();
             bTargetObj = entryField->toBool();
 
@@ -134,7 +136,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
             bTargetObj->value = bParamObj->value;
             break;
 
-        case MM::Type::FLOAT:
+        case Type::FLOAT:
             fParamObj = val->toFloat();
             fTargetObj = entryField->toFloat();
 
@@ -144,7 +146,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
             fTargetObj->value = fParamObj->value;
             break;
 
-        case MM::Type::STRING:
+        case Type::STRING:
             sParamObj = val->toString();
             sTargetObj = entryField->toString();
 
