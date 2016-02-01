@@ -39,6 +39,13 @@ public:
 private:
     BWAPI::Unit m_command;
 
+    std::unique_ptr<bt::BehaviorTree> m_gatherMinerals;
+
+    /*
+    Builds a BehaviorTree for mineral gathering.
+    */
+    std::unique_ptr<bt::BehaviorTree> buildGatherMinerals();
+
     /*
     Implementation of the Commander's shutdown procedure.
     */

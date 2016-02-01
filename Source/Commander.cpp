@@ -3,7 +3,8 @@
 using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk) :
-Module(tsk)
+Module(tsk),
+m_gatherMinerals(std::move(buildGatherMinerals()))
 {
 
 }
@@ -22,6 +23,14 @@ bool Commander::shutdownHelper()
 {
 
     return true;
+}
+
+std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
+    
+
+    bt::BehaviorList behaviors;
+    return std::make_unique<bt::BehaviorTree>(
+        bt::BehaviorTree(std::move(behaviors)));
 }
 
 void Commander::run(Commander* m)

@@ -56,3 +56,15 @@ void TAttack::execute()
     origin->attack(target, queueCommand);
 }
 
+
+
+
+TRetrieveWorkers::TRetrieveWorkers(Slab& storage) :
+m_storage(storage) {
+
+}
+
+void TRetrieveWorkers::execute() {
+    BWAPI::Unitset workers;
+    
+}

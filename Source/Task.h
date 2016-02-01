@@ -15,6 +15,8 @@
 
 #include <BWAPI.h>
 
+#include "Slab.h"
+
 class Task
 {
 public:
@@ -133,4 +135,17 @@ public:
     std::function<void(void)> m_action;
 };
 
+
+
+
+class TRetrieveWorkers : public Task
+{
+public:
+    TRetrieveWorkers(Slab& storage);
+
+    void execute() override;
+
+private:
+    Slab& m_storage;
+};
 #endif
