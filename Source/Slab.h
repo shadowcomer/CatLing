@@ -65,13 +65,13 @@ public:
     /*
     Given an Entry's position, it removes it from the Slab.
     */
-    auto removeEntry(int i)->bool;
+    auto removeEntry(size_t i)->bool;
 
     /*
     Given a TypeObj, it modifies the value of a given Entry's field.
     The modification is a copy of the original value.
     */
-    auto modifyEntry(int i, int j, SlabTypes::TypeObj* val)->bool;
+    auto modifyEntry(size_t i, size_t j, SlabTypes::TypeObj* val)->bool;
 
     auto discover()->TypeList const;
 };

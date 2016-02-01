@@ -33,7 +33,7 @@ auto Slab::isCompatible(Entry entry)->bool
         return false;
     }
 
-    for (int i = 0; i < m_fieldsVec.size(); i++)
+    for (size_t i = 0; i < m_fieldsVec.size(); i++)
     {
         if (!isSameType(entry[i], m_fieldsVec[i]))
             return false;
@@ -56,7 +56,7 @@ auto Slab::appendEntry(Entry entry)->bool
     return true;
 }
 
-auto Slab::removeEntry(int i)->bool
+auto Slab::removeEntry(size_t i)->bool
 {
     {
         tbb::mutex::scoped_lock lock(SYNC_operation);
@@ -73,7 +73,7 @@ auto Slab::removeEntry(int i)->bool
     return true;
 }
 
-auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
+auto Slab::modifyEntry(size_t i, size_t j, TypeObj* val)->bool
 {
     if (val == nullptr)
         return false;
