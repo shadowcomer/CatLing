@@ -28,6 +28,7 @@ auto Slab::generateFieldsVector(TypeList fields)->TypeVec
 
 auto Slab::getEntry(size_t pos, Entry& out_entry)->bool
 {
+    tbb::mutex::scoped_lock lock(SYNC_operation);
     if (pos < m_entries.size()){
         out_entry = m_entries[pos];
         return true;
