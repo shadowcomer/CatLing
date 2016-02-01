@@ -37,6 +37,12 @@ auto Slab::getEntry(size_t pos, Entry& out_entry)->bool
     }
 }
 
+auto Slab::getEntries()->std::vector<Entry>
+{
+    tbb::mutex::scoped_lock lock(SYNC_operation);
+    return m_entries;
+}
+
 auto Slab::isCompatible(Entry entry)->bool
 {
     if (entry.size() != m_fieldsVec.size())
