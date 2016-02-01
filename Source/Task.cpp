@@ -15,7 +15,7 @@ void TGather::execute()
 
 
 
-TTrain::TTrain(Unit builder, UnitType unit) :
+TTrain::TTrain(Unit builder, BWAPI::UnitType unit) :
 builder(builder),
 unit(unit){}
 
@@ -27,7 +27,7 @@ void TTrain::execute()
 
 
 
-TBuild::TBuild(Unit builder, UnitType building, TilePosition location) :
+TBuild::TBuild(Unit builder, BWAPI::UnitType building, TilePosition location) :
 builder(builder),
 building(building),
 location(location){}
