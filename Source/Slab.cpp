@@ -114,6 +114,9 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
         StringType* sParamObj = nullptr;
         StringType* sTargetObj = nullptr;
 
+        UnitType* uParamObj = nullptr;
+        UnitType* uTargetObj = nullptr;
+
         switch (val->type)
         {
         case Type::INT:
@@ -154,6 +157,16 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
             assert(sTargetObj != nullptr);
 
             sTargetObj->value = sParamObj->value;
+            break;
+
+        case Type::UNIT:
+            uParamObj = val->toUnit();
+            uTargetObj = entryField->toUnit();
+
+            assert(uParamObj != nullptr);
+            assert(uTargetObj != nullptr);
+
+            uTargetObj->value = uParamObj->value;
             break;
 
         default:
