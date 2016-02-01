@@ -87,7 +87,7 @@ public:
 class UnitType : public TypeObj
 {
 public:
-    UnitType(BWAPI::Unit u);
+    UnitType(BWAPI::Unit val);
     BWAPI::Unit value;
 };
 
