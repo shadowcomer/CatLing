@@ -14,6 +14,9 @@
  TypeObj::operator StringType()
     { return dynamic_cast<StringType&>(*this); }
 
+ TypeObj::operator UnitType()
+    { return dynamic_cast<UnitType&>(*this); }
+
  // Special conversion functions
 
  auto TypeObj::toInt() -> IntType*
@@ -37,6 +40,11 @@ auto TypeObj::toFloat() -> FloatType*
     return typeid(StringType*) == typeid(this) ? dynamic_cast<StringType*>(this) : nullptr;
 }
 
+auto TypeObj::toUnit() -> UnitType*
+{
+     return typeid(UnitType*) == typeid(this) ? dynamic_cast<UnitType*>(this) : nullptr;
+}
+
  // Constructors
 
  TypeObj::TypeObj(MM::Type t) : type(t) {}
@@ -45,6 +53,7 @@ auto TypeObj::toFloat() -> FloatType*
  BoolType::BoolType(bool val) : TypeObj(MM::Type::BOOL), value(val) {}
  FloatType::FloatType(float val) : TypeObj(MM::Type::FLOAT), value(val) {}
  StringType::StringType(std::string val) : TypeObj(MM::Type::STRING), value(val) {}
+ UnitType::UnitType(BWAPI::Unit val) : TypeObj(MM::Type::UNIT), value(val) {}
 
 
  // Inter functionality

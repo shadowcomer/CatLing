@@ -14,6 +14,8 @@
 
 #include <string>
 
+#include "BWAPI\Unit.h"
+
 namespace MM
 {
     enum class Type
@@ -22,12 +24,14 @@ namespace MM
         BOOL,
         FLOAT,
         STRING,
+        UNIT
     };
 }
 class IntType;
 class BoolType;
 class FloatType;
 class StringType;
+class UnitType;
 
 class TypeObj
 {
@@ -41,11 +45,13 @@ public:
     auto toBool()->BoolType*;
     auto toFloat()->FloatType*;
     auto toString()->StringType*;
+    auto toUnit()->UnitType*;
 
     operator IntType();
     operator BoolType();
     operator FloatType();
     operator StringType();
+    operator UnitType();
 
     MM::Type const type;
 };
@@ -76,6 +82,13 @@ class IntType : public TypeObj
 public:
     IntType(int val);
     int value;
+};
+
+class UnitType : public TypeObj
+{
+public:
+    UnitType(BWAPI::Unit u);
+    BWAPI::Unit value;
 };
 
 /*
