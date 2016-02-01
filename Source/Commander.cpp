@@ -26,7 +26,7 @@ bool Commander::shutdownHelper()
 }
 
 std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
-    
+
 
     bt::BehaviorList behaviors;
     return std::make_unique<bt::BehaviorTree>(
@@ -75,7 +75,7 @@ void Commander::run(Commander* m)
             if (!u->isCompleted() || u->isConstructing())
                 continue;
 
-            UnitType type = u->getType();
+            BWAPI::UnitType type = u->getType();
             if (type.isWorker())
             {
                 if (u->isIdle())
