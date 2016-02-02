@@ -54,7 +54,7 @@ auto TypeObj::toString() -> StringType*
 
 auto TypeObj::toUnit() -> UnitType*
 {
-    return typeid(UnitType*) == typeid(this) ? dynamic_cast<UnitType*>(this) : nullptr;
+    return dynamic_cast<UnitType*>(this);
 }
 
 // Constructors
