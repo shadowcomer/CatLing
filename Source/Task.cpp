@@ -61,9 +61,9 @@ void TAttack::execute()
 
 
 
-TRetrieveWorkers::TRetrieveWorkers(Slab& storage) :
+TRetrieveWorkers::TRetrieveWorkers(Slab* storage) :
 m_storage(storage) {
-
+    assert(nullptr != m_storage);
 }
 
 void TRetrieveWorkers::execute() {
@@ -73,7 +73,7 @@ void TRetrieveWorkers::execute() {
             Entry e;
             SlabTypes::UnitType worker(u);
             e.push_back(&worker);
-            m_storage.appendEntry(e);
+            m_storage->appendEntry(e);
         }
     }
 
@@ -82,13 +82,13 @@ void TRetrieveWorkers::execute() {
 
 
 
-TAllGatherMinerals::TAllGatherMinerals(Slab& storage) :
+TAllGatherMinerals::TAllGatherMinerals(Slab* storage) :
 m_storage(storage) {
-
+    assert(nullptr != m_storage);
 }
 
 void TAllGatherMinerals::execute() {
-    std::vector<Entry> workers = m_storage.getEntries();
+    std::vector<Entry> workers = m_storage->getEntries();
     for (Entry e : workers) {
         SlabTypes::UnitType* worker = e[0]->toUnit();
         assert(nullptr != worker);

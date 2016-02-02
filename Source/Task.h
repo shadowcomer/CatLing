@@ -141,12 +141,12 @@ public:
 class TRetrieveWorkers : public Task
 {
 public:
-    TRetrieveWorkers(Slab& storage);
+    TRetrieveWorkers(Slab* storage);
 
     void execute() override;
 
 private:
-    Slab& m_storage;
+    Slab* m_storage;
 };
 
 
@@ -155,11 +155,11 @@ private:
 class TAllGatherMinerals : public Task
 {
 public:
-    TAllGatherMinerals(Slab& storage);
+    TAllGatherMinerals(Slab* storage);
 
     void execute() override;
 
 private:
-    Slab& m_storage;
+    Slab* m_storage;
 };
 #endif
