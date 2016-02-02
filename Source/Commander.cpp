@@ -3,8 +3,7 @@
 using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk) :
-Module(tsk),
-m_gatherMinerals(std::move(buildGatherMinerals()))
+Module(tsk)
 {
 
 }
@@ -69,12 +68,6 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
 
 void Commander::run(Commander* m)
 {
-    // Create Slab for worker units
-    TypeList types;
-    std::shared_ptr<SlabTypes::UnitType> unitType;
-    types.insert(std::make_pair("unit", unitType.get()));
-    m->m_allocator->createSlab("workers", types);
-
     Unitset units = Broodwar->self()->getUnits();
     for (auto u : units)
     {
@@ -85,46 +78,27 @@ void Commander::run(Commander* m)
         }
     }
 
+    // Create Slab for worker units
+    TypeList types;
+    std::shared_ptr<SlabTypes::UnitType> unitType =
+        std::make_shared<SlabTypes::UnitType>(*units.begin());
+    types.insert(std::make_pair("unit", unitType.get()));
+    m->m_allocator->createSlab("workers", types);
+
+    std::unique_ptr<bt::BehaviorTree> gather =
+        m->buildGatherMinerals();
+
+    std::cout << "Starting gather ticking" << std::endl;
+    for (auto b : *gather.get()) {
+        b->tick();
+    }
+
+    std::cout << "Completed gather ticking" << std::endl;
+
     m->setFrameExecDelta(3);
 
     while (!m->isShuttingDown())
     {
-        // While enough minerals and supply, train a worker.
-        if (Broodwar->self()->minerals() >= 50 &&
-            ((Broodwar->self()->supplyUsed() + UnitTypes::Terran_SCV.supplyRequired()) <
-            Broodwar->self()->supplyTotal()))
-        {
-            m->m_tasker.requestTask(new TTrain(m->m_command, UnitTypes::Terran_SCV));
-        }
-
-        Unitset units = Broodwar->self()->getUnits();
-        for (auto u : units)
-        {
-            if (!u->exists())
-                continue;
-
-            // Ignore the unit if it has one of the following status ailments
-            if (u->isLockedDown() || u->isMaelstrommed() || u->isStasised())
-                continue;
-
-            // Ignore the unit if it is in one of the following states
-            if (u->isLoaded() || !u->isPowered() || u->isStuck())
-                continue;
-
-            // Ignore the unit if it is incomplete or busy constructing
-            if (!u->isCompleted() || u->isConstructing())
-                continue;
-
-            BWAPI::UnitType type = u->getType();
-            if (type.isWorker())
-            {
-                if (u->isIdle())
-                {
-                    Unit closestPatch = u->getClosestUnit(Filter::GetType == UnitTypes::Resource_Mineral_Field);
-                    m->m_tasker.requestTask(new TGather(u, closestPatch, false));
-                }
-            }
-        }
 
         m->sleepExecution();
     }
