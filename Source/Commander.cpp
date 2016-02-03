@@ -3,8 +3,7 @@
 using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk) :
-Module(tsk),
-m_gatherMinerals(std::move(buildGatherMinerals()))
+Module(tsk)
 {
 
 }
