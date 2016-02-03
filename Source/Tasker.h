@@ -13,6 +13,8 @@
 #include "../include/TBB/tbb/concurrent_queue.h"
 #include "Task.h"
 
+class Task;
+
 class Tasker
 {
 public:

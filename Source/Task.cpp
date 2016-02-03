@@ -4,6 +4,23 @@
 
 using namespace BWAPI;
 
+Tasker* TaskWrapper::sm_tasker = nullptr;
+
+void TaskWrapper::InitializeTaskWrapper(Tasker* tasker) {
+    assert(nullptr != tasker);
+    sm_tasker = tasker;
+}
+
+TaskWrapper::TaskWrapper(std::unique_ptr<CloneableTask> t) :
+m_task(std::move(t)) {
+    assert(nullptr != m_task);
+}
+
+void TaskWrapper::execute() {
+    assert(nullptr != sm_tasker);
+    sm_tasker->requestTask(m_task->clone());
+}
+
 TGather::TGather(Unit unit, Unit target, bool shouldQueue) :
 unit(unit),
 target(target),
@@ -12,6 +29,10 @@ queueCommand(shouldQueue){}
 void TGather::execute()
 {
     unit->gather(target, queueCommand);
+}
+
+Task* TGather::clone() const {
+    return new TGather(*this);
 }
 
 
@@ -24,6 +45,10 @@ unit(unit){}
 void TTrain::execute()
 {
     builder->train(unit);
+}
+
+Task* TTrain::clone() const {
+    return new TTrain(*this);
 }
 
 
@@ -45,6 +70,10 @@ bool TBuild::verifyBuildCapability()
     return (nullptr != builder) && (building.whatBuilds().first == builder->getType());
 }
 
+Task* TBuild::clone() const {
+    return new TBuild(*this);
+}
+
 
 
 
@@ -56,6 +85,10 @@ queueCommand(shouldQueue){}
 void TAttack::execute()
 {
     origin->attack(target, queueCommand);
+}
+
+Task* TAttack::clone() const {
+    return new TAttack(*this);
 }
 
 
@@ -75,6 +108,10 @@ void TRetrieveWorkers::execute() {
         }
     }
 
+}
+
+Task* TRetrieveWorkers::clone() const {
+    return new TRetrieveWorkers(*this);
 }
 
 
@@ -97,4 +134,8 @@ void TAllGatherMinerals::execute() {
 
         worker->value->gather(closestPatch);
     }
+}
+
+Task* TAllGatherMinerals::clone() const {
+    return new TAllGatherMinerals(*this);
 }
