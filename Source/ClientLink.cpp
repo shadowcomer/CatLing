@@ -251,6 +251,8 @@ m_executer(m_taskManager.getOutputInterface())
 
     // TODO: Change to stack allocation
     m_allocator = new SlabAllocator();
+    TaskWrapper::InitializeTaskWrapper(
+        &(m_taskManager.getInputInterface()));
 }
 
 ClientLink::~ClientLink()
