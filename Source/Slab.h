@@ -16,9 +16,9 @@
 
 #include "Types.h"
 
-typedef tbb::concurrent_hash_map<std::string, TypeObj const * const> TypeList;
-typedef std::vector<TypeObj const * const > TypeVec;
-typedef std::vector<TypeObj*> Entry;
+typedef tbb::concurrent_hash_map<std::string, SlabTypes::TypeObj const * const> TypeList;
+typedef std::vector<SlabTypes::TypeObj const * const > TypeVec;
+typedef std::vector<SlabTypes::TypeObj*> Entry;
 typedef std::vector<Entry> EntryList;
 
 class Slab
@@ -51,6 +51,19 @@ public:
     ~Slab();
 
     /*
+    Retrieves the Entry at the given position. Returns true if the
+    entry was retrieved successfully, and copies the entry into
+    out_entry; returns false otherwise and leaves out_entry
+    unmodified.
+    */
+    auto getEntry(size_t pos, Entry& entry)->bool;
+
+    /*
+    Retrieves a vector that contains copies of each entry.
+    */
+    auto getEntries()->std::vector<Entry>;
+
+    /*
     Checks whether the given entry is compatible with this Slab.
     Compatibility requires that each of the fields of the Entry match
     the ones that this Slab uses, in the same order.
@@ -65,13 +78,13 @@ public:
     /*
     Given an Entry's position, it removes it from the Slab.
     */
-    auto removeEntry(int i)->bool;
+    auto removeEntry(size_t i)->bool;
 
     /*
     Given a TypeObj, it modifies the value of a given Entry's field.
     The modification is a copy of the original value.
     */
-    auto modifyEntry(int i, int j, TypeObj* val)->bool;
+    auto modifyEntry(size_t i, size_t j, SlabTypes::TypeObj* val)->bool;
 
     auto discover()->TypeList const;
 };

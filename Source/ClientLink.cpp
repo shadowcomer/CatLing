@@ -251,6 +251,8 @@ m_executer(m_taskManager.getOutputInterface())
 
     // TODO: Change to stack allocation
     m_allocator = new SlabAllocator();
+    TaskWrapper::InitializeTaskWrapper(
+        &(m_taskManager.getInputInterface()));
 }
 
 ClientLink::~ClientLink()
@@ -424,12 +426,12 @@ bool ClientLink::hasEnoughSupply(BWAPI::UnitType type)
     return self->supplyTotal() >= (self->supplyUsed() + type.supplyRequired());
 }
 
-bool ClientLink::hasEnoughResources(UnitType type)
+bool ClientLink::hasEnoughResources(BWAPI::UnitType type)
 {
     return (self->minerals() - m_projectedMinerals) >= type.mineralPrice() && (self->gas() - m_projectedGas) >= type.gasPrice();
 }
 
-void ClientLink::spendProjectedCost(UnitType type)
+void ClientLink::spendProjectedCost(BWAPI::UnitType type)
 {
     m_projectedMinerals += type.mineralPrice();
     m_projectedGas += type.gasPrice();
@@ -666,7 +668,7 @@ void ClientLink::onUnitCreate(BWAPI::Unit unit)
 {
     // WARNING: It's possible that this function is registering units
     // that are not our own.
-    UnitType type = unit->getType();
+    BWAPI::UnitType type = unit->getType();
 
     // Keep projected resources consistency
     m_projectedMinerals -= type.mineralPrice();
@@ -678,7 +680,7 @@ void ClientLink::onUnitCreate(BWAPI::Unit unit)
 void ClientLink::onUnitDestroy(BWAPI::Unit unit)
 {
     // FIX: This function could be registering another team's units deaths.
-    UnitType type = unit->getType();
+    BWAPI::UnitType type = unit->getType();
     if (UnitTypes::Terran_SCV == type)
         m_SCVcount = m_SCVcount > 0 ? m_SCVcount - 1 : 0;
     if (UnitTypes::Terran_Bunker == type)
@@ -712,7 +714,7 @@ void ClientLink::onSaveGame(std::string gameName)
 void ClientLink::onUnitComplete(BWAPI::Unit unit)
 {
     // FIX: This function could be registering another team's finished builds.
-    UnitType type = unit->getType();
+    BWAPI::UnitType type = unit->getType();
     if (UnitTypes::Terran_Barracks == type)
     {
         m_barracksBuilt = !(m_barracksRequested = false); Broodwar << "Barracks built" << std::endl;

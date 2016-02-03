@@ -15,6 +15,11 @@
 
 #include <BWAPI.h>
 
+#include "Slab.h"
+#include "Tasker.h"
+
+class Tasker;
+
 class Task
 {
 public:
@@ -22,14 +27,33 @@ public:
     Execution function to be implemented by each specific task separately.
     */
     virtual void execute() = 0;
+
 private:
 
+};
+
+class CloneableTask : public Task
+{
+public:
+    virtual Task* clone() const = 0;
+};
+
+class TaskWrapper : public Task
+{
+public:
+    TaskWrapper(std::unique_ptr<CloneableTask> t);
+    static void InitializeTaskWrapper(Tasker* tasker);
+private:
+    std::unique_ptr<CloneableTask> m_task;
+    static Tasker * sm_tasker;
+
+    void execute() override;
 };
 
 
 
 
-class TGather : public Task
+class TGather : public CloneableTask
 {
 public:
     /*
@@ -40,6 +64,7 @@ public:
     */
     TGather(BWAPI::Unit unit, BWAPI::Unit target, bool shouldQueue);
     void execute();
+    virtual Task* clone() const;
 
     const BWAPI::Unit unit;
     const BWAPI::Unit target;
@@ -51,7 +76,7 @@ private:
 
 
 
-class TTrain : public Task
+class TTrain : public CloneableTask
 {
 public:
     /*
@@ -60,6 +85,7 @@ public:
     */
     TTrain(BWAPI::Unit builder, BWAPI::UnitType unit);
     void execute();
+    virtual Task* clone() const;
 
     const BWAPI::Unit builder;
     const BWAPI::UnitType unit;
@@ -72,7 +98,7 @@ private:
 
 
 
-class TBuild : public Task
+class TBuild : public CloneableTask
 {
 public:
     /*
@@ -81,6 +107,7 @@ public:
     */
     TBuild(BWAPI::Unit builder, BWAPI::UnitType building, BWAPI::TilePosition location);
     void execute();
+    virtual Task* clone() const;
 
     const BWAPI::Unit builder;
     const BWAPI::UnitType building;
@@ -97,7 +124,7 @@ private:
 
 
 
-class TAttack : public Task
+class TAttack : public CloneableTask
 {
 public:
     /*
@@ -108,6 +135,7 @@ public:
     */
     TAttack(BWAPI::Unit origin, BWAPI::PositionOrUnit target, bool shouldQueue);
     void execute();
+    virtual Task* clone() const;
 
     const BWAPI::Unit origin;
     const BWAPI::PositionOrUnit target;
@@ -120,7 +148,7 @@ private:
 
 
 
-class TWildcard : public Task
+class TWildcard : public CloneableTask
 {
 public:
     TWildcard(std::function<void(void)> action) :
@@ -130,7 +158,41 @@ public:
         m_action();
     }
 
+    virtual Task* clone() const {
+        return new ::TWildcard(*this);
+    }
+
     std::function<void(void)> m_action;
+};
+
+
+
+
+class TRetrieveWorkers : public CloneableTask
+{
+public:
+    TRetrieveWorkers(Slab* storage);
+
+    void execute() override;
+    virtual Task* clone() const;
+
+private:
+    Slab* m_storage;
+};
+
+
+
+
+class TAllGatherMinerals : public CloneableTask
+{
+public:
+    TAllGatherMinerals(Slab* storage);
+
+    void execute() override;
+    virtual Task* clone() const;
+
+private:
+    Slab* m_storage;
 };
 
 #endif

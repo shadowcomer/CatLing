@@ -19,6 +19,10 @@
 
 #include "Module.h"
 
+#include "BehaviorTree.h"
+#include "Sequence.h"
+#include "ActionBehavior.h"
+
 #include <iostream>
 
 class Commander : public Module
@@ -34,6 +38,11 @@ public:
 
 private:
     BWAPI::Unit m_command;
+
+    /*
+    Builds a BehaviorTree for mineral gathering.
+    */
+    std::unique_ptr<bt::BehaviorTree> buildGatherMinerals();
 
     /*
     Implementation of the Commander's shutdown procedure.
