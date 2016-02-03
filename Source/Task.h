@@ -42,14 +42,12 @@ class TaskWrapper : public Task
 {
 public:
     TaskWrapper(std::unique_ptr<CloneableTask> t);
-
+    static void InitializeTaskWrapper(Tasker* tasker);
 private:
     std::unique_ptr<CloneableTask> m_task;
     static Tasker * sm_tasker;
 
     void execute() override;
-
-    static void InitializeTaskWrapper(Tasker* tasker);
 };
 
 
