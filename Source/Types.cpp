@@ -1,30 +1,45 @@
 #include "Types.h"
 
+using namespace SlabTypes;
+
 // Implicit conversion operators
 
- TypeObj::operator IntType()
-    { return dynamic_cast<IntType&>(*this); }
+TypeObj::operator IntType()
+{
+    return dynamic_cast<IntType&>(*this);
+}
 
- TypeObj::operator BoolType()
-    { return dynamic_cast<BoolType&>(*this); }
+TypeObj::operator BoolType()
+{
+    return dynamic_cast<BoolType&>(*this);
+}
 
- TypeObj::operator FloatType()
-    { return dynamic_cast<FloatType&>(*this); }
+TypeObj::operator FloatType()
+{
+    return dynamic_cast<FloatType&>(*this);
+}
 
- TypeObj::operator StringType()
-    { return dynamic_cast<StringType&>(*this); }
+TypeObj::operator StringType()
+{
+    return dynamic_cast<StringType&>(*this);
+}
 
- // Special conversion functions
+TypeObj::operator UnitType()
+{
+    return dynamic_cast<UnitType&>(*this);
+}
 
- auto TypeObj::toInt() -> IntType*
- {
+// Special conversion functions
+
+auto TypeObj::toInt() -> IntType*
+{
     return typeid(IntType*) == typeid(this) ? dynamic_cast<IntType*>(this) : nullptr;
- }
+}
 
- auto TypeObj::toBool() -> BoolType*
- {
+auto TypeObj::toBool() -> BoolType*
+{
     return typeid(BoolType*) == typeid(this) ? dynamic_cast<BoolType*>(this) : nullptr;
- }
+}
 
 auto TypeObj::toFloat() -> FloatType*
 {
@@ -32,27 +47,33 @@ auto TypeObj::toFloat() -> FloatType*
 }
 
 
- auto TypeObj::toString() -> StringType*
-{ 
+auto TypeObj::toString() -> StringType*
+{
     return typeid(StringType*) == typeid(this) ? dynamic_cast<StringType*>(this) : nullptr;
 }
 
- // Constructors
+auto TypeObj::toUnit() -> UnitType*
+{
+    return dynamic_cast<UnitType*>(this);
+}
 
- TypeObj::TypeObj(MM::Type t) : type(t) {}
+// Constructors
 
- IntType::IntType(int val) : TypeObj(MM::Type::INT), value(val) {}
- BoolType::BoolType(bool val) : TypeObj(MM::Type::BOOL), value(val) {}
- FloatType::FloatType(float val) : TypeObj(MM::Type::FLOAT), value(val) {}
- StringType::StringType(std::string val) : TypeObj(MM::Type::STRING), value(val) {}
+TypeObj::TypeObj(Type t) : type(t) {}
+
+IntType::IntType(int val) : TypeObj(Type::INT), value(val) {}
+BoolType::BoolType(bool val) : TypeObj(Type::BOOL), value(val) {}
+FloatType::FloatType(float val) : TypeObj(Type::FLOAT), value(val) {}
+StringType::StringType(std::string val) : TypeObj(Type::STRING), value(val) {}
+UnitType::UnitType(BWAPI::Unit val) : TypeObj(Type::UNIT), value(val) {}
 
 
- // Inter functionality
+// Inter functionality
 
- auto isSameType(TypeObj const * const t1, TypeObj const * const t2)->bool
- {
-     if (t1 == nullptr || t2 == nullptr)
-         return false;
+auto SlabTypes::isSameType(TypeObj const * const t1, TypeObj const * const t2)->bool
+{
+    if (t1 == nullptr || t2 == nullptr)
+        return false;
 
-     return t1->type == t2->type;
- }
+    return t1->type == t2->type;
+}

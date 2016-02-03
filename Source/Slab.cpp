@@ -1,6 +1,8 @@
 #include "Slab.h"
 #include <assert.h>
 
+using namespace SlabTypes;
+
 Slab::Slab(TypeList const fields) :
 m_fields(fields),
 m_fieldsVec(generateFieldsVector(m_fields))
@@ -13,15 +15,33 @@ Slab::~Slab()
 
 }
 
-auto Slab::generateFieldsVector(TypeList fields)->std::vector<TypeObj const * const>
+auto Slab::generateFieldsVector(TypeList fields)->TypeVec
 {
-    std::vector < TypeObj const * const> vec;
+    TypeVec vec;
     for each(auto elem in m_fields)
     {
         vec.push_back(elem.second);
     }
 
     return vec;
+}
+
+auto Slab::getEntry(size_t pos, Entry& out_entry)->bool
+{
+    tbb::mutex::scoped_lock lock(SYNC_operation);
+    if (pos < m_entries.size()){
+        out_entry = m_entries[pos];
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+auto Slab::getEntries()->std::vector<Entry>
+{
+    tbb::mutex::scoped_lock lock(SYNC_operation);
+    return m_entries;
 }
 
 auto Slab::isCompatible(Entry entry)->bool
@@ -31,7 +51,7 @@ auto Slab::isCompatible(Entry entry)->bool
         return false;
     }
 
-    for (int i = 0; i < m_fieldsVec.size(); i++)
+    for (size_t i = 0; i < m_fieldsVec.size(); i++)
     {
         if (!isSameType(entry[i], m_fieldsVec[i]))
             return false;
@@ -54,7 +74,7 @@ auto Slab::appendEntry(Entry entry)->bool
     return true;
 }
 
-auto Slab::removeEntry(int i)->bool
+auto Slab::removeEntry(size_t i)->bool
 {
     {
         tbb::mutex::scoped_lock lock(SYNC_operation);
@@ -71,7 +91,7 @@ auto Slab::removeEntry(int i)->bool
     return true;
 }
 
-auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
+auto Slab::modifyEntry(size_t i, size_t j, TypeObj* val)->bool
 {
     if (val == nullptr)
         return false;
@@ -112,9 +132,12 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
         StringType* sParamObj = nullptr;
         StringType* sTargetObj = nullptr;
 
+        UnitType* uParamObj = nullptr;
+        UnitType* uTargetObj = nullptr;
+
         switch (val->type)
         {
-        case MM::Type::INT:
+        case Type::INT:
             iParamObj = val->toInt();
             iTargetObj = entryField->toInt();
 
@@ -124,7 +147,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
             iTargetObj->value = iParamObj->value;
             break;
 
-        case MM::Type::BOOL:
+        case Type::BOOL:
             bParamObj = val->toBool();
             bTargetObj = entryField->toBool();
 
@@ -134,7 +157,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
             bTargetObj->value = bParamObj->value;
             break;
 
-        case MM::Type::FLOAT:
+        case Type::FLOAT:
             fParamObj = val->toFloat();
             fTargetObj = entryField->toFloat();
 
@@ -144,7 +167,7 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
             fTargetObj->value = fParamObj->value;
             break;
 
-        case MM::Type::STRING:
+        case Type::STRING:
             sParamObj = val->toString();
             sTargetObj = entryField->toString();
 
@@ -152,6 +175,16 @@ auto Slab::modifyEntry(int i, int j, TypeObj* val)->bool
             assert(sTargetObj != nullptr);
 
             sTargetObj->value = sParamObj->value;
+            break;
+
+        case Type::UNIT:
+            uParamObj = val->toUnit();
+            uTargetObj = entryField->toUnit();
+
+            assert(uParamObj != nullptr);
+            assert(uTargetObj != nullptr);
+
+            uTargetObj->value = uParamObj->value;
             break;
 
         default:
