@@ -41,10 +41,10 @@ public:
 class TaskWrapper : public Task
 {
 public:
-    TaskWrapper(CloneableTask* t);
+    TaskWrapper(std::unique_ptr<CloneableTask> t);
 
 private:
-    CloneableTask * m_task;
+    std::unique_ptr<CloneableTask> m_task;
     static Tasker * sm_tasker;
 
     void execute() override;

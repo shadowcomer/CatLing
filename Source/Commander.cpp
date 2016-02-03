@@ -37,7 +37,7 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
         [](bt::Behavior* b) { std::cout << "In TAllGatherMinerals" <<
         std::endl; },
         std::make_unique<TaskWrapper>(
-        new TAllGatherMinerals(workers)));
+        std::make_unique<TAllGatherMinerals>(workers)));
 
     std::unique_ptr<bt::Behavior> getWorkersB =
         std::make_unique<bt::ActionBehavior>(
@@ -45,7 +45,7 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
         [](bt::Behavior* b) { std::cout << "In TRetrieveWorkers" <<
         std::endl; },
         std::make_unique<TaskWrapper>(
-        new TRetrieveWorkers(workers)));
+        std::make_unique<TRetrieveWorkers>(workers)));
 
     std::vector<bt::Behavior*> childrenBehaviors{ getWorkersB.get(),
         sendRetrieveMineralsB.get() };

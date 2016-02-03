@@ -11,8 +11,8 @@ void TaskWrapper::InitializeTaskWrapper(Tasker* tasker) {
     sm_tasker = tasker;
 }
 
-TaskWrapper::TaskWrapper(CloneableTask* t) :
-m_task(t) {
+TaskWrapper::TaskWrapper(std::unique_ptr<CloneableTask> t) :
+m_task(std::move(t)) {
     assert(nullptr != m_task);
 }
 
