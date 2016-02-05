@@ -1,5 +1,7 @@
 #include "MacroManager.h"
 
+#include <assert.h>
+
 using namespace BWAPI;
 
 MacroManager::MacroManager(Tasker& tsk) :
@@ -27,6 +29,12 @@ bool MacroManager::shutdownHelper()
 void MacroManager::run(MacroManager* m)
 {
     Unitset units = Broodwar->self()->getUnits();
+    Slab* builderSlab = nullptr;
+
+    {
+        bool e = m->m_allocator->find("builders", &builderSlab);
+        assert(e); // Make sure the slab exists
+    }
 
     for (auto u : units)
     {
@@ -59,7 +67,7 @@ void MacroManager::run(MacroManager* m)
                     Broodwar->self()->getStartLocation(),
                     100);
                 m->tasker().requestTask(
-                    new TBuild(builder,
+                    new TBuild(builderSlab,
                         UnitTypes::Terran_Barracks,
                         location));
             }

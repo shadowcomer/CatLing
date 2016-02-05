@@ -105,11 +105,10 @@ public:
     Task.
     Sends 'builder' to build 'building' at 'location'.
     */
-    TBuild(BWAPI::Unit builder, BWAPI::UnitType building, BWAPI::TilePosition location);
+    TBuild(Slab* storage, BWAPI::UnitType building, BWAPI::TilePosition location);
     void execute();
     virtual Task* clone() const;
 
-    const BWAPI::Unit builder;
     const BWAPI::UnitType building;
     const BWAPI::TilePosition location;
 
@@ -119,6 +118,13 @@ private:
     */
     bool verifyBuildCapability();
 
+    /*
+    Obtain an available worker for construction.
+    */
+    BWAPI::Unit getConstructionWorker();
+
+    Slab* m_storage;
+    BWAPI::Unit m_builder;
 };
 
 

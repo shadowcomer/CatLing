@@ -54,24 +54,42 @@ Task* TTrain::clone() const {
 
 
 
-TBuild::TBuild(Unit builder, BWAPI::UnitType building, TilePosition location) :
-builder(builder),
+TBuild::TBuild(Slab* storage, BWAPI::UnitType building, TilePosition location) :
+m_storage(storage),
 building(building),
-location(location){}
+location(location),
+m_builder(nullptr) {
+    assert(nullptr != m_storage);
+}
 
 void TBuild::execute()
 {
     //TODO: Use building verification
-    builder->build(building, location);
+    m_builder = getConstructionWorker();
+    if (nullptr != m_builder) {
+        m_builder->build(building, location);
+    }
 }
 
 bool TBuild::verifyBuildCapability()
 {
-    return (nullptr != builder) && (building.whatBuilds().first == builder->getType());
+    return (nullptr != m_builder) &&
+        (building.whatBuilds().first == m_builder->getType());
 }
 
 Task* TBuild::clone() const {
     return new TBuild(*this);
+}
+
+BWAPI::Unit TBuild::getConstructionWorker() {
+    auto allWorkers = m_storage->getEntries();
+    if (allWorkers.empty()){
+        return nullptr;
+    }
+
+    m_storage->removeEntry(0);
+
+    return allWorkers[0][0]->toUnit()->value;
 }
 
 
