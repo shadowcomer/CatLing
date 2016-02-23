@@ -72,13 +72,6 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
 
 void Commander::run(Commander* m)
 {
-    // Create Slab for worker units
-    TypeList types;
-    std::shared_ptr<SlabTypes::UnitType> unitType;
-    types.insert(std::make_pair("unit", unitType.get()));
-    m->m_allocator->createSlab("workers", types);
-    m->m_allocator->createSlab("builders", types);
-
     Unitset units = Broodwar->self()->getUnits();
     for (auto u : units)
     {
@@ -88,6 +81,13 @@ void Commander::run(Commander* m)
             break;
         }
     }
+
+    // Create Slab for worker units
+    TypeList types;
+    std::shared_ptr<SlabTypes::UnitType> unitType;
+    types.insert(std::make_pair("unit", unitType.get()));
+    m->m_allocator->createSlab("workers", types);
+    m->m_allocator->createSlab("builders", types);
 
     m->setFrameExecDelta(3);
 
