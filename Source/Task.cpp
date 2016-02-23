@@ -54,10 +54,11 @@ Task* TTrain::clone() const {
 
 
 
-TBuild::TBuild(Slab* storage, BWAPI::UnitType building, TilePosition location) :
+TBuild::TBuild(Slab* storage, BWAPI::UnitType building,
+    std::function<BWAPI::TilePosition(void)> locationFun) :
 m_storage(storage),
 building(building),
-location(location),
+m_locationFun(locationFun),
 m_builder(nullptr) {
     assert(nullptr != m_storage);
 }
@@ -67,7 +68,7 @@ void TBuild::execute()
     //TODO: Use building verification
     m_builder = getConstructionWorker();
     if (nullptr != m_builder) {
-        m_builder->build(building, location);
+        m_builder->build(building, m_locationFun());
     }
 }
 

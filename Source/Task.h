@@ -18,6 +18,8 @@
 #include "Slab.h"
 #include "Tasker.h"
 
+#include <functional>
+
 class Tasker;
 
 class Task
@@ -105,12 +107,13 @@ public:
     Task.
     Sends 'builder' to build 'building' at 'location'.
     */
-    TBuild(Slab* storage, BWAPI::UnitType building, BWAPI::TilePosition location);
+    TBuild(Slab* storage, BWAPI::UnitType building,
+         std::function<BWAPI::TilePosition(void)> locationFun);
     void execute();
     virtual Task* clone() const;
 
     const BWAPI::UnitType building;
-    const BWAPI::TilePosition location;
+    const std::function<BWAPI::TilePosition(void)> m_locationFun;
 
 private:
     /*
