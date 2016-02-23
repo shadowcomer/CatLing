@@ -113,28 +113,11 @@ void MacroManager::run(MacroManager* m)
         // When we have plenty of minerals, build a barracks
         if(Broodwar->self()->minerals() > 200)
         {
-            // Find a builder
-            Unitset set = Broodwar->getUnitsInRadius(
-                (Position)Broodwar->self()->getStartLocation() / 32,
-                20000,
-                Filter::GetType == UnitTypes::Terran_SCV &&
-                Filter::IsIdle || Filter::IsGatheringMinerals);
+            std::unique_ptr<bt::BehaviorTree> buildBarracks =
+                m->buildBarracksTree();
 
-            if (!set.empty())
-            {
-                Unit builder = *set.begin();
-                std::function<TilePosition(void)> location =
-                    [](void) -> TilePosition {
-                    return Broodwar->getBuildLocation(
-                        UnitTypes::Terran_Barracks,
-                        Broodwar->self()->getStartLocation(),
-                        100);
-                };
-
-                m->tasker().requestTask(
-                    new TBuild(builderSlab,
-                        UnitTypes::Terran_Barracks,
-                        location));
+            for (auto b : *buildBarracks) {
+                b->tick();
             }
         }
 
