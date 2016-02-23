@@ -157,3 +157,29 @@ void TAllGatherMinerals::execute() {
 Task* TAllGatherMinerals::clone() const {
     return new TAllGatherMinerals(*this);
 }
+
+
+
+
+TSelectBuilder::TSelectBuilder(Slab* workers, Slab* builders) :
+m_workers(workers),
+m_builders(builders) {
+    assert(nullptr != m_workers);
+    assert(nullptr != m_builders);
+}
+
+void TSelectBuilder::execute() {
+    std::vector<Entry> workers = m_workers->getEntries();
+    if (workers.empty()) {
+        return;
+    }
+
+    Entry selected = workers[0];
+    m_workers->removeEntry(0);
+
+    m_builders->appendEntry(selected);
+}
+
+Task* TSelectBuilder::clone() const {
+    return new TSelectBuilder(*this);
+}

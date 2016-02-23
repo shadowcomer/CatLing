@@ -201,4 +201,20 @@ private:
     Slab* m_storage;
 };
 
+
+
+
+class TSelectBuilder : public CloneableTask
+{
+public:
+    TSelectBuilder(Slab* workers, Slab* builders);
+
+    void execute() override;
+    virtual Task* clone() const;
+
+private:
+    Slab* m_workers;
+    Slab* m_builders;
+};
+
 #endif
