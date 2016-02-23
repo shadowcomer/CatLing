@@ -1,5 +1,7 @@
 #include "Commander.h"
 
+#include <assert.h>
+
 using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk) :
@@ -75,6 +77,7 @@ void Commander::run(Commander* m)
     std::shared_ptr<SlabTypes::UnitType> unitType;
     types.insert(std::make_pair("unit", unitType.get()));
     m->m_allocator->createSlab("workers", types);
+    m->m_allocator->createSlab("builders", types);
 
     Unitset units = Broodwar->self()->getUnits();
     for (auto u : units)

@@ -26,6 +26,67 @@ bool MacroManager::shutdownHelper()
     return true;
 }
 
+std::unique_ptr<bt::BehaviorTree> MacroManager::buildBarracksTree(){
+    Slab* workers = nullptr;
+    Slab* builders = nullptr;
+    if (!m_allocator->find("workers", &workers)) {
+        std::cout << "Couldn't find the 'workers' slab." << std::endl;
+        return nullptr;
+    }
+
+    if (!m_allocator->find("builders", &builders)) {
+        std::cout << "Couldn't find the 'builders' slab." << std::endl;
+        return nullptr;
+    }
+
+    std::unique_ptr<bt::Behavior> selectBuilderB =
+        std::make_unique<bt::ActionBehavior>(
+        nullptr,
+        [](bt::Behavior* b) { std::cout << "In TSelectBuilder" <<
+        std::endl; },
+        std::make_unique<TaskWrapper>(
+        std::make_unique<TSelectBuilder>(workers, builders)));
+
+    std::function<TilePosition(void)> locationFun =
+        [](void) -> TilePosition {
+        return Broodwar->getBuildLocation(UnitTypes::Terran_Barracks,
+            Broodwar->self()->getStartLocation(),
+            100);
+    };
+
+    std::unique_ptr<bt::Behavior> buildBarracksB =
+        std::make_unique<bt::ActionBehavior>(
+        nullptr,
+        [](bt::Behavior* b) { std::cout << "In TBuildBarracks" <<
+        std::endl; },
+        std::make_unique<TaskWrapper>(
+        std::make_unique<TBuild>(builders,
+                                 UnitTypes::Terran_Barracks,
+                                 locationFun)));
+
+    std::vector<bt::Behavior*> childrenBehaviors{
+        selectBuilderB.get(),
+        buildBarracksB.get()
+    };
+
+    std::unique_ptr<bt::Behavior> seq = std::make_unique<bt::Sequence>
+        (nullptr,
+        [](bt::Behavior* b) { std::cout << "In Sequence" <<
+        std::endl; },
+        childrenBehaviors);
+
+    selectBuilderB->setParent(seq.get());
+    buildBarracksB->setParent(seq.get());
+
+    bt::BehaviorList behaviors;
+    behaviors.push_back(std::move(seq));
+    behaviors.push_back(std::move(selectBuilderB));
+    behaviors.push_back(std::move(buildBarracksB));
+
+    return std::move(
+        std::make_unique<bt::BehaviorTree>(std::move(behaviors)));
+}
+
 void MacroManager::run(MacroManager* m)
 {
     Unitset units = Broodwar->self()->getUnits();
@@ -62,10 +123,14 @@ void MacroManager::run(MacroManager* m)
             if (!set.empty())
             {
                 Unit builder = *set.begin();
-                TilePosition location = 
-                    Broodwar->getBuildLocation(UnitTypes::Terran_Barracks,
-                    Broodwar->self()->getStartLocation(),
-                    100);
+                std::function<TilePosition(void)> location =
+                    [](void) -> TilePosition {
+                    return Broodwar->getBuildLocation(
+                        UnitTypes::Terran_Barracks,
+                        Broodwar->self()->getStartLocation(),
+                        100);
+                };
+
                 m->tasker().requestTask(
                     new TBuild(builderSlab,
                         UnitTypes::Terran_Barracks,
