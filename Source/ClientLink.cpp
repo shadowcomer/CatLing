@@ -749,6 +749,7 @@ void ClientLink::initializeSlabs() {
 
 void ClientLink::configOnStart()
 {
+    initializeSlabs();
     self = Broodwar->self();
     m_posCommand = self->getStartLocation();
     m_mapWidth_BT = Broodwar->mapWidth();
