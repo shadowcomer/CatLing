@@ -54,24 +54,43 @@ Task* TTrain::clone() const {
 
 
 
-TBuild::TBuild(Unit builder, BWAPI::UnitType building, TilePosition location) :
-builder(builder),
+TBuild::TBuild(Slab* storage, BWAPI::UnitType building,
+    std::function<BWAPI::TilePosition(void)> locationFun) :
+m_storage(storage),
 building(building),
-location(location){}
+m_locationFun(locationFun),
+m_builder(nullptr) {
+    assert(nullptr != m_storage);
+}
 
 void TBuild::execute()
 {
     //TODO: Use building verification
-    builder->build(building, location);
+    m_builder = getConstructionWorker();
+    if (nullptr != m_builder) {
+        m_builder->build(building, m_locationFun());
+    }
 }
 
 bool TBuild::verifyBuildCapability()
 {
-    return (nullptr != builder) && (building.whatBuilds().first == builder->getType());
+    return (nullptr != m_builder) &&
+        (building.whatBuilds().first == m_builder->getType());
 }
 
 Task* TBuild::clone() const {
     return new TBuild(*this);
+}
+
+BWAPI::Unit TBuild::getConstructionWorker() {
+    auto allWorkers = m_storage->getEntries();
+    if (allWorkers.empty()){
+        return nullptr;
+    }
+
+    m_storage->removeEntry(0);
+
+    return allWorkers[0][0]->toUnit()->value;
 }
 
 
@@ -138,4 +157,30 @@ void TAllGatherMinerals::execute() {
 
 Task* TAllGatherMinerals::clone() const {
     return new TAllGatherMinerals(*this);
+}
+
+
+
+
+TSelectBuilder::TSelectBuilder(Slab* workers, Slab* builders) :
+m_workers(workers),
+m_builders(builders) {
+    assert(nullptr != m_workers);
+    assert(nullptr != m_builders);
+}
+
+void TSelectBuilder::execute() {
+    std::vector<Entry> workers = m_workers->getEntries();
+    if (workers.empty()) {
+        return;
+    }
+
+    Entry selected = workers[0];
+    m_workers->removeEntry(0);
+
+    m_builders->appendEntry(selected);
+}
+
+Task* TSelectBuilder::clone() const {
+    return new TSelectBuilder(*this);
 }

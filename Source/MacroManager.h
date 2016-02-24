@@ -24,6 +24,10 @@
 
 #include "Module.h"
 
+#include "BehaviorTree.h"
+#include "Sequence.h"
+#include "ActionBehavior.h"
+
 #include <BWAPI.h>
 
 #include <iostream>
@@ -46,6 +50,11 @@ private:
     Implementation of the MacroManager's shutdown procedure.
     */
     bool shutdownHelper();
+
+    /*
+    Builds a BehaviorTree for building a barracks.
+    */
+    std::unique_ptr<bt::BehaviorTree> buildBarracksTree();
 
     /*
     Implementation of the MacroManager's module process.

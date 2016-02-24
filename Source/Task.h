@@ -18,6 +18,8 @@
 #include "Slab.h"
 #include "Tasker.h"
 
+#include <functional>
+
 class Tasker;
 
 class Task
@@ -105,13 +107,13 @@ public:
     Task.
     Sends 'builder' to build 'building' at 'location'.
     */
-    TBuild(BWAPI::Unit builder, BWAPI::UnitType building, BWAPI::TilePosition location);
+    TBuild(Slab* storage, BWAPI::UnitType building,
+         std::function<BWAPI::TilePosition(void)> locationFun);
     void execute();
     virtual Task* clone() const;
 
-    const BWAPI::Unit builder;
     const BWAPI::UnitType building;
-    const BWAPI::TilePosition location;
+    const std::function<BWAPI::TilePosition(void)> m_locationFun;
 
 private:
     /*
@@ -119,6 +121,13 @@ private:
     */
     bool verifyBuildCapability();
 
+    /*
+    Obtain an available worker for construction.
+    */
+    BWAPI::Unit getConstructionWorker();
+
+    Slab* m_storage;
+    BWAPI::Unit m_builder;
 };
 
 
@@ -193,6 +202,22 @@ public:
 
 private:
     Slab* m_storage;
+};
+
+
+
+
+class TSelectBuilder : public CloneableTask
+{
+public:
+    TSelectBuilder(Slab* workers, Slab* builders);
+
+    void execute() override;
+    virtual Task* clone() const;
+
+private:
+    Slab* m_workers;
+    Slab* m_builders;
 };
 
 #endif
