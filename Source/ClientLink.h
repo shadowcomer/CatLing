@@ -135,6 +135,12 @@ private:
     */
     void configOnStart();
 
+    /*
+    Initializes m_allocator with the Slabs that are going to
+    be used by the AI.
+    */
+    void initializeSlabs();
+
 };
 
 #endif

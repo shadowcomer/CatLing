@@ -725,6 +725,28 @@ void ClientLink::onUnitComplete(BWAPI::Unit unit)
         m_supplyRequested = false;
 }
 
+void ClientLink::initializeSlabs() {
+    // Create a dummy object which can be reinterpreted into
+    // a BWAPI::Unit. This has to be done because we need to store
+    // a BWAPI::Unit, but we don't have access to the constructor.
+    // It should be safe as long as this is used only for storage and
+    // type comparison, inside the Slab's header.
+    char* dummyObject = new char('F');
+    BWAPI::Unit dummyConverted =
+        reinterpret_cast<BWAPI::Unit>(dummyObject);
+
+    std::shared_ptr<SlabTypes::UnitType> unitType =
+        std::shared_ptr<SlabTypes::UnitType>(dummyConverted);
+
+    // Create headers
+    TypeList types;
+    types.insert(std::make_pair("unit", unitType.get()));
+
+    // Create slabs
+    m_allocator->createSlab("workers", types);
+    m_allocator->createSlab("builders", types);
+}
+
 void ClientLink::configOnStart()
 {
     self = Broodwar->self();

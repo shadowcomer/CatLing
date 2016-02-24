@@ -82,14 +82,6 @@ void Commander::run(Commander* m)
         }
     }
 
-    // Create Slab for worker units
-    TypeList types;
-    std::shared_ptr<SlabTypes::UnitType> unitType =
-        std::make_shared<SlabTypes::UnitType>(*units.begin());
-    types.insert(std::make_pair("unit", unitType.get()));
-    m->m_allocator->createSlab("workers", types);
-    m->m_allocator->createSlab("builders", types);
-
     std::unique_ptr<bt::BehaviorTree> gather =
         m->buildGatherMinerals();
 
