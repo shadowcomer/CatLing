@@ -21,14 +21,20 @@ void TaskWrapper::execute() {
     sm_tasker->requestTask(m_task->clone());
 }
 
-TGather::TGather(Unit unit, Unit target, bool shouldQueue) :
-unit(unit),
-target(target),
-queueCommand(shouldQueue){}
+TGather::TGather(UnitFun gatherer, UnitFun resource,
+    DecisionFun queue) :
+getGatherer(gatherer),
+getResource(resource),
+checkQueue(queue){}
 
 void TGather::execute()
 {
-    unit->gather(target, queueCommand);
+    Unit gatherer = getGatherer();
+    Unit resource = getResource();
+
+    if (gatherer) {
+        gatherer->gather(resource, checkQueue());
+    }
 }
 
 Task* TGather::clone() const {
@@ -38,13 +44,18 @@ Task* TGather::clone() const {
 
 
 
-TTrain::TTrain(Unit builder, BWAPI::UnitType unit) :
-builder(builder),
-unit(unit){}
+TTrain::TTrain(UnitFun builder, UnitTypeFun unit) :
+getBuilder(builder),
+getUnitType(unit){}
 
 void TTrain::execute()
 {
-    builder->train(unit);
+    Unit builder = getBuilder();
+    UnitType unit = getUnitType();
+
+    if (builder) {
+        builder->train(unit);
+    }
 }
 
 Task* TTrain::clone() const {
@@ -54,53 +65,52 @@ Task* TTrain::clone() const {
 
 
 
-TBuild::TBuild(Slab* storage, BWAPI::UnitType building,
-    std::function<BWAPI::TilePosition(void)> locationFun) :
-m_storage(storage),
-building(building),
-m_locationFun(locationFun),
-m_builder(nullptr) {
-    assert(nullptr != m_storage);
+TBuild::TBuild(UnitFun builder, UnitTypeFun building,
+    TilePositionFun location) :
+getBuilder(builder),
+getBuildingType(building),
+getLocation(location) {
+
 }
 
 void TBuild::execute()
 {
-    //TODO: Use building verification
-    m_builder = getConstructionWorker();
-    if (nullptr != m_builder) {
-        m_builder->build(building, m_locationFun());
+    BWAPI::Unit builder = getBuilder();
+    BWAPI::UnitType building = getBuildingType();
+    BWAPI::TilePosition location = getLocation();
+
+    if (builder) {
+        builder->build(building, location);
     }
 }
 
 bool TBuild::verifyBuildCapability()
 {
-    return (nullptr != m_builder) &&
-        (building.whatBuilds().first == m_builder->getType());
+    return true; // Inhibit check for build capability
 }
 
 Task* TBuild::clone() const {
     return new TBuild(*this);
 }
 
-BWAPI::Unit TBuild::getConstructionWorker() {
-    Entry workerE;
-    bool acquired = m_storage->getAndRemoveEntry(0, workerE);
-
-    return acquired ? workerE[0]->toUnit()->value :
-        nullptr;
-}
 
 
 
 
-TAttack::TAttack(Unit origin, PositionOrUnit target, bool shouldQueue) :
-origin(origin),
-target(target),
-queueCommand(shouldQueue){}
+TAttack::TAttack(UnitFun attacker, PositionOrUnitFun target,
+    DecisionFun queue) :
+getAttacker(attacker),
+getTarget(target),
+checkQueue(queue){}
 
 void TAttack::execute()
 {
-    origin->attack(target, queueCommand);
+    Unit attacker = getAttacker();
+    PositionOrUnit target = getTarget();
+
+    if (attacker) {
+        attacker->attack(target, checkQueue());
+    }
 }
 
 Task* TAttack::clone() const {
@@ -133,22 +143,28 @@ Task* TRetrieveWorkers::clone() const {
 
 
 
-TAllGatherMinerals::TAllGatherMinerals(Slab* storage) :
-m_storage(storage) {
-    assert(nullptr != m_storage);
+TAllGatherMinerals::TAllGatherMinerals(UnitVecFun gatherers,
+    OnUnitFun resource) :
+getGatherers(gatherers),
+getResource(resource) {
+
 }
 
 void TAllGatherMinerals::execute() {
-    std::vector<Entry> workers = m_storage->getEntries();
-    for (Entry e : workers) {
-        SlabTypes::UnitType* worker = e[0]->toUnit();
-        assert(nullptr != worker);
+    std::vector<Unit> gatherers = getGatherers();
+    Unit patch = nullptr;
 
-        Unit closestPatch = worker->value->
-            getClosestUnit(
-            Filter::GetType == UnitTypes::Resource_Mineral_Field);
+    for (auto g : gatherers) {
+        if (!g) {
+            continue;
+        }
 
-        worker->value->gather(closestPatch);
+        patch = getResource(g);
+        if (!patch) {
+            continue;
+        }
+
+        g->gather(patch);
     }
 }
 

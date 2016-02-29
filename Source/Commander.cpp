@@ -33,13 +33,28 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
         return nullptr;
     }
 
+    UnitVecFun gathererFun = [workers]() -> std::vector<Unit> {
+        auto entries = workers->getEntries();
+        std::vector<BWAPI::Unit> gatherers;
+        for (auto e : entries) {
+            gatherers.push_back(e[0]->toUnit()->value);
+        }
+        return gatherers;
+    };
+
+    OnUnitFun resourceFun = [](Unit u) -> Unit {
+        return u->getClosestUnit(
+            Filter::GetType == UnitTypes::Resource_Mineral_Field);
+    };
+
     std::unique_ptr<bt::Behavior> sendRetrieveMineralsB =
         std::make_unique<bt::ActionBehavior>(
         nullptr,
         [](bt::Behavior* b) { std::cout << "In TAllGatherMinerals" <<
         std::endl; },
         std::make_unique<TaskWrapper>(
-        std::make_unique<TAllGatherMinerals>(workers)));
+        std::make_unique<TAllGatherMinerals>(gathererFun,
+        resourceFun)));
 
     std::unique_ptr<bt::Behavior> getWorkersB =
         std::make_unique<bt::ActionBehavior>(
