@@ -126,16 +126,6 @@ int runCatling()
                 Broodwar << "The match up is " << Broodwar->self()->getRace() << " vs " << Broodwar->enemy()->getRace() << std::endl;
         }
 
-        Module* loadedModule = nullptr;
-        loadedModule = link.loadModule(ModuleType::COMMANDER);
-        assert(nullptr != loadedModule);
-
-        loadedModule = link.loadModule(ModuleType::MICROMGR);
-        assert(nullptr != loadedModule);
-
-        loadedModule = link.loadModule(ModuleType::MACROMGR);
-        assert(nullptr != loadedModule);
-
         while (Broodwar->isInGame())
         {
             link.processEvents();
@@ -747,9 +737,22 @@ void ClientLink::initializeSlabs() {
     m_allocator->createSlab("builders", types);
 }
 
+void ClientLink::initializeModules(){
+    Module* loadedModule = nullptr;
+    loadedModule = loadModule(ModuleType::COMMANDER);
+    assert(nullptr != loadedModule);
+
+    loadedModule = loadModule(ModuleType::MICROMGR);
+    assert(nullptr != loadedModule);
+
+    loadedModule = loadModule(ModuleType::MACROMGR);
+    assert(nullptr != loadedModule);
+}
+
 void ClientLink::configOnStart()
 {
     initializeSlabs();
+    initializeModules();
     self = Broodwar->self();
     m_posCommand = self->getStartLocation();
     m_mapWidth_BT = Broodwar->mapWidth();

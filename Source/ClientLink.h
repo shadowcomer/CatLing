@@ -141,6 +141,12 @@ private:
     */
     void initializeSlabs();
 
+    /*
+    Initializes the AI's modules. Must be called after
+    initializeSlabs()
+    */
+    void initializeModules();
+
 };
 
 #endif
