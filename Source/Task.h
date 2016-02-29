@@ -89,15 +89,13 @@ public:
     Task.
     Trains 'unit' from 'builder'.
     */
-    TTrain(BWAPI::Unit builder, BWAPI::UnitType unit);
+    TTrain(UnitFun builder, UnitTypeFun unit);
     void execute();
     virtual Task* clone() const;
 
-    const BWAPI::Unit builder;
-    const BWAPI::UnitType unit;
-
 private:
-    
+    UnitFun getBuilder;
+    UnitTypeFun getUnitType;
 
 };
 

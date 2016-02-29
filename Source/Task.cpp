@@ -38,13 +38,18 @@ Task* TGather::clone() const {
 
 
 
-TTrain::TTrain(Unit builder, BWAPI::UnitType unit) :
-builder(builder),
-unit(unit){}
+TTrain::TTrain(UnitFun builder, UnitTypeFun unit) :
+getBuilder(builder),
+getUnitType(unit){}
 
 void TTrain::execute()
 {
-    builder->train(unit);
+    Unit builder = getBuilder();
+    UnitType unit = getUnitType();
+
+    if (builder) {
+        builder->train(unit);
+    }
 }
 
 Task* TTrain::clone() const {
