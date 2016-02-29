@@ -721,16 +721,18 @@ void ClientLink::initializeSlabs() {
     // a BWAPI::Unit, but we don't have access to the constructor.
     // It should be safe as long as this is used only for storage and
     // type comparison, inside the Slab's header.
+    // At the moment, this memory is never deallocated.
     char* dummyObject = new char('F');
+
     BWAPI::Unit dummyConverted =
         reinterpret_cast<BWAPI::Unit>(dummyObject);
 
-    std::shared_ptr<SlabTypes::UnitType> unitType =
-        std::shared_ptr<SlabTypes::UnitType>(dummyConverted);
+    SlabTypes::UnitType* dummyWrapper =
+        new SlabTypes::UnitType(dummyConverted);
 
     // Create headers
     TypeList types;
-    types.insert(std::make_pair("unit", unitType.get()));
+    types.insert(std::make_pair("unit", dummyWrapper));
 
     // Create slabs
     m_allocator->createSlab("workers", types);
