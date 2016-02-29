@@ -18,7 +18,19 @@
 #include "Slab.h"
 #include "Tasker.h"
 
+#include <functional>
+#include <vector>
+
 class Tasker;
+
+typedef std::function<BWAPI::Unit(void)> UnitFun;
+typedef std::function<BWAPI::Unit(BWAPI::Unit)> OnUnitFun;
+typedef std::function<std::vector<BWAPI::Unit>(void)> UnitVecFun;
+typedef std::function<BWAPI::UnitType(void)> UnitTypeFun;
+typedef std::function<BWAPI::TilePosition(void)> TilePositionFun;
+typedef std::function<BWAPI::PositionOrUnit(void)> PositionOrUnitFun;
+
+typedef std::function<bool(void)> DecisionFun;
 
 class Task
 {
@@ -58,18 +70,19 @@ class TGather : public CloneableTask
 public:
     /*
     Task.
-    Sends 'unit' to gather 'target'.
-    shouldQueue - If true, this action is queued after any other
+    Sends 'gatherer' to gather 'resource'.
+    queue - If true, this action is queued after any other
     already executing actions on the client side of Starcraft's process.
     */
-    TGather(BWAPI::Unit unit, BWAPI::Unit target, bool shouldQueue);
+    TGather(UnitFun gatherer, UnitFun resource,
+        DecisionFun queue);
     void execute();
     virtual Task* clone() const;
 
-    const BWAPI::Unit unit;
-    const BWAPI::Unit target;
-    const bool queueCommand;
 private:
+    UnitFun getGatherer;
+    UnitFun getResource;
+    DecisionFun checkQueue;
 
 };
 
@@ -83,15 +96,13 @@ public:
     Task.
     Trains 'unit' from 'builder'.
     */
-    TTrain(BWAPI::Unit builder, BWAPI::UnitType unit);
+    TTrain(UnitFun builder, UnitTypeFun unit);
     void execute();
     virtual Task* clone() const;
 
-    const BWAPI::Unit builder;
-    const BWAPI::UnitType unit;
-
 private:
-    
+    UnitFun getBuilder;
+    UnitTypeFun getUnitType;
 
 };
 
@@ -105,13 +116,10 @@ public:
     Task.
     Sends 'builder' to build 'building' at 'location'.
     */
-    TBuild(BWAPI::Unit builder, BWAPI::UnitType building, BWAPI::TilePosition location);
+    TBuild(UnitFun builder, UnitTypeFun building,
+        TilePositionFun location);
     void execute();
     virtual Task* clone() const;
-
-    const BWAPI::Unit builder;
-    const BWAPI::UnitType building;
-    const BWAPI::TilePosition location;
 
 private:
     /*
@@ -119,6 +127,9 @@ private:
     */
     bool verifyBuildCapability();
 
+    UnitFun getBuilder;
+    UnitTypeFun getBuildingType;
+    TilePositionFun getLocation;
 };
 
 
@@ -129,20 +140,19 @@ class TAttack : public CloneableTask
 public:
     /*
     Task.
-    Sends unit 'origin' to attack 'target'.
-    shouldQueue - If true, this action is queued after any other
+    Sends unit 'attacker' to attack 'target'.
+    queue - If true, this action is queued after any other
     already executing actions on the client side of Starcraft's process.
     */
-    TAttack(BWAPI::Unit origin, BWAPI::PositionOrUnit target, bool shouldQueue);
+    TAttack(UnitFun attacker, PositionOrUnitFun target,
+        DecisionFun queue);
     void execute();
     virtual Task* clone() const;
 
-    const BWAPI::Unit origin;
-    const BWAPI::PositionOrUnit target;
-    const bool queueCommand;
-
 private:
-    
+    UnitFun getAttacker;
+    PositionOrUnitFun getTarget;
+    DecisionFun checkQueue;
 };
 
 
@@ -186,13 +196,30 @@ private:
 class TAllGatherMinerals : public CloneableTask
 {
 public:
-    TAllGatherMinerals(Slab* storage);
+    TAllGatherMinerals(UnitVecFun gatherers, OnUnitFun resource);
 
     void execute() override;
     virtual Task* clone() const;
 
 private:
-    Slab* m_storage;
+    UnitVecFun getGatherers;
+    OnUnitFun getResource;
+};
+
+
+
+
+class TSelectBuilder : public CloneableTask
+{
+public:
+    TSelectBuilder(Slab* workers, Slab* builders);
+
+    void execute() override;
+    virtual Task* clone() const;
+
+private:
+    Slab* m_workers;
+    Slab* m_builders;
 };
 
 #endif

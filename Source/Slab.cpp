@@ -38,6 +38,23 @@ auto Slab::getEntry(size_t pos, Entry& out_entry)->bool
     }
 }
 
+auto Slab::getAndRemoveEntry(size_t pos, Entry& out_entry)->bool
+{
+    tbb::mutex::scoped_lock lock(SYNC_operation);
+    if (pos < m_entries.size()){
+        out_entry = m_entries[pos];
+
+        auto it = m_entries.begin();
+        std::advance(it, pos);
+        m_entries.erase(it);
+
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 auto Slab::getEntries()->std::vector<Entry>
 {
     tbb::mutex::scoped_lock lock(SYNC_operation);

@@ -126,16 +126,6 @@ int runCatling()
                 Broodwar << "The match up is " << Broodwar->self()->getRace() << " vs " << Broodwar->enemy()->getRace() << std::endl;
         }
 
-        Module* loadedModule = nullptr;
-        loadedModule = link.loadModule(ModuleType::COMMANDER);
-        assert(nullptr != loadedModule);
-
-        loadedModule = link.loadModule(ModuleType::MICROMGR);
-        assert(nullptr != loadedModule);
-
-        loadedModule = link.loadModule(ModuleType::MACROMGR);
-        assert(nullptr != loadedModule);
-
         while (Broodwar->isInGame())
         {
             link.processEvents();
@@ -725,8 +715,46 @@ void ClientLink::onUnitComplete(BWAPI::Unit unit)
         m_supplyRequested = false;
 }
 
+void ClientLink::initializeSlabs() {
+    // Create a dummy object which can be reinterpreted into
+    // a BWAPI::Unit. This has to be done because we need to store
+    // a BWAPI::Unit, but we don't have access to the constructor.
+    // It should be safe as long as this is used only for storage and
+    // type comparison, inside the Slab's header.
+    // At the moment, this memory is never deallocated.
+    char* dummyObject = new char('F');
+
+    BWAPI::Unit dummyConverted =
+        reinterpret_cast<BWAPI::Unit>(dummyObject);
+
+    SlabTypes::UnitType* dummyWrapper =
+        new SlabTypes::UnitType(dummyConverted);
+
+    // Create headers
+    TypeList types;
+    types.insert(std::make_pair("unit", dummyWrapper));
+
+    // Create slabs
+    m_allocator->createSlab("workers", types);
+    m_allocator->createSlab("builders", types);
+}
+
+void ClientLink::initializeModules(){
+    Module* loadedModule = nullptr;
+    loadedModule = loadModule(ModuleType::COMMANDER);
+    assert(nullptr != loadedModule);
+
+    loadedModule = loadModule(ModuleType::MICROMGR);
+    assert(nullptr != loadedModule);
+
+    loadedModule = loadModule(ModuleType::MACROMGR);
+    assert(nullptr != loadedModule);
+}
+
 void ClientLink::configOnStart()
 {
+    initializeSlabs();
+    initializeModules();
     self = Broodwar->self();
     m_posCommand = self->getStartLocation();
     m_mapWidth_BT = Broodwar->mapWidth();
