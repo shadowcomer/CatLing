@@ -83,14 +83,11 @@ Task* TBuild::clone() const {
 }
 
 BWAPI::Unit TBuild::getConstructionWorker() {
-    auto allWorkers = m_storage->getEntries();
-    if (allWorkers.empty()){
-        return nullptr;
-    }
+    Entry workerE;
+    bool acquired = m_storage->getAndRemoveEntry(0, workerE);
 
-    m_storage->removeEntry(0);
-
-    return allWorkers[0][0]->toUnit()->value;
+    return acquired ? workerE[0]->toUnit()->value :
+        nullptr;
 }
 
 
@@ -175,10 +172,12 @@ void TSelectBuilder::execute() {
         return;
     }
 
-    Entry selected = workers[0];
-    m_workers->removeEntry(0);
+    Entry worker;
+    bool acquired = m_workers->getAndRemoveEntry(0, worker);
 
-    m_builders->appendEntry(selected);
+    if (acquired) {
+        m_builders->appendEntry(worker);
+    }
 }
 
 Task* TSelectBuilder::clone() const {
