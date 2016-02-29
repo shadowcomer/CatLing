@@ -97,14 +97,20 @@ Task* TBuild::clone() const {
 
 
 
-TAttack::TAttack(Unit origin, PositionOrUnit target, bool shouldQueue) :
-origin(origin),
-target(target),
-queueCommand(shouldQueue){}
+TAttack::TAttack(UnitFun attacker, PositionOrUnitFun target,
+    DecisionFun queue) :
+getAttacker(attacker),
+getTarget(target),
+checkQueue(queue){}
 
 void TAttack::execute()
 {
-    origin->attack(target, queueCommand);
+    Unit attacker = getAttacker();
+    PositionOrUnit target = getTarget();
+
+    if (attacker) {
+        attacker->attack(target, checkQueue());
+    }
 }
 
 Task* TAttack::clone() const {

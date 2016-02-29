@@ -28,6 +28,7 @@ typedef std::function<BWAPI::Unit(BWAPI::Unit)> OnUnitFun;
 typedef std::function<std::vector<BWAPI::Unit>(void)> UnitVecFun;
 typedef std::function<BWAPI::UnitType(void)> UnitTypeFun;
 typedef std::function<BWAPI::TilePosition(void)> TilePositionFun;
+typedef std::function<BWAPI::PositionOrUnit(void)> PositionOrUnitFun;
 
 typedef std::function<bool(void)> DecisionFun;
 
@@ -139,20 +140,19 @@ class TAttack : public CloneableTask
 public:
     /*
     Task.
-    Sends unit 'origin' to attack 'target'.
-    shouldQueue - If true, this action is queued after any other
+    Sends unit 'attacker' to attack 'target'.
+    queue - If true, this action is queued after any other
     already executing actions on the client side of Starcraft's process.
     */
-    TAttack(BWAPI::Unit origin, BWAPI::PositionOrUnit target, bool shouldQueue);
+    TAttack(UnitFun attacker, PositionOrUnitFun target,
+        DecisionFun queue);
     void execute();
     virtual Task* clone() const;
 
-    const BWAPI::Unit origin;
-    const BWAPI::PositionOrUnit target;
-    const bool queueCommand;
-
 private:
-    
+    UnitFun getAttacker;
+    PositionOrUnitFun getTarget;
+    DecisionFun checkQueue;
 };
 
 
