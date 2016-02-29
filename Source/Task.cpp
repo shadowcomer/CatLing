@@ -137,22 +137,28 @@ Task* TRetrieveWorkers::clone() const {
 
 
 
-TAllGatherMinerals::TAllGatherMinerals(Slab* storage) :
-m_storage(storage) {
-    assert(nullptr != m_storage);
+TAllGatherMinerals::TAllGatherMinerals(UnitVecFun gatherers,
+    OnUnitFun resource) :
+getGatherers(gatherers),
+getResource(resource) {
+
 }
 
 void TAllGatherMinerals::execute() {
-    std::vector<Entry> workers = m_storage->getEntries();
-    for (Entry e : workers) {
-        SlabTypes::UnitType* worker = e[0]->toUnit();
-        assert(nullptr != worker);
+    std::vector<Unit> gatherers = getGatherers();
+    Unit patch = nullptr;
 
-        Unit closestPatch = worker->value->
-            getClosestUnit(
-            Filter::GetType == UnitTypes::Resource_Mineral_Field);
+    for (auto g : gatherers) {
+        if (!g) {
+            continue;
+        }
 
-        worker->value->gather(closestPatch);
+        patch = getResource(g);
+        if (!patch) {
+            continue;
+        }
+
+        g->gather(patch);
     }
 }
 

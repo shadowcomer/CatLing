@@ -19,10 +19,13 @@
 #include "Tasker.h"
 
 #include <functional>
+#include <vector>
 
 class Tasker;
 
 typedef std::function<BWAPI::Unit(void)> UnitFun;
+typedef std::function<BWAPI::Unit(BWAPI::Unit)> OnUnitFun;
+typedef std::function<std::vector<BWAPI::Unit>(void)> UnitVecFun;
 typedef std::function<BWAPI::UnitType(void)> UnitTypeFun;
 typedef std::function<BWAPI::TilePosition(void)> TilePositionFun;
 
@@ -193,13 +196,14 @@ private:
 class TAllGatherMinerals : public CloneableTask
 {
 public:
-    TAllGatherMinerals(Slab* storage);
+    TAllGatherMinerals(UnitVecFun gatherers, OnUnitFun resource);
 
     void execute() override;
     virtual Task* clone() const;
 
 private:
-    Slab* m_storage;
+    UnitVecFun getGatherers;
+    OnUnitFun getResource;
 };
 
 
