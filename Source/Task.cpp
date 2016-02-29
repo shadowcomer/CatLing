@@ -54,41 +54,34 @@ Task* TTrain::clone() const {
 
 
 
-TBuild::TBuild(Slab* storage, BWAPI::UnitType building,
-    std::function<BWAPI::TilePosition(void)> locationFun) :
-m_storage(storage),
-building(building),
-m_locationFun(locationFun),
-m_builder(nullptr) {
-    assert(nullptr != m_storage);
+TBuild::TBuild(UnitFun builder, UnitTypeFun building,
+    TilePositionFun location) :
+getBuilder(builder),
+getBuildingType(building),
+getLocation(location) {
+
 }
 
 void TBuild::execute()
 {
-    //TODO: Use building verification
-    m_builder = getConstructionWorker();
-    if (nullptr != m_builder) {
-        m_builder->build(building, m_locationFun());
+    BWAPI::Unit builder = getBuilder();
+    BWAPI::UnitType building = getBuildingType();
+    BWAPI::TilePosition location = getLocation();
+
+    if (builder) {
+        builder->build(building, location);
     }
 }
 
 bool TBuild::verifyBuildCapability()
 {
-    return (nullptr != m_builder) &&
-        (building.whatBuilds().first == m_builder->getType());
+    return true; // Inhibit check for build capability
 }
 
 Task* TBuild::clone() const {
     return new TBuild(*this);
 }
 
-BWAPI::Unit TBuild::getConstructionWorker() {
-    Entry workerE;
-    bool acquired = m_storage->getAndRemoveEntry(0, workerE);
-
-    return acquired ? workerE[0]->toUnit()->value :
-        nullptr;
-}
 
 
 

@@ -22,6 +22,10 @@
 
 class Tasker;
 
+typedef std::function<BWAPI::Unit(void)> UnitFun;
+typedef std::function<BWAPI::UnitType(void)> UnitTypeFun;
+typedef std::function<BWAPI::TilePosition(void)> TilePositionFun;
+
 class Task
 {
 public:
@@ -107,13 +111,10 @@ public:
     Task.
     Sends 'builder' to build 'building' at 'location'.
     */
-    TBuild(Slab* storage, BWAPI::UnitType building,
-         std::function<BWAPI::TilePosition(void)> locationFun);
+    TBuild(UnitFun builder, UnitTypeFun building,
+        TilePositionFun location);
     void execute();
     virtual Task* clone() const;
-
-    const BWAPI::UnitType building;
-    const std::function<BWAPI::TilePosition(void)> m_locationFun;
 
 private:
     /*
@@ -121,13 +122,9 @@ private:
     */
     bool verifyBuildCapability();
 
-    /*
-    Obtain an available worker for construction.
-    */
-    BWAPI::Unit getConstructionWorker();
-
-    Slab* m_storage;
-    BWAPI::Unit m_builder;
+    UnitFun getBuilder;
+    UnitTypeFun getBuildingType;
+    TilePositionFun getLocation;
 };
 
 

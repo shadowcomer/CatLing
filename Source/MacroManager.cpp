@@ -28,26 +28,25 @@ bool MacroManager::shutdownHelper()
 
 std::unique_ptr<bt::BehaviorTree> MacroManager::buildBarracksTree(){
     Slab* workers = nullptr;
-    Slab* builders = nullptr;
+
     if (!m_allocator->find("workers", &workers)) {
         std::cout << "Couldn't find the 'workers' slab." << std::endl;
         return nullptr;
     }
 
-    if (!m_allocator->find("builders", &builders)) {
-        std::cout << "Couldn't find the 'builders' slab." << std::endl;
-        return nullptr;
-    }
+    UnitTypeFun buildingFun = []() -> BWAPI::UnitType {
+        return BWAPI::UnitTypes::Terran_Barracks;
+    };
 
-    std::unique_ptr<bt::Behavior> selectBuilderB =
-        std::make_unique<bt::ActionBehavior>(
-        nullptr,
-        [](bt::Behavior* b) { std::cout << "In TSelectBuilder" <<
-        std::endl; },
-        std::make_unique<TaskWrapper>(
-        std::make_unique<TSelectBuilder>(workers, builders)));
+    UnitFun builderFun = [workers]() -> BWAPI::Unit {
+        Entry workerE;
+        bool acquired = workers->getAndRemoveEntry(0, workerE);
 
-    std::function<TilePosition(void)> locationFun =
+        return acquired ? workerE[0]->toUnit()->value :
+            nullptr;
+    };
+
+    TilePositionFun locationFun =
         [](void) -> TilePosition {
         return Broodwar->getBuildLocation(UnitTypes::Terran_Barracks,
             Broodwar->self()->getStartLocation(),
@@ -60,12 +59,11 @@ std::unique_ptr<bt::BehaviorTree> MacroManager::buildBarracksTree(){
         [](bt::Behavior* b) { std::cout << "In TBuildBarracks" <<
         std::endl; },
         std::make_unique<TaskWrapper>(
-        std::make_unique<TBuild>(builders,
-                                 UnitTypes::Terran_Barracks,
+        std::make_unique<TBuild>(builderFun,
+                                 buildingFun,
                                  locationFun)));
 
     std::vector<bt::Behavior*> childrenBehaviors{
-        selectBuilderB.get(),
         buildBarracksB.get()
     };
 
@@ -75,12 +73,10 @@ std::unique_ptr<bt::BehaviorTree> MacroManager::buildBarracksTree(){
         std::endl; },
         childrenBehaviors);
 
-    selectBuilderB->setParent(seq.get());
     buildBarracksB->setParent(seq.get());
 
     bt::BehaviorList behaviors;
     behaviors.push_back(std::move(seq));
-    behaviors.push_back(std::move(selectBuilderB));
     behaviors.push_back(std::move(buildBarracksB));
 
     return std::move(
