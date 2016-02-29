@@ -70,8 +70,8 @@ class TGather : public CloneableTask
 public:
     /*
     Task.
-    Sends 'unit' to gather 'target'.
-    shouldQueue - If true, this action is queued after any other
+    Sends 'gatherer' to gather 'resource'.
+    queue - If true, this action is queued after any other
     already executing actions on the client side of Starcraft's process.
     */
     TGather(UnitFun gatherer, UnitFun resource,
