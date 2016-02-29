@@ -58,6 +58,11 @@ public:
     */
     auto getEntry(size_t pos, Entry& entry)->bool;
 
+    /* The same as getEntry, but will also remove the Entry from
+    the Slab.
+    */
+    auto getAndRemoveEntry(size_t pos, Entry& entry)->bool;
+
     /*
     Retrieves a vector that contains copies of each entry.
     */
