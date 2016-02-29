@@ -26,6 +26,8 @@ typedef std::function<BWAPI::Unit(void)> UnitFun;
 typedef std::function<BWAPI::UnitType(void)> UnitTypeFun;
 typedef std::function<BWAPI::TilePosition(void)> TilePositionFun;
 
+typedef std::function<bool(void)> DecisionFun;
+
 class Task
 {
 public:
@@ -68,14 +70,15 @@ public:
     shouldQueue - If true, this action is queued after any other
     already executing actions on the client side of Starcraft's process.
     */
-    TGather(BWAPI::Unit unit, BWAPI::Unit target, bool shouldQueue);
+    TGather(UnitFun gatherer, UnitFun resource,
+        DecisionFun queue);
     void execute();
     virtual Task* clone() const;
 
-    const BWAPI::Unit unit;
-    const BWAPI::Unit target;
-    const bool queueCommand;
 private:
+    UnitFun getGatherer;
+    UnitFun getResource;
+    DecisionFun checkQueue;
 
 };
 

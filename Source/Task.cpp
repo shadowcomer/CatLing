@@ -21,14 +21,20 @@ void TaskWrapper::execute() {
     sm_tasker->requestTask(m_task->clone());
 }
 
-TGather::TGather(Unit unit, Unit target, bool shouldQueue) :
-unit(unit),
-target(target),
-queueCommand(shouldQueue){}
+TGather::TGather(UnitFun gatherer, UnitFun resource,
+    DecisionFun queue) :
+getGatherer(gatherer),
+getResource(resource),
+checkQueue(queue){}
 
 void TGather::execute()
 {
-    unit->gather(target, queueCommand);
+    Unit gatherer = getGatherer();
+    Unit resource = getResource();
+
+    if (gatherer) {
+        gatherer->gather(resource, checkQueue());
+    }
 }
 
 Task* TGather::clone() const {
