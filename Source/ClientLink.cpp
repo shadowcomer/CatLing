@@ -737,6 +737,15 @@ void ClientLink::initializeSlabs() {
     // Create slabs
     m_allocator->createSlab("workers", types);
     m_allocator->createSlab("builders", types);
+
+    // Create resource management slab
+    TypeList resourceTypes;
+    types.insert(std::make_pair("minerals",
+        new SlabTypes::IntType(0)));
+    types.insert(std::make_pair("gas",
+        new SlabTypes::IntType(0)));
+
+    m_allocator->createSlab("resources", resourceTypes);
 }
 
 void ClientLink::initializeModules(){
