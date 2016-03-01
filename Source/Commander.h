@@ -50,6 +50,18 @@ private:
     bool shutdownHelper();
 
     /*
+    Allocates the resource budget for each module. This is for
+    use on game initialization.
+    */
+    void allocateInitialBudget();
+
+    /*
+    Updates the resource budget for each module. This is for use
+    on each frame.
+    */
+    void updateBudget();
+
+    /*
     Implementation of the Commander's module process.
     */
     static void run(Commander* m);

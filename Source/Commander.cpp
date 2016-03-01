@@ -85,6 +85,13 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
         std::make_unique<bt::BehaviorTree>(std::move(behaviors)));
 }
 
+void Commander::allocateInitialBudget() {
+    Slab* resources = nullptr;
+    bool found = m_allocator->find("resources", &resources);
+    assert(found);
+
+}
+
 void Commander::run(Commander* m)
 {
     Unitset units = Broodwar->self()->getUnits();
