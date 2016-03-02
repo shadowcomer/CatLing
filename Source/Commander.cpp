@@ -181,17 +181,26 @@ bool Commander::planBarracks() {
     m_allocator->find("resources", &resources);
     assert(resources);
 
+    // Resources available for budgeting
     Entry virtResources;
     resources->getEntry(ModuleType::_END, virtResources);
-    int oldVirtMinerals = virtResources[0]->toInt()->value;
     int barracksMineralCost = UnitTypes::Terran_Barracks.mineralPrice();
 
+    // Resources available to MacroManager
+    Entry macroResources;
+    resources->getEntry(ModuleType::MACROMGR, macroResources);
+    int oldMacroMinerals = macroResources[0]->toInt()->value;
+
     std::unique_ptr<SlabTypes::IntType> newMinerals =
-        std::make_unique<SlabTypes::IntType>(oldVirtMinerals +
+        std::make_unique<SlabTypes::IntType>(oldMacroMinerals +
         barracksMineralCost);
 
     bool modified = resources->modifyEntry(ModuleType::MACROMGR, 0,
         newMinerals.get());
+
+    if (modified) {
+        virtResources[0]->toInt()->value -= barracksMineralCost;
+    }
     return modified;
 }
 
