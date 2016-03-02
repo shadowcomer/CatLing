@@ -36,8 +36,13 @@ public:
     */
     void launch();
 
+    int m_virtAccumMinerals;
+    int m_virtAccumGas;
+
+
 private:
     BWAPI::Unit m_command;
+
 
     /*
     Builds a BehaviorTree for mineral gathering.

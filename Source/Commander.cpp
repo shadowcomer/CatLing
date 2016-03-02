@@ -100,7 +100,7 @@ void Commander::allocateInitialBudget() {
         resources->appendEntry(e);
     }
 
-    std::function<void(void)> initFun = [resources]() -> void {
+    std::function<void(void)> initFun = [resources, this]() -> void {
         // Create resources
         std::unique_ptr<SlabTypes::IntType> minerals =
             std::make_unique<SlabTypes::IntType>(0);
@@ -114,6 +114,9 @@ void Commander::allocateInitialBudget() {
         // Update slab
         resources->modifyEntry(ModuleType::_END, 0, minerals.get());
         resources->modifyEntry(ModuleType::_END, 1, gas.get());
+
+        m_virtAccumMinerals = minerals->value;
+        m_virtAccumGas = gas->value;
     };
 
     // Create and query a task for virtual resource initialization
