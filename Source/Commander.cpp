@@ -101,19 +101,15 @@ void Commander::allocateInitialBudget() {
     }
 
     std::function<void(void)> initFun = [resources, this]() -> void {
-        // Create resources
-        std::unique_ptr<SlabTypes::IntType> minerals =
-            std::make_unique<SlabTypes::IntType>(0);
-        std::unique_ptr<SlabTypes::IntType> gas =
-            std::make_unique<SlabTypes::IntType>(0);
+        Entry virtResources;
+        resources->getEntry(ModuleType::_END, virtResources);
 
-        // Get resources
+        // Get resources and assign them
+        SlabTypes::IntType* minerals = virtResources[0]->toInt();
+        SlabTypes::IntType* gas = virtResources[1]->toInt();
+
         minerals->value = BWAPI::Broodwar->self()->minerals();
         gas->value = BWAPI::Broodwar->self()->gas();
-
-        // Update slab
-        resources->modifyEntry(ModuleType::_END, 0, minerals.get());
-        resources->modifyEntry(ModuleType::_END, 1, gas.get());
 
         m_virtAccumMinerals = minerals->value;
         m_virtAccumGas = gas->value;
