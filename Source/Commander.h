@@ -71,6 +71,23 @@ private:
     void updateBudget();
 
     /*
+    Allocates enough resources to the MacroManager for the
+    construction of a Barracks.
+    */
+    bool planBarracks();
+
+    /*
+    Retrieves the current virtual minerals available for
+    budgeting.
+    */
+    int availableMinerals();
+
+    /*
+    Retrieves the current virtual gas available for budgeting.
+    */
+    int availableGas();
+
+    /*
     Implementation of the Commander's module process.
     */
     static void run(Commander* m);

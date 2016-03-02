@@ -176,6 +176,45 @@ void Commander::updateBudgetHelper() {
     m_virtAccumGas = realAccumGas;
 }
 
+bool Commander::planBarracks() {
+    Slab* resources = nullptr;
+    m_allocator->find("resources", &resources);
+    assert(resources);
+
+    Entry virtResources;
+    resources->getEntry(ModuleType::_END, virtResources);
+    int oldVirtMinerals = virtResources[0]->toInt()->value;
+    int barracksMineralCost = UnitTypes::Terran_Barracks.mineralPrice();
+
+    std::unique_ptr<SlabTypes::IntType> newMinerals =
+        std::make_unique<SlabTypes::IntType>(oldVirtMinerals +
+        barracksMineralCost);
+
+    bool modified = resources->modifyEntry(ModuleType::MACROMGR, 0,
+        newMinerals.get());
+    return modified;
+}
+
+int Commander::availableMinerals() {
+    Slab* res = nullptr;
+    bool found = m_allocator->find("resources", &res);
+    assert(found);
+
+    Entry e;
+    res->getEntry(ModuleType::_END, e);
+    return e[0]->toInt()->value;
+}
+
+int Commander::availableGas() {
+    Slab* res = nullptr;
+    bool found = m_allocator->find("resources", &res);
+    assert(found);
+
+    Entry e;
+    res->getEntry(ModuleType::_END, e);
+    return e[1]->toInt()->value;
+}
+
 void Commander::run(Commander* m)
 {
     m->allocateInitialBudget();
@@ -205,6 +244,12 @@ void Commander::run(Commander* m)
     while (!m->isShuttingDown())
     {
         m->updateBudget();
+
+        if (m->availableMinerals() >=
+            UnitTypes::Terran_Barracks.mineralPrice()) {
+            m->planBarracks();
+        }
+
         m->sleepExecution();
     }
 
