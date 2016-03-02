@@ -85,8 +85,63 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
         std::make_unique<bt::BehaviorTree>(std::move(behaviors)));
 }
 
+void Commander::allocateInitialBudget() {
+    Slab* resources = nullptr;
+    bool found = m_allocator->find("resources", &resources);
+    assert(found);
+
+    // Insert resource allocations in order of module apparition
+    // The last element of the slab corresponds to the virtual
+    // image of unassigned resources.
+    for (size_t i = 0; i <= ModuleType::_END; i++) {
+        Entry e;
+        e.push_back(new SlabTypes::IntType(0));
+        e.push_back(new SlabTypes::IntType(0));
+        resources->appendEntry(e);
+    }
+
+    std::function<void(void)> initFun = [resources]() -> void {
+        // Create resources
+        std::unique_ptr<SlabTypes::IntType> minerals =
+            std::make_unique<SlabTypes::IntType>(0);
+        std::unique_ptr<SlabTypes::IntType> gas =
+            std::make_unique<SlabTypes::IntType>(0);
+
+        // Get resources
+        minerals->value = BWAPI::Broodwar->self()->minerals();
+        gas->value = BWAPI::Broodwar->self()->gas();
+
+        // Update slab
+        resources->modifyEntry(ModuleType::_END, 0, minerals.get());
+        resources->modifyEntry(ModuleType::_END, 1, gas.get());
+
+        Entry r;
+        resources->getEntry(ModuleType::_END, r);
+    };
+
+    // Create and query a task for virtual resource initialization
+    std::unique_ptr<bt::Behavior> initResourcesB =
+        std::make_unique<bt::ActionBehavior>(
+        nullptr,
+        [](bt::Behavior* b) { std::cout << "In TWildCard: BudgetInit" <<
+        std::endl; },
+        std::make_unique<TaskWrapper>(
+        std::make_unique<TWildcard>(initFun)));
+
+    bt::BehaviorList behaviors;
+    behaviors.push_back(std::move(initResourcesB));
+
+    bt::BehaviorTree initTree(std::move(behaviors));
+
+    for (auto b : initTree) {
+        b->tick();
+    }
+}
+
 void Commander::run(Commander* m)
 {
+    m->allocateInitialBudget();
+
     Unitset units = Broodwar->self()->getUnits();
     for (auto u : units)
     {
