@@ -121,11 +121,8 @@ void MacroManager::commitResources(BWAPI::UnitType unit) {
         std::make_unique<SlabTypes::IntType>(
         availableGas - gPrice);
 
-    bool modified = false;
-    modified = res->modifyEntry(ModuleType::MACROMGR, 0, newMinerals.get());
-    assert(modified);
-    modified = res->modifyEntry(ModuleType::MACROMGR, 1, newGas.get());
-    assert(modified);
+    res->modifyEntry(ModuleType::MACROMGR, 0, newMinerals.get());
+    res->modifyEntry(ModuleType::MACROMGR, 1, newGas.get());
 }
 
 void MacroManager::run(MacroManager* m)
