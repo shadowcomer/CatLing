@@ -110,8 +110,6 @@ void Commander::allocateInitialBudget() {
         // Get resources
         minerals->value = BWAPI::Broodwar->self()->minerals();
         gas->value = BWAPI::Broodwar->self()->gas();
-        std::cout << "Read minerals: " << minerals->value << std::endl;
-        std::cout << "Read gas: " << gas->value << std::endl;
 
         // Update slab
         resources->modifyEntry(ModuleType::_END, 0, minerals.get());
@@ -119,11 +117,6 @@ void Commander::allocateInitialBudget() {
 
         Entry r;
         resources->getEntry(ModuleType::_END, r);
-
-        std::cout << "Stored minerals: " << r[0]->toInt()->value <<
-            std::endl;
-        std::cout << "Stored gas: " << r[1]->toInt()->value <<
-            std::endl;
     };
 
     // Create and query a task for virtual resource initialization
