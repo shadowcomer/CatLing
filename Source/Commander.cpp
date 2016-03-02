@@ -100,23 +100,19 @@ void Commander::allocateInitialBudget() {
         resources->appendEntry(e);
     }
 
-    std::function<void(void)> initFun = [resources]() -> void {
-        // Create resources
-        std::unique_ptr<SlabTypes::IntType> minerals =
-            std::make_unique<SlabTypes::IntType>(0);
-        std::unique_ptr<SlabTypes::IntType> gas =
-            std::make_unique<SlabTypes::IntType>(0);
+    std::function<void(void)> initFun = [resources, this]() -> void {
+        Entry virtResources;
+        resources->getEntry(ModuleType::_END, virtResources);
 
-        // Get resources
+        // Get resources and assign them
+        SlabTypes::IntType* minerals = virtResources[0]->toInt();
+        SlabTypes::IntType* gas = virtResources[1]->toInt();
+
         minerals->value = BWAPI::Broodwar->self()->minerals();
         gas->value = BWAPI::Broodwar->self()->gas();
 
-        // Update slab
-        resources->modifyEntry(ModuleType::_END, 0, minerals.get());
-        resources->modifyEntry(ModuleType::_END, 1, gas.get());
-
-        Entry r;
-        resources->getEntry(ModuleType::_END, r);
+        m_virtAccumMinerals = minerals->value;
+        m_virtAccumGas = gas->value;
     };
 
     // Create and query a task for virtual resource initialization
@@ -136,6 +132,96 @@ void Commander::allocateInitialBudget() {
     for (auto b : initTree) {
         b->tick();
     }
+}
+
+void Commander::updateBudget() {
+    std::unique_ptr<bt::Behavior> updateB =
+        std::make_unique<bt::ActionBehavior>(
+        nullptr,
+        [](bt::Behavior* b) {},
+        std::make_unique<TaskWrapper>(
+        std::make_unique<TWildcard>(
+        std::bind(&Commander::updateBudgetHelper, this))));
+
+    bt::BehaviorList behaviors;
+    behaviors.push_back(std::move(updateB));
+    bt::BehaviorTree updateTree(std::move(behaviors));
+
+    for (auto b : updateTree) {
+        b->tick();
+    }
+}
+
+void Commander::updateBudgetHelper() {
+    Slab* resources = nullptr;
+    bool found = m_allocator->find("resources", &resources);
+    assert(found);
+
+    // Get accumulated resources for comparison
+    int realAccumMins = BWAPI::Broodwar->self()->gatheredMinerals();
+    int realAccumGas = BWAPI::Broodwar->self()->gatheredGas();
+
+    // Calculate the difference
+    int newMinerals = realAccumMins - m_virtAccumMinerals;
+    int newGas = realAccumGas - m_virtAccumGas;
+    assert(newMinerals >= 0 && newGas >= 0);
+
+    // Obtain the old virtual resources so we can update them
+    Entry oldVirtual;
+    resources->getEntry(ModuleType::_END, oldVirtual);
+    oldVirtual[0]->toInt()->value += newMinerals;
+    oldVirtual[1]->toInt()->value += newGas;
+
+    m_virtAccumMinerals = realAccumMins;
+    m_virtAccumGas = realAccumGas;
+}
+
+bool Commander::planBarracks() {
+    Slab* resources = nullptr;
+    m_allocator->find("resources", &resources);
+    assert(resources);
+
+    // Resources available for budgeting
+    Entry virtResources;
+    resources->getEntry(ModuleType::_END, virtResources);
+    int barracksMineralCost = UnitTypes::Terran_Barracks.mineralPrice();
+
+    // Resources available to MacroManager
+    Entry macroResources;
+    resources->getEntry(ModuleType::MACROMGR, macroResources);
+    int oldMacroMinerals = macroResources[0]->toInt()->value;
+
+    std::unique_ptr<SlabTypes::IntType> newMinerals =
+        std::make_unique<SlabTypes::IntType>(oldMacroMinerals +
+        barracksMineralCost);
+
+    bool modified = resources->modifyEntry(ModuleType::MACROMGR, 0,
+        newMinerals.get());
+
+    if (modified) {
+        virtResources[0]->toInt()->value -= barracksMineralCost;
+    }
+    return modified;
+}
+
+int Commander::availableMinerals() {
+    Slab* res = nullptr;
+    bool found = m_allocator->find("resources", &res);
+    assert(found);
+
+    Entry e;
+    res->getEntry(ModuleType::_END, e);
+    return e[0]->toInt()->value;
+}
+
+int Commander::availableGas() {
+    Slab* res = nullptr;
+    bool found = m_allocator->find("resources", &res);
+    assert(found);
+
+    Entry e;
+    res->getEntry(ModuleType::_END, e);
+    return e[1]->toInt()->value;
 }
 
 void Commander::run(Commander* m)
@@ -166,6 +252,12 @@ void Commander::run(Commander* m)
 
     while (!m->isShuttingDown())
     {
+        m->updateBudget();
+
+        if (m->availableMinerals() >=
+            UnitTypes::Terran_Barracks.mineralPrice()) {
+            m->planBarracks();
+        }
 
         m->sleepExecution();
     }
