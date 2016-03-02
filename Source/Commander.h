@@ -43,6 +43,12 @@ private:
     int m_virtAccumGas;
 
     /*
+    Update function used in updateBudget. This way it's not
+    created every time it's going to be used.
+    */
+    void updateBudgetHelper();
+
+    /*
     Builds a BehaviorTree for mineral gathering.
     */
     std::unique_ptr<bt::BehaviorTree> buildGatherMinerals();

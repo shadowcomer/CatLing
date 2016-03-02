@@ -138,6 +138,48 @@ void Commander::allocateInitialBudget() {
     }
 }
 
+void Commander::updateBudget() {
+    std::unique_ptr<bt::Behavior> updateB =
+        std::make_unique<bt::ActionBehavior>(
+        nullptr,
+        [](bt::Behavior* b) {},
+        std::make_unique<TaskWrapper>(
+        std::make_unique<TWildcard>(
+        std::bind(&Commander::updateBudgetHelper, this))));
+
+    bt::BehaviorList behaviors;
+    behaviors.push_back(std::move(updateB));
+    bt::BehaviorTree updateTree(std::move(behaviors));
+
+    for (auto b : updateTree) {
+        b->tick();
+    }
+}
+
+void Commander::updateBudgetHelper() {
+    Slab* resources = nullptr;
+    bool found = m_allocator->find("resources", &resources);
+    assert(found);
+
+    // Get accumulated resources for comparison
+    int realAccumMins = BWAPI::Broodwar->self()->gatheredMinerals();
+    int realAccumGas = BWAPI::Broodwar->self()->gatheredGas();
+
+    // Calculate the difference
+    int newMinerals = realAccumMins - m_virtAccumMinerals;
+    int newGas = realAccumGas - m_virtAccumGas;
+    assert(newMinerals >= 0 && newGas >= 0);
+
+    // Obtain the old virtual resources so we can update them
+    Entry oldVirtual;
+    resources->getEntry(ModuleType::_END, oldVirtual);
+    oldVirtual[0]->toInt()->value += newMinerals;
+    oldVirtual[1]->toInt()->value += newGas;
+
+    m_virtAccumMinerals = realAccumMins;
+    m_virtAccumGas = realAccumGas;
+}
+
 void Commander::run(Commander* m)
 {
     m->allocateInitialBudget();
@@ -166,7 +208,7 @@ void Commander::run(Commander* m)
 
     while (!m->isShuttingDown())
     {
-
+        m->updateBudget();
         m->sleepExecution();
     }
 
