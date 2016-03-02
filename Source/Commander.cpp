@@ -114,9 +114,6 @@ void Commander::allocateInitialBudget() {
         // Update slab
         resources->modifyEntry(ModuleType::_END, 0, minerals.get());
         resources->modifyEntry(ModuleType::_END, 1, gas.get());
-
-        Entry r;
-        resources->getEntry(ModuleType::_END, r);
     };
 
     // Create and query a task for virtual resource initialization
