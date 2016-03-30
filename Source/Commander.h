@@ -39,6 +39,15 @@ public:
 private:
     BWAPI::Unit m_command;
 
+    int m_virtAccumMinerals;
+    int m_virtAccumGas;
+
+    /*
+    Update function used in updateBudget. This way it's not
+    created every time it's going to be used.
+    */
+    void updateBudgetHelper();
+
     /*
     Builds a BehaviorTree for mineral gathering.
     */
@@ -48,6 +57,35 @@ private:
     Implementation of the Commander's shutdown procedure.
     */
     bool shutdownHelper();
+
+    /*
+    Allocates the resource budget for each module. This is for
+    use on game initialization.
+    */
+    void allocateInitialBudget();
+
+    /*
+    Updates the resource budget for each module. This is for use
+    on each frame.
+    */
+    void updateBudget();
+
+    /*
+    Allocates enough resources to the MacroManager for the
+    construction of a Barracks.
+    */
+    bool planBarracks();
+
+    /*
+    Retrieves the current virtual minerals available for
+    budgeting.
+    */
+    int availableMinerals();
+
+    /*
+    Retrieves the current virtual gas available for budgeting.
+    */
+    int availableGas();
 
     /*
     Implementation of the Commander's module process.

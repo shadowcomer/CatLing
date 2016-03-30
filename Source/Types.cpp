@@ -33,23 +33,23 @@ TypeObj::operator UnitType()
 
 auto TypeObj::toInt() -> IntType*
 {
-    return typeid(IntType*) == typeid(this) ? dynamic_cast<IntType*>(this) : nullptr;
+    return dynamic_cast<IntType*>(this);
 }
 
 auto TypeObj::toBool() -> BoolType*
 {
-    return typeid(BoolType*) == typeid(this) ? dynamic_cast<BoolType*>(this) : nullptr;
+    return dynamic_cast<BoolType*>(this);
 }
 
 auto TypeObj::toFloat() -> FloatType*
 {
-    return typeid(FloatType*) == typeid(this) ? dynamic_cast<FloatType*>(this) : nullptr;
+    return dynamic_cast<FloatType*>(this);
 }
 
 
 auto TypeObj::toString() -> StringType*
 {
-    return typeid(StringType*) == typeid(this) ? dynamic_cast<StringType*>(this) : nullptr;
+    return dynamic_cast<StringType*>(this);
 }
 
 auto TypeObj::toUnit() -> UnitType*
