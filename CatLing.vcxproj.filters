@@ -146,5 +146,8 @@
       <Filter>Source Files\BT</Filter>
     </ClInclude>
     <ClInclude Include="Source\Measure.h" />
+    <ClInclude Include="Source\IPlanner.h">
+      <Filter>Source Files\AI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

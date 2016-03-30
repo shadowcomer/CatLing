@@ -131,6 +131,7 @@
     <ClInclude Include="Source\MicroManager.h" />
     <ClInclude Include="Source\MacroManager.h" />
     <ClInclude Include="Source\Behavior.h" />
+    <ClInclude Include="Source\IPlanner.h" />
     <ClInclude Include="Source\Selector.h" />
     <ClInclude Include="Source\Sequence.h" />
     <ClInclude Include="Source\SlabAllocator.h" />
