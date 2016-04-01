@@ -38,10 +38,16 @@ public:
     */
     void launch();
 
+    /*
+    Updates the resource budget for each module. This is for use
+    on each frame.
+    */
+    void updateBudget();
+
 private:
     BWAPI::Unit m_command;
 
-    ResourceManager resources;
+    ResourceManager m_resources;
 
     int m_virtAccumMinerals;
     int m_virtAccumGas;
@@ -67,12 +73,6 @@ private:
     use on game initialization.
     */
     void allocateInitialBudget();
-
-    /*
-    Updates the resource budget for each module. This is for use
-    on each frame.
-    */
-    void updateBudget();
 
     /*
     Allocates enough resources to the MacroManager for the

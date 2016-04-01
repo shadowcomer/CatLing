@@ -485,6 +485,7 @@ void ClientLink::onEnd(bool isWinner)
 
 void ClientLink::onFrame()
 {
+    ((Commander*)m_modules[ModuleType::COMMANDER])->updateBudget();
 
     Broodwar->drawTextScreen(200, 0, "Task Count: %d", m_totalExecTasks);
 

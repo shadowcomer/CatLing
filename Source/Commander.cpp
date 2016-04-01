@@ -136,21 +136,7 @@ void Commander::allocateInitialBudget() {
 }
 
 void Commander::updateBudget() {
-    std::unique_ptr<bt::Behavior> updateB =
-        std::make_unique<bt::ActionBehavior>(
-        nullptr,
-        [](bt::Behavior* b) {},
-        std::make_unique<TaskWrapper>(
-        std::make_unique<TWildcard>(
-        std::bind(&Commander::updateBudgetHelper, this))));
-
-    bt::BehaviorList behaviors;
-    behaviors.push_back(std::move(updateB));
-    bt::BehaviorTree updateTree(std::move(behaviors));
-
-    for (auto b : updateTree) {
-        b->tick();
-    }
+    m_resources.updateResources();
 }
 
 void Commander::updateBudgetHelper() {
