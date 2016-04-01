@@ -5,7 +5,8 @@
 using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk) :
-Module(tsk)
+Module(tsk),
+m_resources(ResourceManager())
 {
 
 }
