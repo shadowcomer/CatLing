@@ -108,6 +108,7 @@
     <ClCompile Include="Source\MicroManager.cpp" />
     <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\Behavior.cpp" />
+    <ClCompile Include="Source\ResourceRequest.cpp" />
     <ClCompile Include="Source\Selector.cpp" />
     <ClCompile Include="Source\Sequence.cpp" />
     <ClCompile Include="Source\SlabAllocator.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Source\BehaviorTree.h" />
     <ClInclude Include="Source\Conditional.h" />
     <ClInclude Include="Source\Executer.h" />
+    <ClInclude Include="Source\IActuator.h" />
     <ClInclude Include="Source\Log.h" />
     <ClInclude Include="Source\Loop.h" />
     <ClInclude Include="Source\Measure.h" />
@@ -132,6 +134,7 @@
     <ClInclude Include="Source\MacroManager.h" />
     <ClInclude Include="Source\Behavior.h" />
     <ClInclude Include="Source\IPlanner.h" />
+    <ClInclude Include="Source\ResourceRequest.h" />
     <ClInclude Include="Source\Selector.h" />
     <ClInclude Include="Source\Sequence.h" />
     <ClInclude Include="Source\SlabAllocator.h" />

@@ -83,6 +83,9 @@
     <ClCompile Include="Source\Loop.cpp">
       <Filter>Source Files\BT</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ResourceRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/ClientLink.h">
@@ -149,5 +152,9 @@
     <ClInclude Include="Source\IPlanner.h">
       <Filter>Source Files\AI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\IActuator.h">
+      <Filter>Source Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceRequest.h" />
   </ItemGroup>
 </Project>
