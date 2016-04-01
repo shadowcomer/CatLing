@@ -4,6 +4,8 @@
 #include "ResourceRequest.h"
 #include "ResourceRequestAnswer.h"
 
+#include "../include/TBB/tbb/mutex.h"
+
 class ResourceManager {
 public:
     ResourceManager();
@@ -24,6 +26,8 @@ public:
     void updateResources();
 
 private:
+    tbb::mutex m_resourceLock;
+
     // real*Accum represent internal knowledge of the current
     // *Accum, thus giving the ability to compare if we've
     // harvested new resources or not.

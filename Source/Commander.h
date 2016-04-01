@@ -25,6 +25,8 @@
 
 #include <iostream>
 
+#include "ResourceManager.h"
+
 class Commander : public Module
 {
 public:
@@ -38,6 +40,8 @@ public:
 
 private:
     BWAPI::Unit m_command;
+
+    ResourceManager resources;
 
     int m_virtAccumMinerals;
     int m_virtAccumGas;
