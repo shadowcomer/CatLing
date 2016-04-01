@@ -108,6 +108,7 @@
     <ClCompile Include="Source\MicroManager.cpp" />
     <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\Behavior.cpp" />
+    <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\ResourceRequest.cpp" />
     <ClCompile Include="Source\ResourceRequestAnswer.cpp" />
     <ClCompile Include="Source\Selector.cpp" />
