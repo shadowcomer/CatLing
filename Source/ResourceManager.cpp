@@ -11,8 +11,10 @@ ResourceManager::~ResourceManager() {
 }
 
 ResourceRequestAnswer ResourceManager::requestResources(
-    ResourceRequest res) {
+    ResourceRequest const res) {
     ResourceRequestAnswer answer;
+
+
 
     return answer;
 }

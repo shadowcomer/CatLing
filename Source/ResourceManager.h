@@ -12,7 +12,8 @@ public:
     /*
         Requests the resources contained in 'res' to the manager.
     */
-    ResourceRequestAnswer requestResources(ResourceRequest res);
+    ResourceRequestAnswer requestResources(
+        ResourceRequest const res);
 
     /*
         Updates virtual resources to be consistent with real
