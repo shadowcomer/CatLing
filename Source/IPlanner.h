@@ -5,7 +5,8 @@
 
 class IPlanner {
 public:
-    virtual bt::BehaviorTree getNextComplexAction() = 0;
+    virtual std::unique_ptr<bt::BehaviorTree>
+        getNextComplexAction() = 0;
 
 };
 
