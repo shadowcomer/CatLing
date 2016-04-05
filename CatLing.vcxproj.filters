@@ -92,6 +92,9 @@
     <ClCompile Include="Source\ResourceManager.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MacroPlanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/ClientLink.h">
@@ -166,5 +169,6 @@
       <Filter>Source Files\AI</Filter>
     </ClInclude>
     <ClInclude Include="Source\ResourceRequestAnswer.h" />
+    <ClInclude Include="Source\MacroPlanner.h" />
   </ItemGroup>
 </Project>

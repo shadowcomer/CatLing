@@ -105,6 +105,7 @@
     <ClCompile Include="Source\Executer.cpp" />
     <ClCompile Include="Source\Log.cpp" />
     <ClCompile Include="Source\Loop.cpp" />
+    <ClCompile Include="Source\MacroPlanner.cpp" />
     <ClCompile Include="Source\MicroManager.cpp" />
     <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\Behavior.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="Source\IActuator.h" />
     <ClInclude Include="Source\Log.h" />
     <ClInclude Include="Source\Loop.h" />
+    <ClInclude Include="Source\MacroPlanner.h" />
     <ClInclude Include="Source\Measure.h" />
     <ClInclude Include="Source\MicroManager.h" />
     <ClInclude Include="Source\MacroManager.h" />
