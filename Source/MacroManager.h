@@ -28,6 +28,8 @@
 #include "Sequence.h"
 #include "ActionBehavior.h"
 
+#include "MacroPlanner.h"
+
 #include <BWAPI.h>
 
 #include <iostream>
@@ -46,15 +48,12 @@ public:
 private:
     BWAPI::Unit m_command;
 
+    std::unique_ptr<MacroPlanner> m_planner;
+
     /*
     Implementation of the MacroManager's shutdown procedure.
     */
     bool shutdownHelper();
-
-    /*
-    Builds a BehaviorTree for building a barracks.
-    */
-    std::unique_ptr<bt::BehaviorTree> buildBarracksTree();
 
     /*
     Checks if the macromanager has enough resources to build a barracks.

@@ -5,9 +5,9 @@
 using namespace BWAPI;
 
 MacroManager::MacroManager(Tasker& tsk) :
-Module(tsk)
+Module(tsk),
+m_planner(std::make_unique<MacroPlanner>(m_allocator))
 {
-
 }
 
 MacroManager::~MacroManager()
@@ -24,63 +24,6 @@ bool MacroManager::shutdownHelper()
 {
 
     return true;
-}
-
-std::unique_ptr<bt::BehaviorTree> MacroManager::buildBarracksTree(){
-    Slab* workers = nullptr;
-
-    if (!m_allocator->find("workers", &workers)) {
-        std::cout << "Couldn't find the 'workers' slab." << std::endl;
-        return nullptr;
-    }
-
-    UnitTypeFun buildingFun = []() -> BWAPI::UnitType {
-        return BWAPI::UnitTypes::Terran_Barracks;
-    };
-
-    UnitFun builderFun = [workers]() -> BWAPI::Unit {
-        Entry workerE;
-        bool acquired = workers->getAndRemoveEntry(0, workerE);
-
-        return acquired ? workerE[0]->toUnit()->value :
-            nullptr;
-    };
-
-    TilePositionFun locationFun =
-        [](void) -> TilePosition {
-        return Broodwar->getBuildLocation(UnitTypes::Terran_Barracks,
-            Broodwar->self()->getStartLocation(),
-            100);
-    };
-
-    std::unique_ptr<bt::Behavior> buildBarracksB =
-        std::make_unique<bt::ActionBehavior>(
-        nullptr,
-        [](bt::Behavior* b) { std::cout << "In TBuildBarracks" <<
-        std::endl; },
-        std::make_unique<TaskWrapper>(
-        std::make_unique<TBuild>(builderFun,
-                                 buildingFun,
-                                 locationFun)));
-
-    std::vector<bt::Behavior*> childrenBehaviors{
-        buildBarracksB.get()
-    };
-
-    std::unique_ptr<bt::Behavior> seq = std::make_unique<bt::Sequence>
-        (nullptr,
-        [](bt::Behavior* b) { std::cout << "In Sequence" <<
-        std::endl; },
-        childrenBehaviors);
-
-    buildBarracksB->setParent(seq.get());
-
-    bt::BehaviorList behaviors;
-    behaviors.push_back(std::move(seq));
-    behaviors.push_back(std::move(buildBarracksB));
-
-    return std::move(
-        std::make_unique<bt::BehaviorTree>(std::move(behaviors)));
 }
 
 bool MacroManager::canBuildBarracks() {
@@ -148,17 +91,6 @@ void MacroManager::run(MacroManager* m)
 
     while(!m->isShuttingDown())
     {
-        // When we have plenty of minerals, build a barracks
-        if(m->canBuildBarracks())
-        {
-            m->commitResources(UnitTypes::Terran_Barracks);
-            std::unique_ptr<bt::BehaviorTree> buildBarracks =
-                m->buildBarracksTree();
-
-            for (auto b : *buildBarracks) {
-                b->tick();
-            }
-        }
 
         m->sleepExecution();
     }
