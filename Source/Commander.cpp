@@ -86,109 +86,8 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
         std::make_unique<bt::BehaviorTree>(std::move(behaviors)));
 }
 
-void Commander::allocateInitialBudget() {
-    Slab* resources = nullptr;
-    bool found = m_allocator->find("resources", &resources);
-    assert(found);
-
-    // Insert resource allocations in order of module apparition
-    // The last element of the slab corresponds to the virtual
-    // image of unassigned resources.
-    for (size_t i = 0; i <= ModuleType::_END; i++) {
-        Entry e;
-        e.push_back(new SlabTypes::IntType(0));
-        e.push_back(new SlabTypes::IntType(0));
-        resources->appendEntry(e);
-    }
-
-    std::function<void(void)> initFun = [resources, this]() -> void {
-        Entry virtResources;
-        resources->getEntry(ModuleType::_END, virtResources);
-
-        // Get resources and assign them
-        SlabTypes::IntType* minerals = virtResources[0]->toInt();
-        SlabTypes::IntType* gas = virtResources[1]->toInt();
-
-        minerals->value = BWAPI::Broodwar->self()->minerals();
-        gas->value = BWAPI::Broodwar->self()->gas();
-
-        m_virtAccumMinerals = minerals->value;
-        m_virtAccumGas = gas->value;
-    };
-
-    // Create and query a task for virtual resource initialization
-    std::unique_ptr<bt::Behavior> initResourcesB =
-        std::make_unique<bt::ActionBehavior>(
-        nullptr,
-        [](bt::Behavior* b) { std::cout << "In TWildCard: BudgetInit" <<
-        std::endl; },
-        std::make_unique<TaskWrapper>(
-        std::make_unique<TWildcard>(initFun)));
-
-    bt::BehaviorList behaviors;
-    behaviors.push_back(std::move(initResourcesB));
-
-    bt::BehaviorTree initTree(std::move(behaviors));
-
-    for (auto b : initTree) {
-        b->tick();
-    }
-}
-
 void Commander::updateBudget() {
     m_resources.updateResources();
-}
-
-void Commander::updateBudgetHelper() {
-    Slab* resources = nullptr;
-    bool found = m_allocator->find("resources", &resources);
-    assert(found);
-
-    // Get accumulated resources for comparison
-    int realAccumMins = BWAPI::Broodwar->self()->gatheredMinerals();
-    int realAccumGas = BWAPI::Broodwar->self()->gatheredGas();
-
-    // Calculate the difference
-    int newMinerals = realAccumMins - m_virtAccumMinerals;
-    int newGas = realAccumGas - m_virtAccumGas;
-    assert(newMinerals >= 0 && newGas >= 0);
-
-    // Obtain the old virtual resources so we can update them
-    Entry oldVirtual;
-    resources->getEntry(ModuleType::_END, oldVirtual);
-    oldVirtual[0]->toInt()->value += newMinerals;
-    oldVirtual[1]->toInt()->value += newGas;
-
-    m_virtAccumMinerals = realAccumMins;
-    m_virtAccumGas = realAccumGas;
-}
-
-bool Commander::planBarracks() {
-    Slab* resources = nullptr;
-    m_allocator->find("resources", &resources);
-    assert(resources);
-
-    // Resources available for budgeting
-    Entry virtResources;
-    resources->getEntry(ModuleType::_END, virtResources);
-    int barracksMineralCost = UnitTypes::Terran_Barracks.mineralPrice();
-
-    // Resources available to MacroManager
-    Entry macroResources;
-    resources->getEntry(ModuleType::MACROMGR, macroResources);
-    int oldMacroMinerals = macroResources[0]->toInt()->value;
-
-    std::unique_ptr<SlabTypes::IntType> newMinerals =
-        std::make_unique<SlabTypes::IntType>(oldMacroMinerals +
-        barracksMineralCost);
-
-    bool modified = resources->modifyEntry(ModuleType::MACROMGR, 0,
-        newMinerals.get());
-
-    if (modified) {
-        virtResources[0]->toInt()->value -= barracksMineralCost;
-    }
-    return modified;
 }
 
 int Commander::availableMinerals() {
@@ -213,8 +112,6 @@ int Commander::availableGas() {
 
 void Commander::run(Commander* m)
 {
-    m->allocateInitialBudget();
-
     Unitset units = Broodwar->self()->getUnits();
     for (auto u : units)
     {
@@ -239,13 +136,6 @@ void Commander::run(Commander* m)
 
     while (!m->isShuttingDown())
     {
-        m->updateBudget();
-
-        if (m->availableMinerals() >=
-            UnitTypes::Terran_Barracks.mineralPrice()) {
-            m->planBarracks();
-        }
-
         m->sleepExecution();
     }
 

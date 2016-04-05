@@ -53,12 +53,6 @@ private:
     int m_virtAccumGas;
 
     /*
-    Update function used in updateBudget. This way it's not
-    created every time it's going to be used.
-    */
-    void updateBudgetHelper();
-
-    /*
     Builds a BehaviorTree for mineral gathering.
     */
     std::unique_ptr<bt::BehaviorTree> buildGatherMinerals();
@@ -67,18 +61,6 @@ private:
     Implementation of the Commander's shutdown procedure.
     */
     bool shutdownHelper();
-
-    /*
-    Allocates the resource budget for each module. This is for
-    use on game initialization.
-    */
-    void allocateInitialBudget();
-
-    /*
-    Allocates enough resources to the MacroManager for the
-    construction of a Barracks.
-    */
-    bool planBarracks();
 
     /*
     Retrieves the current virtual minerals available for
