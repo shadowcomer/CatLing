@@ -89,8 +89,23 @@ void MacroManager::run(MacroManager* m)
 
     m->setFrameExecDelta(48);
 
+    std::unique_ptr<bt::BehaviorTree> currentPlan;
+    bt::BehaviorTree::BTIterator currentBehavior;
+
     while(!m->isShuttingDown())
     {
+        if (!currentPlan) {
+            currentPlan = m->m_planner->getNextComplexAction();
+            currentBehavior = currentPlan->begin();
+        }
+
+        if (currentBehavior != currentPlan->end()) {
+            (*currentBehavior)->tick();
+            ++currentBehavior;
+        }
+        else {
+            currentPlan.release();
+        }
 
         m->sleepExecution();
     }
