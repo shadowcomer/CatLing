@@ -6,7 +6,7 @@ using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk) :
 Module(tsk),
-m_resources(ResourceManager())
+m_resources(std::make_unique<ResourceManager>())
 {
 
 }
@@ -87,7 +87,7 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
 }
 
 void Commander::updateBudget() {
-    m_resources.updateResources();
+    m_resources->updateResources();
 }
 
 int Commander::availableMinerals() {

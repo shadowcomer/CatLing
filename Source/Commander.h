@@ -47,7 +47,7 @@ public:
 private:
     BWAPI::Unit m_command;
 
-    ResourceManager m_resources;
+    std::unique_ptr<ResourceManager> m_resources;
 
     int m_virtAccumMinerals;
     int m_virtAccumGas;
