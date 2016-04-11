@@ -3,6 +3,8 @@
 #include <exception>
 #include <assert.h>
 
+#include <utility>
+
 using namespace bt;
 
 /************************
@@ -13,6 +15,12 @@ BehaviorTree::BTIterator::BTIterator(BehaviorTree const & origin,
     Behavior * currentBehavior) :
 m_currentBehavior(currentBehavior),
 m_owner(origin) {
+
+}
+
+BehaviorTree::BTIterator::BTIterator() :
+m_owner(std::move(BehaviorTree(BehaviorList()))),
+m_currentBehavior(nullptr) {
 
 }
 
@@ -33,6 +41,12 @@ BehaviorTree::BTIterator& BehaviorTree::BTIterator::operator++() {
 bool BehaviorTree::BTIterator::operator!=(BTIterator const & other) {
     assert(&m_owner == &(other.m_owner));
     return m_currentBehavior != other.m_currentBehavior;
+}
+
+BehaviorTree::BTIterator&
+    BehaviorTree::BTIterator::operator=(BTIterator other) {
+    std::swap(*this, other);
+    return *this;
 }
 
 /************************

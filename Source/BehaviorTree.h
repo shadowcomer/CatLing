@@ -23,9 +23,8 @@ lifetime and the execution of the Behaviors it's constructed with.
 BehaviorTrees are ranged for compliant.
 */
     class BehaviorTree {
-    private: // This is to keep the interface at the top
-        class BTIterator;
     public:
+        class BTIterator;
 /**
 The BehaviorTree constructor acquires ownership of the BehaviorList
 given. This list is moved into the BehaviorTree, and thus the given
@@ -47,39 +46,42 @@ Returns an iterator to the end of the BehaviorTree.
 */
         BTIterator end();
 
-    private:
-        BehaviorList m_behaviors;
+        /*********
+        BTIterator
+        **********/
 
-/*********
-BTIterator
-**********/
+        /*
+        The BTIterator is an iterator implementation for a BehaviorTree.
+        This iterator begins at the root and ends at an asociated BTIterator
+        to the BehaviorTree.
 
-/*
-The BTIterator is an iterator implementation for a BehaviorTree.
-This iterator begins at the root and ends at an asociated BTIterator
-to the BehaviorTree.
-
-The end iterator is always a nullptr.
-The consistency of the BehaviorTree, iterated with the BTIterator,
-is dependent on the correct implementation of a Behavior's
-'nextBehavior' virtual method, which is wrapped into BTIterator's
-'++' operator.
-*/
+        The end iterator is always a nullptr.
+        The consistency of the BehaviorTree, iterated with the BTIterator,
+        is dependent on the correct implementation of a Behavior's
+        'nextBehavior' virtual method, which is wrapped into BTIterator's
+        '++' operator.
+        */
         class BTIterator {
         public:
             BTIterator(BehaviorTree const & origin,
                 Behavior * currentBehavior);
+            BTIterator();
             ~BTIterator();
 
             Behavior* operator*();
             BTIterator& operator++();
             bool operator!=(BTIterator const & other);
+            BTIterator& BTIterator::operator=(BTIterator other);
 
         private:
             Behavior * m_currentBehavior;
             BehaviorTree const & m_owner;
 
         }; // END BTIterator
+
+    private:
+        BehaviorList m_behaviors;
+
     }; // END BehaviorTree
 }
 
