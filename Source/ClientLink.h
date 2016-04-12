@@ -80,17 +80,6 @@ public:
     void onUnitRenegade(BWAPI::Unit unit);
     void onSaveGame(std::string gameName);
     void onUnitComplete(BWAPI::Unit unit);
-    
-    void spendProjectedCost(BWAPI::UnitType type);
-
-    // A move's success doesn't guarantee that the move was completed, just that it was properly executed
-    bool moveToTile(BWAPI::Unit unit, BWAPI::TilePosition position);
-
-    // Position/Unit type relative unit selection
-    BWAPI::Unit getClosest(BWAPI::UnitType type, BWAPI::TilePosition t);
-
-    bool hasEnoughResources(BWAPI::UnitType type);
-    bool hasEnoughSupply(BWAPI::UnitType type);
 
 private:
     /* TEMPORARY PRIVATE FUNCTIONALITY*/
@@ -104,30 +93,7 @@ private:
     
     long m_totalExecTasks;
 
-    // Map dimensions in Build Tile, Walk Tile and Position
-    int m_mapWidth_BT;
-    int m_mapHeight_BT;
-
-    int m_mapWidth_WT;
-    int m_mapHeight_WT;
-
-    int m_mapWidth_P;
-    int m_mapHeight_P;
-
-    int m_projectedMinerals;
-    int m_projectedGas;
-
-    unsigned int m_SCVcount;
-
-    bool m_barracksRequested;
-    bool m_barracksBuilt;
-
-    bool m_supplyRequested;
-    bool m_supplyAttempted;
-
     bool m_shouldTerminate;
-
-    BWAPI::TilePosition m_posCommand;
 
     void waitForTermination();
 

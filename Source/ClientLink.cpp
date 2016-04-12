@@ -224,13 +224,6 @@ void showForces()
 
 ClientLink::ClientLink() :
 m_shouldTerminate(false),
-m_barracksRequested(false),
-m_barracksBuilt(false),
-m_supplyRequested(false),
-m_supplyAttempted(false),
-m_SCVcount(0),
-m_projectedMinerals(0),
-m_projectedGas(0),
 m_totalExecTasks(0),
 m_taskManager(TaskManager())
 {
@@ -404,29 +397,6 @@ void ClientLink::processEvents()
     }
 }
 
-bool ClientLink::moveToTile(Unit unit, TilePosition position)
-{
-    assert(unit != nullptr && position.isValid());
-    return unit->move(Position(position), false);
-}
-
-bool ClientLink::hasEnoughSupply(BWAPI::UnitType type)
-{
-    return self->supplyTotal() >= (self->supplyUsed() + type.supplyRequired());
-}
-
-bool ClientLink::hasEnoughResources(BWAPI::UnitType type)
-{
-    return (self->minerals() - m_projectedMinerals) >= type.mineralPrice() && (self->gas() - m_projectedGas) >= type.gasPrice();
-}
-
-void ClientLink::spendProjectedCost(BWAPI::UnitType type)
-{
-    m_projectedMinerals += type.mineralPrice();
-    m_projectedGas += type.gasPrice();
-}
-
-
 void ClientLink::onStart()
 {
     configOnStart();
@@ -558,25 +528,12 @@ void ClientLink::onUnitHide(BWAPI::Unit unit)
 
 void ClientLink::onUnitCreate(BWAPI::Unit unit)
 {
-    // WARNING: It's possible that this function is registering units
-    // that are not our own.
-    BWAPI::UnitType type = unit->getType();
 
-    // Keep projected resources consistency
-    m_projectedMinerals -= type.mineralPrice();
-    m_projectedGas -= type.gasPrice();
-
-    Broodwar << "Created " << type.toString() << std::endl;
 }
 
 void ClientLink::onUnitDestroy(BWAPI::Unit unit)
 {
-    // FIX: This function could be registering another team's units deaths.
-    BWAPI::UnitType type = unit->getType();
-    if (UnitTypes::Terran_SCV == type)
-        m_SCVcount = m_SCVcount > 0 ? m_SCVcount - 1 : 0;
-    if (UnitTypes::Terran_Bunker == type)
-        m_barracksBuilt = false;
+
 }
 
 void ClientLink::onUnitMorph(BWAPI::Unit unit)
@@ -605,16 +562,7 @@ void ClientLink::onSaveGame(std::string gameName)
 
 void ClientLink::onUnitComplete(BWAPI::Unit unit)
 {
-    // FIX: This function could be registering another team's finished builds.
-    BWAPI::UnitType type = unit->getType();
-    if (UnitTypes::Terran_Barracks == type)
-    {
-        m_barracksBuilt = !(m_barracksRequested = false); Broodwar << "Barracks built" << std::endl;
-    }
-    else if (UnitTypes::Terran_SCV == type)
-        m_SCVcount++;
-    else if (UnitTypes::Terran_Supply_Depot == type)
-        m_supplyRequested = false;
+
 }
 
 void ClientLink::initializeSlabs() {
@@ -660,14 +608,6 @@ void ClientLink::configOnStart()
 {
     initializeSlabs();
     self = Broodwar->self();
-    m_posCommand = self->getStartLocation();
-    m_mapWidth_BT = Broodwar->mapWidth();
-    m_mapHeight_BT = Broodwar->mapHeight();
-    m_mapWidth_WT = m_mapWidth_BT * 4;
-    m_mapHeight_WT = m_mapHeight_BT * 4;
-
-    m_mapWidth_P = m_mapWidth_BT * TILE_SIZE;
-    m_mapHeight_P = m_mapHeight_BT * TILE_SIZE;
 
     launchModules();
 }
