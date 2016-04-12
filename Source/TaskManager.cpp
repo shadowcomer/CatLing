@@ -14,10 +14,6 @@ bool TaskManager::hasRemainingTasks()
     return !m_taskQueue.empty();
 }
 
-bool TaskManager::hasRemainingTasks() {
-    return !m_taskQueue.empty();
-}
-
 bool TaskManager::executeSingleTask() {
     Task* t;
     m_taskQueue.try_pop(t);
