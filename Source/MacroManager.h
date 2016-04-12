@@ -34,6 +34,8 @@
 
 #include <iostream>
 
+typedef std::shared_ptr<MacroPlanner> Planner_p;
+
 class MacroManager : public Module
 {
 public:
@@ -46,10 +48,12 @@ public:
     */
     void launch();
 
+    void initializePlanner(SlabAllocator* alloc);
+
 private:
     BWAPI::Unit m_command;
 
-    std::unique_ptr<MacroPlanner> m_planner;
+    Planner_p m_planner;
 
     /*
     Implementation of the MacroManager's shutdown procedure.

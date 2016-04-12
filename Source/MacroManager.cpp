@@ -6,9 +6,8 @@ using namespace BWAPI;
 
 MacroManager::MacroManager(Tasker& tsk, Module** modules,
     SlabAllocator* alloc) :
-Module(tsk, modules, alloc),
-m_planner(std::make_unique<MacroPlanner>(nullptr))
-{
+Module(tsk, modules, alloc) {
+    m_planner = std::make_shared<MacroPlanner>(m_allocator);
 }
 
 MacroManager::~MacroManager()
@@ -67,6 +66,10 @@ void MacroManager::commitResources(BWAPI::UnitType unit) {
 
     res->modifyEntry(ModuleType::MACROMGR, 0, newMinerals.get());
     res->modifyEntry(ModuleType::MACROMGR, 1, newGas.get());
+}
+
+void MacroManager::initializePlanner(SlabAllocator* alloc) {
+    m_planner->initialize(alloc);
 }
 
 void MacroManager::run(MacroManager* m)
