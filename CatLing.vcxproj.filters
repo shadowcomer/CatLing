@@ -26,16 +26,10 @@
     <ClCompile Include="Source/ClientLink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Tasker.cpp">
-      <Filter>Source Files\Tasking</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Task.cpp">
       <Filter>Source Files\Tasking</Filter>
     </ClCompile>
     <ClCompile Include="Source\TaskManager.cpp">
-      <Filter>Source Files\Tasking</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Executer.cpp">
       <Filter>Source Files\Tasking</Filter>
     </ClCompile>
     <ClCompile Include="Source\Module.cpp">

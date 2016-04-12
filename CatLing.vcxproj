@@ -102,7 +102,6 @@
     <ClCompile Include="Source\ActionBehavior.cpp" />
     <ClCompile Include="Source\BehaviorTree.cpp" />
     <ClCompile Include="Source\Conditional.cpp" />
-    <ClCompile Include="Source\Executer.cpp" />
     <ClCompile Include="Source\Log.cpp" />
     <ClCompile Include="Source\Loop.cpp" />
     <ClCompile Include="Source\MacroPlanner.cpp" />
@@ -118,7 +117,6 @@
     <ClCompile Include="Source\Module.cpp" />
     <ClCompile Include="Source\Slab.cpp" />
     <ClCompile Include="Source\Task.cpp" />
-    <ClCompile Include="Source\Tasker.cpp" />
     <ClCompile Include="Source\TaskManager.cpp" />
     <ClCompile Include="Source\Types.cpp" />
   </ItemGroup>
