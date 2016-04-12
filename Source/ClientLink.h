@@ -29,6 +29,7 @@
 int runCatling();
 
 typedef std::shared_ptr<SlabAllocator> SlabAlloc_p;
+typedef std::shared_ptr<Module> Module_p;
 
 class ClientLink
 {
@@ -96,7 +97,7 @@ private:
     BWAPI::Player self;
 
     // Store a reference to as many modules as we have module types
-    Module* m_modules[ModuleType::_END];
+    Module_p m_modules[ModuleType::_END];
     TaskManager m_taskManager;
 
     SlabAlloc_p m_allocator;
@@ -146,7 +147,7 @@ private:
     Initializes the AI's modules. Must be called after
     initializeSlabs()
     */
-    void initializeModules();
+    void launchModules();
 
 };
 

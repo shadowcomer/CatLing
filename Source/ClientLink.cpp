@@ -234,14 +234,24 @@ m_projectedGas(0),
 m_totalExecTasks(0),
 m_taskManager(TaskManager())
 {
-    for (unsigned int i = ModuleType::COMMANDER; i < ModuleType::_END; i++)
-    {
+    for (unsigned int i = ModuleType::COMMANDER;
+        i < ModuleType::_END;
+        i++) {
         m_modules[i] = nullptr;
     }
 
     m_allocator = std::make_shared<SlabAllocator>();
     TaskWrapper::InitializeTaskWrapper(
         &(m_taskManager));
+
+    // Load modules
+    {
+        Module* m = nullptr;
+        m = loadModule(ModuleType::COMMANDER);
+        assert(nullptr != m);
+        m = loadModule(ModuleType::MACROMGR);
+        assert(nullptr != m);
+    }
 }
 
 ClientLink::~ClientLink()
@@ -252,29 +262,26 @@ ClientLink::~ClientLink()
 Module* ClientLink::loadModule(ModuleType type)
 {
     // Skip if it's the _END special type
-    if (type == ModuleType::_END)
-    {
+    if (type == ModuleType::_END) {
         return nullptr;
     }
 
     // Skip if it's already loaded
-    if(m_modules[type] != nullptr)
-    {
+    if(m_modules[type] != nullptr) {
         return nullptr;
     }
 
-    Module* tmp = nullptr;
+    Module_p tmp = nullptr;
 
-    switch (type)
-    {
+    switch (type) {
     case ModuleType::COMMANDER:
-        tmp = new Commander(m_taskManager, m_modules);
+        tmp = std::make_shared<Commander>(m_taskManager, m_modules);
         break;
     case ModuleType::MACROMGR:
-        tmp = new MacroManager(m_taskManager, m_modules);
+        tmp = std::make_shared<MacroManager>(m_taskManager, m_modules);
         break;
     case ModuleType::MICROMGR:
-        tmp = new MicroManager(m_taskManager, m_modules);
+        tmp = std::make_shared<MicroManager>(m_taskManager, m_modules);
         break;
     default:
         return nullptr;
@@ -282,22 +289,19 @@ Module* ClientLink::loadModule(ModuleType type)
     }
 
     bool success = tmp->setAllocator(m_allocator.get());
-    if (!success){
+    if (!success) {
         return nullptr;
     }
 
     m_modules[type] = tmp;
-    m_modules[type]->launch();
 
-    return m_modules[type];
+    return m_modules[type].get();
 }
 
 bool ClientLink::unloadModule(ModuleType type)
 {
-    if (type != ModuleType::_END && m_modules[type] != nullptr)
-    {
+    if (type != ModuleType::_END && m_modules[type] != nullptr) {
         m_modules[type]->shutdown();
-        delete m_modules[type];
         m_modules[type] = nullptr;
         return true;
     }
@@ -307,9 +311,7 @@ bool ClientLink::unloadModule(ModuleType type)
 
 void ClientLink::terminate()
 {
-    // TODO: Update to take a ModuleType instead of doing an int conversion.
-    for (int i = 0; i < ModuleType::_END; ++i)
-    {
+    for (int i = 0; i < ModuleType::_END; ++i) {
         unloadModule((ModuleType)i);
     }
 
@@ -360,10 +362,8 @@ void ClientLink::processEvents()
             break;
         case EventType::MatchFrame:
             // Wake up each module that should execute during this frame.
-            for each (Module* m in m_modules)
-            {	
-                if (m != nullptr)
-                {
+            for each (Module_p m in m_modules) {
+                if (m != nullptr) {
                     int currentFrame = Broodwar->getFrameCount();
                     int elapsedFrames = currentFrame - m->lastExecFrame();
                     if (elapsedFrames >= m->getFrameExecDelta()){
@@ -484,7 +484,7 @@ void ClientLink::onEnd(bool isWinner)
 
 void ClientLink::onFrame()
 {
-    ((Commander*)m_modules[ModuleType::COMMANDER])->updateBudget();
+    ((Commander*)m_modules[ModuleType::COMMANDER].get())->updateBudget();
 
     Broodwar->drawTextScreen(200, 0, "Task Count: %d", m_totalExecTasks);
 
@@ -648,22 +648,17 @@ void ClientLink::initializeSlabs() {
     m_allocator->createSlab("resources", resourceTypes);
 }
 
-void ClientLink::initializeModules(){
-    Module* loadedModule = nullptr;
-    loadedModule = loadModule(ModuleType::COMMANDER);
-    assert(nullptr != loadedModule);
-
-    loadedModule = loadModule(ModuleType::MICROMGR);
-    assert(nullptr != loadedModule);
-
-    loadedModule = loadModule(ModuleType::MACROMGR);
-    assert(nullptr != loadedModule);
+void ClientLink::launchModules(){
+    for (Module_p m : m_modules) {
+        if (m) {
+            m->launch();
+        }
+    }
 }
 
 void ClientLink::configOnStart()
 {
     initializeSlabs();
-    initializeModules();
     self = Broodwar->self();
     m_posCommand = self->getStartLocation();
     m_mapWidth_BT = Broodwar->mapWidth();
@@ -673,4 +668,6 @@ void ClientLink::configOnStart()
 
     m_mapWidth_P = m_mapWidth_BT * TILE_SIZE;
     m_mapHeight_P = m_mapHeight_BT * TILE_SIZE;
+
+    launchModules();
 }
