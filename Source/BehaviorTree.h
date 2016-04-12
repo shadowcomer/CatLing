@@ -63,7 +63,7 @@ Returns an iterator to the end of the BehaviorTree.
         */
         class BTIterator {
         public:
-            BTIterator(BehaviorTree const & origin,
+            BTIterator(BehaviorTree * origin,
                 Behavior * currentBehavior);
             BTIterator();
             ~BTIterator();
@@ -75,7 +75,7 @@ Returns an iterator to the end of the BehaviorTree.
 
         private:
             Behavior * m_currentBehavior;
-            BehaviorTree const & m_owner;
+            BehaviorTree * m_owner;
 
         }; // END BTIterator
 

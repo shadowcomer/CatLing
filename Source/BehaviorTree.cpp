@@ -11,7 +11,7 @@ using namespace bt;
 BTIterator
 *************************/
 
-BehaviorTree::BTIterator::BTIterator(BehaviorTree const & origin,
+BehaviorTree::BTIterator::BTIterator(BehaviorTree * origin,
     Behavior * currentBehavior) :
 m_currentBehavior(currentBehavior),
 m_owner(origin) {
@@ -19,7 +19,7 @@ m_owner(origin) {
 }
 
 BehaviorTree::BTIterator::BTIterator() :
-m_owner(std::move(BehaviorTree(BehaviorList()))),
+m_owner(nullptr),
 m_currentBehavior(nullptr) {
 
 }
@@ -39,14 +39,16 @@ BehaviorTree::BTIterator& BehaviorTree::BTIterator::operator++() {
 }
 
 bool BehaviorTree::BTIterator::operator!=(BTIterator const & other) {
-    assert(&m_owner == &(other.m_owner));
+    assert(m_owner == other.m_owner);
     return m_currentBehavior != other.m_currentBehavior;
 }
 
 BehaviorTree::BTIterator&
     BehaviorTree::BTIterator::operator=(BTIterator other) {
-    std::swap(*this, other);
-    return *this;
+    m_owner = other.m_owner;
+    m_currentBehavior = other.m_currentBehavior;
+    return std::move(
+        BTIterator(other.m_owner, other.m_currentBehavior));
 }
 
 /************************
@@ -65,10 +67,10 @@ BehaviorTree::BehaviorTree(BehaviorTree const & original) {
 BehaviorTree::BTIterator BehaviorTree::begin() {
     Behavior * head = m_behaviors.empty() ?
         nullptr : m_behaviors[0].get();
-    return BTIterator(*this, head);
+    return BTIterator(this, head);
 }
 
 BehaviorTree::BTIterator BehaviorTree::end() {
-    return BTIterator(*this, nullptr);
+    return BTIterator(this, nullptr);
 }
 
