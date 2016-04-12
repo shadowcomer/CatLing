@@ -232,7 +232,7 @@ m_SCVcount(0),
 m_projectedMinerals(0),
 m_projectedGas(0),
 m_totalExecTasks(0),
-m_executer(m_taskManager.getOutputInterface())
+m_taskManager(TaskManager())
 {
     for (unsigned int i = ModuleType::COMMANDER; i < ModuleType::_END; i++)
     {
@@ -242,7 +242,7 @@ m_executer(m_taskManager.getOutputInterface())
     // TODO: Change to stack allocation
     m_allocator = new SlabAllocator();
     TaskWrapper::InitializeTaskWrapper(
-        &(m_taskManager.getInputInterface()));
+        &(m_taskManager));
 }
 
 ClientLink::~ClientLink()
@@ -495,7 +495,7 @@ void ClientLink::onFrame()
     if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
         return;
 
-    m_totalExecTasks = m_executer.executeAllTasks();
+    m_totalExecTasks = m_taskManager.executeAllTasks();
 
 }
 

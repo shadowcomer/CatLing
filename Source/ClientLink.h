@@ -96,7 +96,6 @@ private:
     // Store a reference to as many modules as we have module types
     Module* m_modules[ModuleType::_END];
     TaskManager m_taskManager;
-    Executer m_executer;
 
     SlabAllocator* m_allocator;
     
