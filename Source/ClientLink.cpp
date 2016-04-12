@@ -268,13 +268,13 @@ Module* ClientLink::loadModule(ModuleType type)
     switch (type)
     {
     case ModuleType::COMMANDER:
-        tmp = new Commander(m_taskManager.getInputInterface());
+        tmp = new Commander(m_taskManager, m_modules);
         break;
     case ModuleType::MACROMGR:
-        tmp = new MacroManager(m_taskManager.getInputInterface());
+        tmp = new MacroManager(m_taskManager, m_modules);
         break;
     case ModuleType::MICROMGR:
-        tmp = new MicroManager(m_taskManager.getInputInterface());
+        tmp = new MicroManager(m_taskManager, m_modules);
         break;
     default:
         return nullptr;
