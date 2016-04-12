@@ -5,11 +5,11 @@
 
 using namespace BWAPI;
 
-MacroManager::MacroManager(Tasker& tsk, Module** modules,
+MacroManager::MacroManager(Tasker& tsk, std::shared_ptr<Module>* modules,
     SlabAllocator* alloc) :
 Module(tsk, modules, alloc) {
     ResourceManager* resManager =
-        ((Commander*)modules[ModuleType::COMMANDER])->
+        ((Commander*)modules[ModuleType::COMMANDER].get())->
         getResourceManager();
     m_planner = std::make_shared<MacroPlanner>(
         m_allocator, resManager);

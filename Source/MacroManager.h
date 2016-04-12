@@ -39,7 +39,7 @@ typedef std::shared_ptr<MacroPlanner> Planner_p;
 class MacroManager : public Module
 {
 public:
-    MacroManager(Tasker& tsk, Module** modules,
+    MacroManager(Tasker& tsk, std::shared_ptr<Module>* modules,
         SlabAllocator* alloc);
     ~MacroManager();
 

@@ -27,7 +27,7 @@
 class MicroManager : public Module
 {
 public:
-    MicroManager(Tasker& tsk, Module** modules,
+    MicroManager(Tasker& tsk, std::shared_ptr<Module>* modules,
         SlabAllocator* alloc);
     ~MicroManager();
 

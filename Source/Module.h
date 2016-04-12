@@ -33,7 +33,8 @@ enum ModuleType
 class Module
 {
 public:
-    Module(Tasker& tsk, Module** modules, SlabAllocator* alloc);
+    Module(Tasker& tsk, std::shared_ptr<Module>* modules,
+        SlabAllocator* alloc);
     ~Module();
 
     /*
@@ -109,7 +110,7 @@ protected:
 
     Tasker& tasker();
 
-    Module** m_otherModules;
+    std::shared_ptr<Module>* m_otherModules;
 
     /*
     Completes the current execution and blocks the thread until it's

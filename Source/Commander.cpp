@@ -4,7 +4,7 @@
 
 using namespace BWAPI;
 
-Commander::Commander(Tasker& tsk, Module** modules,
+Commander::Commander(Tasker& tsk, std::shared_ptr<Module>* modules,
     SlabAllocator* alloc) :
 Module(tsk, modules, alloc),
 m_resources(std::make_unique<ResourceManager>())

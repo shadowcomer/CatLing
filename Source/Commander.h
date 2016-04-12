@@ -30,7 +30,8 @@
 class Commander : public Module
 {
 public:
-    Commander(Tasker& tsk, Module** modules, SlabAllocator* alloc);
+    Commander(Tasker& tsk, std::shared_ptr<Module>* modules,
+        SlabAllocator* alloc);
     ~Commander();
 
     /*

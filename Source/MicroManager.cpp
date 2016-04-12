@@ -1,7 +1,8 @@
 #include "MicroManager.h"
 
 
-MicroManager::MicroManager(Tasker& tsk, Module** modules,
+MicroManager::MicroManager(Tasker& tsk,
+    std::shared_ptr<Module>* modules,
     SlabAllocator* alloc) :
     Module(tsk, modules, alloc) {
 

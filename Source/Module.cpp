@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-Module::Module(Tasker& tsk, Module** modules,
+Module::Module(Tasker& tsk, std::shared_ptr<Module>* modules,
     SlabAllocator* alloc) :
 m_shuttingDown(false),
 m_shutdown(false),
