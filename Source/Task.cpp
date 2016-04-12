@@ -197,18 +197,33 @@ m_builders(builders) {
     assert(nullptr != m_builders);
 }
 
-void TSelectBuilder::execute() {
+bool TSelectBuilder::execute() {
     std::vector<Entry> workers = m_workers->getEntries();
+    std::vector<Entry> builders = m_builders->getEntries();
+    bool acquired = false;
+
+    // Use any builders we might already have
+    if (!builders.empty()) {
+        return true;
+    }
+
+    // Any workers available?
     if (workers.empty()) {
-        return;
+        return false;
     }
 
-    Entry worker;
-    bool acquired = m_workers->getAndRemoveEntry(0, worker);
+    // Find an adequate worker
+    for (Entry e : workers) {
+        Unit w = e[0]->toUnit()->value;
 
-    if (acquired) {
-        m_builders->appendEntry(worker);
+        if (!w->isConstructing() && !w->isGatheringGas()) {
+            acquired = true;
+            m_builders->appendEntry(e);
+            break;
+        }
     }
+
+    return acquired;
 }
 
 Task* TSelectBuilder::clone() const {
