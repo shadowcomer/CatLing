@@ -10,9 +10,11 @@
 
 using namespace BWAPI;
 
-MacroPlanner::MacroPlanner(SlabAllocator* alloc) :
+MacroPlanner::MacroPlanner(SlabAllocator* alloc,
+    ResourceManager* resources) :
     m_allocator(alloc) {
-    assert(nullptr != m_allocator);
+    assert(nullptr != resources);
+    m_resourceSource = resources;
 }
 
 MacroPlanner::~MacroPlanner() {
