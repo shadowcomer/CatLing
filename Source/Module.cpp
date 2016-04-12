@@ -2,16 +2,18 @@
 
 #include <assert.h>
 
-Module::Module(Tasker& tsk) :
+Module::Module(Tasker& tsk, Module** modules,
+    SlabAllocator* alloc) :
 m_shuttingDown(false),
 m_shutdown(false),
 m_tasker(tsk),
-m_allocator(nullptr),
+m_allocator(alloc),
 m_shouldWake(false),
 m_lastExecFrame(0),
-m_frameExecDelta(1)
+m_frameExecDelta(1),
+m_otherModules(modules)
 {
-
+    assert(nullptr != modules);
 }
 
 Module::~Module()

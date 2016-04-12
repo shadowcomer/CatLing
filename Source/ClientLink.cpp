@@ -268,22 +268,20 @@ Module* ClientLink::loadModule(ModuleType type)
 
     switch (type) {
     case ModuleType::COMMANDER:
-        tmp = std::make_shared<Commander>(m_taskManager, m_modules);
+        tmp = std::make_shared<Commander>(
+            m_taskManager, m_modules, m_allocator);
         break;
     case ModuleType::MACROMGR:
-        tmp = std::make_shared<MacroManager>(m_taskManager, m_modules);
+        tmp = std::make_shared<MacroManager>(
+            m_taskManager, m_modules, m_allocator);
         break;
     case ModuleType::MICROMGR:
-        tmp = std::make_shared<MicroManager>(m_taskManager, m_modules);
+        tmp = std::make_shared<MicroManager>(
+            m_taskManager, m_modules, m_allocator);
         break;
     default:
         return nullptr;
         break;
-    }
-
-    bool success = tmp->setAllocator(m_allocator.get());
-    if (!success) {
-        return nullptr;
     }
 
     m_modules[type] = tmp;

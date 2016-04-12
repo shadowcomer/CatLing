@@ -33,7 +33,7 @@ enum ModuleType
 class Module
 {
 public:
-    Module(Tasker& tsk);
+    Module(Tasker& tsk, Module** modules, SlabAllocator* alloc);
     ~Module();
 
     /*
@@ -108,6 +108,8 @@ protected:
     SlabAllocator* m_allocator;
 
     Tasker& tasker();
+
+    Module** m_otherModules;
 
     /*
     Completes the current execution and blocks the thread until it's

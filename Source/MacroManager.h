@@ -37,7 +37,8 @@
 class MacroManager : public Module
 {
 public:
-    MacroManager(Tasker& tsk);
+    MacroManager(Tasker& tsk, Module** modules,
+        SlabAllocator* alloc);
     ~MacroManager();
 
     /*

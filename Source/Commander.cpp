@@ -4,8 +4,9 @@
 
 using namespace BWAPI;
 
-Commander::Commander(Tasker& tsk) :
-Module(tsk),
+Commander::Commander(Tasker& tsk, Module** modules,
+    SlabAllocator* alloc) :
+Module(tsk, modules, alloc),
 m_resources(std::make_unique<ResourceManager>())
 {
 

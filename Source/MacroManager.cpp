@@ -4,9 +4,10 @@
 
 using namespace BWAPI;
 
-MacroManager::MacroManager(Tasker& tsk) :
-Module(tsk),
-m_planner(std::make_unique<MacroPlanner>(m_allocator))
+MacroManager::MacroManager(Tasker& tsk, Module** modules,
+    SlabAllocator* alloc) :
+Module(tsk, modules, alloc),
+m_planner(std::make_unique<MacroPlanner>(nullptr))
 {
 }
 

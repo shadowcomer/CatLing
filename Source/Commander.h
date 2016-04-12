@@ -30,7 +30,7 @@
 class Commander : public Module
 {
 public:
-    Commander(Tasker& tsk);
+    Commander(Tasker& tsk, Module** modules, SlabAllocator* alloc);
     ~Commander();
 
     /*

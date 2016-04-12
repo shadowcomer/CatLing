@@ -27,7 +27,8 @@
 class MicroManager : public Module
 {
 public:
-    MicroManager(Tasker& tsk);
+    MicroManager(Tasker& tsk, Module** modules,
+        SlabAllocator* alloc);
     ~MicroManager();
 
     /*
