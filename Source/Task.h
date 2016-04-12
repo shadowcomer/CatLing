@@ -38,7 +38,7 @@ public:
     /*
     Execution function to be implemented by each specific task separately.
     */
-    virtual void execute() = 0;
+    virtual bool execute() = 0;
 
 private:
 
@@ -59,7 +59,7 @@ private:
     std::unique_ptr<CloneableTask> m_task;
     static Tasker * sm_tasker;
 
-    void execute() override;
+    bool execute() override;
 };
 
 
@@ -76,7 +76,7 @@ public:
     */
     TGather(UnitFun gatherer, UnitFun resource,
         DecisionFun queue);
-    void execute();
+    bool execute() override;
     virtual Task* clone() const;
 
 private:
@@ -97,7 +97,7 @@ public:
     Trains 'unit' from 'builder'.
     */
     TTrain(UnitFun builder, UnitTypeFun unit);
-    void execute();
+    bool execute() override;
     virtual Task* clone() const;
 
 private:
@@ -118,7 +118,7 @@ public:
     */
     TBuild(UnitFun builder, UnitTypeFun building,
         TilePositionFun location);
-    void execute();
+    bool execute() override;
     virtual Task* clone() const;
 
 private:
@@ -146,7 +146,7 @@ public:
     */
     TAttack(UnitFun attacker, PositionOrUnitFun target,
         DecisionFun queue);
-    void execute();
+    bool execute() override;
     virtual Task* clone() const;
 
 private:
@@ -164,8 +164,9 @@ public:
     TWildcard(std::function<void(void)> action) :
         m_action(action) {}
 
-    void execute() override {
-        m_action();
+    bool execute() override {
+        m_action(); // TODO: Change so m_action returns a bool
+        return true;
     }
 
     virtual Task* clone() const {
@@ -183,7 +184,7 @@ class TRetrieveWorkers : public CloneableTask
 public:
     TRetrieveWorkers(Slab* storage);
 
-    void execute() override;
+    bool execute() override;
     virtual Task* clone() const;
 
 private:
@@ -198,7 +199,7 @@ class TAllGatherMinerals : public CloneableTask
 public:
     TAllGatherMinerals(UnitVecFun gatherers, OnUnitFun resource);
 
-    void execute() override;
+    bool execute() override;
     virtual Task* clone() const;
 
 private:
@@ -214,7 +215,7 @@ class TSelectBuilder : public CloneableTask
 public:
     TSelectBuilder(Slab* workers, Slab* builders);
 
-    void execute() override;
+    bool execute() override;
     virtual Task* clone() const;
 
 private:

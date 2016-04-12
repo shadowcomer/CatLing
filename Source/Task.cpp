@@ -16,9 +16,9 @@ m_task(std::move(t)) {
     assert(nullptr != m_task);
 }
 
-void TaskWrapper::execute() {
+bool TaskWrapper::execute() {
     assert(nullptr != sm_tasker);
-    sm_tasker->requestTask(m_task->clone());
+    return sm_tasker->requestTask(m_task->clone());
 }
 
 TGather::TGather(UnitFun gatherer, UnitFun resource,
@@ -27,14 +27,17 @@ getGatherer(gatherer),
 getResource(resource),
 checkQueue(queue){}
 
-void TGather::execute()
+bool TGather::execute()
 {
     Unit gatherer = getGatherer();
     Unit resource = getResource();
+    bool success = false;
 
     if (gatherer) {
-        gatherer->gather(resource, checkQueue());
+        success = gatherer->gather(resource, checkQueue());
     }
+
+    return success;
 }
 
 Task* TGather::clone() const {
@@ -48,14 +51,17 @@ TTrain::TTrain(UnitFun builder, UnitTypeFun unit) :
 getBuilder(builder),
 getUnitType(unit){}
 
-void TTrain::execute()
+bool TTrain::execute()
 {
     Unit builder = getBuilder();
     UnitType unit = getUnitType();
+    bool success = false;
 
     if (builder) {
-        builder->train(unit);
+        success = builder->train(unit);
     }
+
+    return success;
 }
 
 Task* TTrain::clone() const {
@@ -73,15 +79,18 @@ getLocation(location) {
 
 }
 
-void TBuild::execute()
+bool TBuild::execute()
 {
     BWAPI::Unit builder = getBuilder();
     BWAPI::UnitType building = getBuildingType();
     BWAPI::TilePosition location = getLocation();
+    bool success = false;
 
     if (builder) {
-        builder->build(building, location);
+        success = builder->build(building, location);
     }
+
+    return success;
 }
 
 bool TBuild::verifyBuildCapability()
@@ -103,14 +112,17 @@ getAttacker(attacker),
 getTarget(target),
 checkQueue(queue){}
 
-void TAttack::execute()
+bool TAttack::execute()
 {
     Unit attacker = getAttacker();
     PositionOrUnit target = getTarget();
+    bool success = false;
 
     if (attacker) {
-        attacker->attack(target, checkQueue());
+        success = attacker->attack(target, checkQueue());
     }
+
+    return success;
 }
 
 Task* TAttack::clone() const {
@@ -125,7 +137,7 @@ m_storage(storage) {
     assert(nullptr != m_storage);
 }
 
-void TRetrieveWorkers::execute() {
+bool TRetrieveWorkers::execute() {
     BWAPI::Unitset units = Broodwar->self()->getUnits();
     for (Unit u : units) {
         if (u->getType() == UnitTypes::Terran_SCV) {
@@ -134,6 +146,7 @@ void TRetrieveWorkers::execute() {
         }
     }
 
+    return true;
 }
 
 Task* TRetrieveWorkers::clone() const {
@@ -150,7 +163,7 @@ getResource(resource) {
 
 }
 
-void TAllGatherMinerals::execute() {
+bool TAllGatherMinerals::execute() {
     std::vector<Unit> gatherers = getGatherers();
     Unit patch = nullptr;
 
@@ -166,6 +179,8 @@ void TAllGatherMinerals::execute() {
 
         g->gather(patch);
     }
+
+    return true;
 }
 
 Task* TAllGatherMinerals::clone() const {
