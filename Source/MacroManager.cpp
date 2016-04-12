@@ -1,4 +1,5 @@
 #include "MacroManager.h"
+#include "Commander.h"
 
 #include <assert.h>
 
@@ -7,7 +8,11 @@ using namespace BWAPI;
 MacroManager::MacroManager(Tasker& tsk, Module** modules,
     SlabAllocator* alloc) :
 Module(tsk, modules, alloc) {
-    m_planner = std::make_shared<MacroPlanner>(m_allocator);
+    ResourceManager* resManager =
+        ((Commander*)modules[ModuleType::COMMANDER])->
+        getResourceManager();
+    m_planner = std::make_shared<MacroPlanner>(
+        m_allocator, resManager);
 }
 
 MacroManager::~MacroManager()

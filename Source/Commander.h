@@ -44,6 +44,8 @@ public:
     */
     void updateBudget();
 
+    ResourceManager* getResourceManager();
+
 private:
     BWAPI::Unit m_command;
 

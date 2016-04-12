@@ -28,6 +28,10 @@ bool Commander::shutdownHelper()
     return true;
 }
 
+ResourceManager* Commander::getResourceManager() {
+    return m_resources.get();
+}
+
 std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
     Slab* workers;
     if (!m_allocator->find("workers", &workers)){
