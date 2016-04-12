@@ -239,15 +239,14 @@ m_taskManager(TaskManager())
         m_modules[i] = nullptr;
     }
 
-    // TODO: Change to stack allocation
-    m_allocator = new SlabAllocator();
+    m_allocator = std::make_shared<SlabAllocator>();
     TaskWrapper::InitializeTaskWrapper(
         &(m_taskManager));
 }
 
 ClientLink::~ClientLink()
 {
-    delete m_allocator;
+
 }
 
 Module* ClientLink::loadModule(ModuleType type)
@@ -282,7 +281,7 @@ Module* ClientLink::loadModule(ModuleType type)
         break;
     }
 
-    bool success = tmp->setAllocator(m_allocator);
+    bool success = tmp->setAllocator(m_allocator.get());
     if (!success){
         return nullptr;
     }

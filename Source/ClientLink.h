@@ -28,6 +28,8 @@
 
 int runCatling();
 
+typedef std::shared_ptr<SlabAllocator> SlabAlloc_p;
+
 class ClientLink
 {
 public:
@@ -97,7 +99,7 @@ private:
     Module* m_modules[ModuleType::_END];
     TaskManager m_taskManager;
 
-    SlabAllocator* m_allocator;
+    SlabAlloc_p m_allocator;
     
     long m_totalExecTasks;
 
