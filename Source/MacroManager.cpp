@@ -68,10 +68,6 @@ void MacroManager::commitResources(BWAPI::UnitType unit) {
     res->modifyEntry(ModuleType::MACROMGR, 1, newGas.get());
 }
 
-void MacroManager::initializePlanner(SlabAllocator* alloc) {
-    m_planner->initialize(alloc);
-}
-
 void MacroManager::run(MacroManager* m)
 {
     Unitset units = Broodwar->self()->getUnits();
