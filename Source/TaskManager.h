@@ -15,32 +15,34 @@
 #include "Tasker.h"
 #include "Executer.h"
 
-class TaskManager
+class TaskManager : public Tasker, public Executer
 {
 public:
     TaskManager();
     ~TaskManager();
 
     /*
-    Returns a reference to the input interface.
-    */
-    Tasker& getInputInterface();
-
-    /*
-    Returns a reference to the output interface.
-    */
-    Executer& getOutputInterface();
-
-    /*
     Returns whether the TaskManager has remaining tasks in the queue
     waiting for execution.
     */
-    bool hasRemainingTasks();
+    bool hasRemainingTasks() override;
+
+    /*
+    Execute a single task from the Executer's queue.
+    */
+    bool executeSingleTask() override;
+
+    /*
+    Execute every task from the Executer's queue.
+    */
+    int executeAllTasks() override;
+
+    /*
+    Appends a Task to the end of the queue of this Tasker.
+    */
+    bool requestTask(Task* t) override;
 
 private:
-    Tasker m_inputInterface;
-    Executer m_outputInterface;
-
     tbb::concurrent_queue<Task*> m_taskQueue;
 
 };

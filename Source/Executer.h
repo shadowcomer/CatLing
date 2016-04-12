@@ -19,31 +19,20 @@ class Executer
 {
 public:
     /*
-    Do not call this constructor manually. The TaskManager is responsible
-    for building this object, using for its queue parameter its own queue.
-    */
-    Executer(tbb::concurrent_queue<Task*>& queue);
-    ~Executer();
-
-    /*
     Execute a single task from the Executer's queue.
     */
-    bool executeSingleTask();
+    virtual bool executeSingleTask() = 0;
 
     /*
     Execute every task from the Executer's queue.
     */
-    int executeAllTasks();
+    virtual int executeAllTasks() = 0;
 
     /*
     Returns whether the Executer has remaining tasks in the queue
     waiting for execution.
     */
-    bool hasRemainingTasks();
-
-private:
-    tbb::concurrent_queue<Task*>& m_queue;
-
+    virtual bool hasRemainingTasks() = 0;
 };
 
 #endif

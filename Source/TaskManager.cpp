@@ -1,9 +1,6 @@
 #include "TaskManager.h"
 
-TaskManager::TaskManager():
-m_inputInterface(m_taskQueue),
-m_outputInterface(m_taskQueue)
-{
+TaskManager::TaskManager() {
 
 }
 
@@ -17,12 +14,34 @@ bool TaskManager::hasRemainingTasks()
     return !m_taskQueue.empty();
 }
 
-Tasker& TaskManager::getInputInterface()
-{
-    return m_inputInterface;
+bool TaskManager::hasRemainingTasks() {
+    return !m_taskQueue.empty();
 }
 
-Executer& TaskManager::getOutputInterface()
-{
-    return m_outputInterface;
+bool TaskManager::executeSingleTask() {
+    Task* t;
+    m_taskQueue.try_pop(t);
+    if (nullptr != t) {
+        t->execute();
+        delete t;
+        return true;
+    }
+
+    return false;
 }
+
+int TaskManager::executeAllTasks() {
+    int executedTasks = 0;
+    while (hasRemainingTasks()) {
+        executeSingleTask();
+        executedTasks++;
+    }
+
+    return executedTasks;
+}
+
+bool TaskManager::requestTask(Task* t) {
+    m_taskQueue.push(t);
+    return true;
+}
+
