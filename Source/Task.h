@@ -18,6 +18,8 @@
 #include "Slab.h"
 #include "Tasker.h"
 
+#include "ResourceManager.h"
+
 #include <functional>
 #include <vector>
 
@@ -221,6 +223,22 @@ public:
 private:
     Slab* m_workers;
     Slab* m_builders;
+};
+
+
+
+
+class TRequestResources : public Task
+{
+public:
+    TRequestResources(ResourceRequest request, ResourceManager* mgr);
+
+    bool execute() override;
+
+private:
+    ResourceRequest m_request;
+    ResourceManager * m_manager;
+
 };
 
 #endif

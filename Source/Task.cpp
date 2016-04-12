@@ -229,3 +229,20 @@ bool TSelectBuilder::execute() {
 Task* TSelectBuilder::clone() const {
     return new TSelectBuilder(*this);
 }
+
+
+
+
+TRequestResources::TRequestResources(
+    ResourceRequest rq, ResourceManager* mgr) :
+    m_request(rq),
+    m_manager(mgr) {
+    assert(nullptr != m_manager);
+}
+
+bool TRequestResources::execute() {
+    ResourceRequestAnswer answer = 
+        m_manager->requestResources(m_request);
+
+    return answer.conceded;
+}
