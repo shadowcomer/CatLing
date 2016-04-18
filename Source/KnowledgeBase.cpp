@@ -86,6 +86,19 @@ unsigned int KnowledgeBase::totalGas() {
 IResourceViewer overrides
 *************************/
 
+ConstUnitList KnowledgeBase::availableUnits() {
+    // TODO: This will return every unit at the moment
+    return ConstUnitList{ m_units.begin(), m_units.end() };
+}
+
+unsigned int KnowledgeBase::availableMinerals() {
+    return m_freeMinerals;
+}
+
+unsigned int KnowledgeBase::availableGas() {
+    return m_freeGas;
+}
+
 /*
 End overrides
 */
