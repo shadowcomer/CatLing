@@ -21,9 +21,6 @@
     <Filter Include="Source Files\BT">
       <UniqueIdentifier>{965252e8-c3b0-4345-8ee3-2c3b742d0753}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\AI\Resources">
-      <UniqueIdentifier>{1038f555-2a19-45da-9f20-b5a696d66523}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\AI\Commander">
       <UniqueIdentifier>{9e5eaf8f-535a-46d3-b79a-817acaec28f2}</UniqueIdentifier>
     </Filter>
@@ -32,6 +29,9 @@
     </Filter>
     <Filter Include="Source Files\AI\MicroManager">
       <UniqueIdentifier>{b507f068-e405-4c4c-94ba-de66045f8aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\Knowledge">
+      <UniqueIdentifier>{3c5eea7f-83b4-412f-ae5e-83fb5af67dd7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,15 +80,6 @@
     <ClCompile Include="Source\Loop.cpp">
       <Filter>Source Files\BT</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ResourceManager.cpp">
-      <Filter>Source Files\AI\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ResourceRequest.cpp">
-      <Filter>Source Files\AI\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ResourceRequestAnswer.cpp">
-      <Filter>Source Files\AI\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Source/Commander.cpp">
       <Filter>Source Files\AI\Commander</Filter>
     </ClCompile>
@@ -100,6 +91,15 @@
     </ClCompile>
     <ClCompile Include="Source\MicroManager.cpp">
       <Filter>Source Files\AI\MicroManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager.cpp">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceRequest.cpp">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceRequestAnswer.cpp">
+      <Filter>Source Files\AI\Knowledge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,15 +160,6 @@
     <ClInclude Include="Source\Measure.h">
       <Filter>Source Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ResourceManager.h">
-      <Filter>Source Files\AI\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ResourceRequest.h">
-      <Filter>Source Files\AI\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ResourceRequestAnswer.h">
-      <Filter>Source Files\AI\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Source/Commander.h">
       <Filter>Source Files\AI\Commander</Filter>
     </ClInclude>
@@ -183,6 +174,15 @@
     </ClInclude>
     <ClInclude Include="Source\MicroManager.h">
       <Filter>Source Files\AI\MicroManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager.h">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceRequest.h">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceRequestAnswer.h">
+      <Filter>Source Files\AI\Knowledge</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
