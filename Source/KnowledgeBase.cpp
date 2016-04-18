@@ -67,7 +67,7 @@ bool KnowledgeBase::assignGas(
             m_freeGas -= amount;
         }
 
-    return true;
+        return true;
 }
 
 ConstUnitList KnowledgeBase::allUnits() {
