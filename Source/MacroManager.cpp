@@ -31,19 +31,6 @@ bool MacroManager::shutdownHelper()
     return true;
 }
 
-bool MacroManager::canBuildBarracks() {
-    Slab* res = nullptr;
-    bool found = m_allocator->find("resources", &res);
-    assert(found);
-
-    Entry budget;
-    res->getEntry(ModuleType::MACROMGR, budget);
-
-    int availableMinerals = budget[0]->toInt()->value;
-
-    return availableMinerals >= UnitTypes::Terran_Barracks;
-}
-
 void MacroManager::run(MacroManager* m)
 {
     Unitset units = Broodwar->self()->getUnits();

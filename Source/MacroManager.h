@@ -61,11 +61,6 @@ private:
     bool shutdownHelper();
 
     /*
-    Checks if the macromanager has enough resources to build a barracks.
-    */
-    bool canBuildBarracks();
-
-    /*
     Implementation of the MacroManager's module process.
     */
     static void run(MacroManager* m);
