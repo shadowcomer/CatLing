@@ -66,6 +66,8 @@ private:
     // resourceManager has.
     unsigned int m_freeMinerals;
     unsigned int m_freeGas;
+
+    UnitList m_units;
 };
 
 #endif
