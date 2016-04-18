@@ -21,6 +21,18 @@
     <Filter Include="Source Files\BT">
       <UniqueIdentifier>{965252e8-c3b0-4345-8ee3-2c3b742d0753}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\AI\Resources">
+      <UniqueIdentifier>{1038f555-2a19-45da-9f20-b5a696d66523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\Commander">
+      <UniqueIdentifier>{9e5eaf8f-535a-46d3-b79a-817acaec28f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\MacroManager">
+      <UniqueIdentifier>{028f44b5-83a3-40b7-9639-fc74a236dbce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\MicroManager">
+      <UniqueIdentifier>{b507f068-e405-4c4c-94ba-de66045f8aaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source/ClientLink.cpp">
@@ -35,17 +47,8 @@
     <ClCompile Include="Source\Module.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Source/Commander.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Log.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MicroManager.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MacroManager.cpp">
-      <Filter>Source Files\AI</Filter>
     </ClCompile>
     <ClCompile Include="Source\Slab.cpp">
       <Filter>Source Files\Memory</Filter>
@@ -78,16 +81,25 @@
       <Filter>Source Files\BT</Filter>
     </ClCompile>
     <ClCompile Include="Source\ResourceManager.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MacroPlanner.cpp">
-      <Filter>Source Files\AI</Filter>
+      <Filter>Source Files\AI\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Source\ResourceRequest.cpp">
-      <Filter>Source Files\AI</Filter>
+      <Filter>Source Files\AI\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Source\ResourceRequestAnswer.cpp">
-      <Filter>Source Files\AI</Filter>
+      <Filter>Source Files\AI\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/Commander.cpp">
+      <Filter>Source Files\AI\Commander</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MacroPlanner.cpp">
+      <Filter>Source Files\AI\MacroManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MacroManager.cpp">
+      <Filter>Source Files\AI\MacroManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MicroManager.cpp">
+      <Filter>Source Files\AI\MicroManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,17 +121,8 @@
     <ClInclude Include="Source\Module.h">
       <Filter>Source Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Source/Commander.h">
-      <Filter>Source Files\AI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Log.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MicroManager.h">
-      <Filter>Source Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MacroManager.h">
-      <Filter>Source Files\AI</Filter>
     </ClInclude>
     <ClInclude Include="Source\Slab.h">
       <Filter>Source Files\Memory</Filter>
@@ -151,26 +154,35 @@
     <ClInclude Include="Source\Loop.h">
       <Filter>Source Files\BT</Filter>
     </ClInclude>
-    <ClInclude Include="Source\IPlanner.h">
-      <Filter>Source Files\AI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\IActuator.h">
-      <Filter>Source Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ResourceManager.h">
-      <Filter>Source Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ResourceRequestAnswer.h">
-      <Filter>Source Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MacroPlanner.h">
       <Filter>Source Files\AI</Filter>
     </ClInclude>
     <ClInclude Include="Source\Measure.h">
       <Filter>Source Files\AI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ResourceManager.h">
+      <Filter>Source Files\AI\Resources</Filter>
+    </ClInclude>
     <ClInclude Include="Source\ResourceRequest.h">
+      <Filter>Source Files\AI\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceRequestAnswer.h">
+      <Filter>Source Files\AI\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source/Commander.h">
+      <Filter>Source Files\AI\Commander</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MacroPlanner.h">
+      <Filter>Source Files\AI\MacroManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MacroManager.h">
+      <Filter>Source Files\AI\MacroManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IPlanner.h">
       <Filter>Source Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MicroManager.h">
+      <Filter>Source Files\AI\MicroManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
