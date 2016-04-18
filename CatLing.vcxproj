@@ -102,6 +102,7 @@
     <ClCompile Include="Source\ActionBehavior.cpp" />
     <ClCompile Include="Source\BehaviorTree.cpp" />
     <ClCompile Include="Source\Conditional.cpp" />
+    <ClCompile Include="Source\KnowledgeBase.cpp" />
     <ClCompile Include="Source\Log.cpp" />
     <ClCompile Include="Source\Loop.cpp" />
     <ClCompile Include="Source\MacroPlanner.cpp" />
@@ -128,6 +129,10 @@
     <ClInclude Include="Source\Conditional.h" />
     <ClInclude Include="Source\Executer.h" />
     <ClInclude Include="Source\IActuator.h" />
+    <ClInclude Include="Source\IInjector.h" />
+    <ClInclude Include="Source\IResourceEditor.h" />
+    <ClInclude Include="Source\IResourceViewer.h" />
+    <ClInclude Include="Source\KnowledgeBase.h" />
     <ClInclude Include="Source\Log.h" />
     <ClInclude Include="Source\Loop.h" />
     <ClInclude Include="Source\MacroPlanner.h" />
@@ -136,6 +141,8 @@
     <ClInclude Include="Source\MacroManager.h" />
     <ClInclude Include="Source\Behavior.h" />
     <ClInclude Include="Source\IPlanner.h" />
+    <ClInclude Include="Source\ModuleType.h" />
+    <ClInclude Include="Source\ResourceCommon.h" />
     <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\ResourceRequest.h" />
     <ClInclude Include="Source\ResourceRequestAnswer.h" />

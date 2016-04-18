@@ -101,6 +101,9 @@
     <ClCompile Include="Source\ResourceRequestAnswer.cpp">
       <Filter>Source Files\AI\Knowledge</Filter>
     </ClCompile>
+    <ClCompile Include="Source\KnowledgeBase.cpp">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/ClientLink.h">
@@ -182,6 +185,24 @@
       <Filter>Source Files\AI\Knowledge</Filter>
     </ClInclude>
     <ClInclude Include="Source\ResourceRequestAnswer.h">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\KnowledgeBase.h">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IInjector.h">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IResourceEditor.h">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IResourceViewer.h">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ModuleType.h">
+      <Filter>Source Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceCommon.h">
       <Filter>Source Files\AI\Knowledge</Filter>
     </ClInclude>
   </ItemGroup>
