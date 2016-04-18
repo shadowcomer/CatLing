@@ -66,12 +66,6 @@ private:
     bool canBuildBarracks();
 
     /*
-    Commits the resources for the given unit, removing them
-    from its virtual budget.
-    */
-    void commitResources(BWAPI::UnitType unit);
-
-    /*
     Implementation of the MacroManager's module process.
     */
     static void run(MacroManager* m);
