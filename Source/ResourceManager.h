@@ -17,14 +17,6 @@ public:
     ResourceRequestAnswer requestResources(
         ResourceRequest const res);
 
-    /*
-        Updates virtual resources to be consistent with real
-        resources.
-
-        Must only be called during onFrame.
-    */
-    void updateResources();
-
 private:
     tbb::mutex m_resourceLock;
 
