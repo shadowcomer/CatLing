@@ -30,6 +30,9 @@
 
 #include "MacroPlanner.h"
 
+#include "IResources.h"
+#include "IResourceViewer.h"
+
 #include <BWAPI.h>
 
 #include <iostream>
@@ -39,8 +42,11 @@ typedef std::shared_ptr<MacroPlanner> Planner_p;
 class MacroManager : public Module
 {
 public:
-    MacroManager(Tasker& tsk, std::shared_ptr<Module>* modules,
-        SlabAllocator* alloc);
+    MacroManager(Tasker& tsk,
+        std::shared_ptr<Module>* modules,
+        SlabAllocator* alloc,
+        Resources_p requester,
+        ResViewer_p viewer);
     ~MacroManager();
 
     /*

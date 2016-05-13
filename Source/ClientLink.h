@@ -24,6 +24,8 @@
 #include "MicroManager.h"
 #include "MacroManager.h"
 
+#include "KnowledgeBase.h"
+
 #include "Task.h"
 
 int runCatling();
@@ -90,6 +92,9 @@ private:
     TaskManager m_taskManager;
 
     SlabAlloc_p m_allocator;
+
+    KnowledgeBase_p m_knowledge;
+    Injector_p m_injector;
     
     long m_totalExecTasks;
 

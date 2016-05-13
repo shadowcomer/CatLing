@@ -2,16 +2,19 @@
 #define KNOWLEDGEBASE_H
 
 #include "IInjector.h"
-#include "IResourceEditor.h"
 #include "IResourceViewer.h"
+#include "IResources.h"
 
 #include "../include/TBB/tbb/mutex.h"
 
 class KnowledgeBase : 
-    public IInjector, public IResourceEditor,
-    public IResourceViewer
+    public IInjector, public IResourceViewer,
+    public IResources
 {
 public:
+    KnowledgeBase();
+    ~KnowledgeBase();
+
     /*
     Overrides
     */
@@ -29,17 +32,6 @@ public:
     void updateResources() override;
 
     /*************************
-    IResourceEditor overrides
-    **************************/
-    bool assignUnits(ConstUnitList units, ModuleType newOwner) override;
-    bool assignMinerals(unsigned int amount, ModuleType module) override;
-    bool assignGas(unsigned int amount, ModuleType module) override;
-
-    ConstUnitList allUnits() override;
-    unsigned int totalMinerals() override;
-    unsigned int totalGas() override;
-
-    /*************************
     IResourceViewer overrides
     *************************/
     ConstUnitList availableUnits() override;
@@ -48,6 +40,12 @@ public:
 
     unsigned int assignedMinerals(ModuleType module) override;
     unsigned int assignedGas(ModuleType module) override;
+
+    /*************************
+    IResources overrides
+    *************************/
+    ResourceRequestAnswer requestResources(
+        ResourceRequest const res) override;
 
     /*
     End overrides
@@ -69,5 +67,7 @@ private:
 
     UnitList m_units;
 };
+
+typedef std::shared_ptr<KnowledgeBase> KnowledgeBase_p;
 
 #endif

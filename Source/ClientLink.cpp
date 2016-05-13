@@ -225,8 +225,13 @@ void showForces()
 ClientLink::ClientLink() :
 m_shouldTerminate(false),
 m_totalExecTasks(0),
-m_taskManager(TaskManager())
+m_taskManager(TaskManager()),
+m_knowledge(std::make_shared<KnowledgeBase>()),
+m_injector(m_knowledge)
 {
+    assert(nullptr != m_knowledge);
+    assert(nullptr != m_injector);
+
     for (unsigned int i = ModuleType::COMMANDER;
         i < ModuleType::_END;
         i++) {
@@ -269,15 +274,25 @@ Module* ClientLink::loadModule(ModuleType type)
     switch (type) {
     case ModuleType::COMMANDER:
         tmp = std::make_shared<Commander>(
-            m_taskManager, m_modules, m_allocator.get());
+            m_taskManager,
+            m_modules,
+            m_allocator.get(),
+            m_knowledge,
+            m_knowledge);
         break;
     case ModuleType::MACROMGR:
         tmp = std::make_shared<MacroManager>(
-            m_taskManager, m_modules, m_allocator.get());
+            m_taskManager,
+            m_modules,
+            m_allocator.get(),
+            m_knowledge,
+            m_knowledge);
         break;
     case ModuleType::MICROMGR:
         tmp = std::make_shared<MicroManager>(
-            m_taskManager, m_modules, m_allocator.get());
+            m_taskManager,
+            m_modules,
+            m_allocator.get());
         break;
     default:
         return nullptr;
@@ -452,7 +467,7 @@ void ClientLink::onEnd(bool isWinner)
 
 void ClientLink::onFrame()
 {
-    ((Commander*)m_modules[ModuleType::COMMANDER].get())->updateBudget();
+    m_injector->updateResources();
 
     Broodwar->drawTextScreen(200, 0, "Task Count: %d", m_totalExecTasks);
 

@@ -18,7 +18,9 @@
 #include "Slab.h"
 #include "Tasker.h"
 
-#include "ResourceManager.h"
+#include "IResources.h"
+#include "ResourceRequest.h"
+#include "ResourceRequestAnswer.h"
 
 #include <functional>
 #include <vector>
@@ -231,13 +233,13 @@ private:
 class TRequestResources : public Task
 {
 public:
-    TRequestResources(ResourceRequest request, ResourceManager* mgr);
+    TRequestResources(ResourceRequest request, Resources_p mgr);
 
     bool execute() override;
 
 private:
     ResourceRequest m_request;
-    ResourceManager * m_manager;
+    Resources_p m_manager;
 
 };
 

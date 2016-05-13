@@ -109,7 +109,6 @@
     <ClCompile Include="Source\MicroManager.cpp" />
     <ClCompile Include="Source\MacroManager.cpp" />
     <ClCompile Include="Source\Behavior.cpp" />
-    <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\ResourceRequest.cpp" />
     <ClCompile Include="Source\ResourceRequestAnswer.cpp" />
     <ClCompile Include="Source\Selector.cpp" />
@@ -130,7 +129,7 @@
     <ClInclude Include="Source\Executer.h" />
     <ClInclude Include="Source\IActuator.h" />
     <ClInclude Include="Source\IInjector.h" />
-    <ClInclude Include="Source\IResourceEditor.h" />
+    <ClInclude Include="Source\IResources.h" />
     <ClInclude Include="Source\IResourceViewer.h" />
     <ClInclude Include="Source\KnowledgeBase.h" />
     <ClInclude Include="Source\Log.h" />
@@ -143,7 +142,6 @@
     <ClInclude Include="Source\IPlanner.h" />
     <ClInclude Include="Source\ModuleType.h" />
     <ClInclude Include="Source\ResourceCommon.h" />
-    <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\ResourceRequest.h" />
     <ClInclude Include="Source\ResourceRequestAnswer.h" />
     <ClInclude Include="Source\Selector.h" />

@@ -18,7 +18,7 @@
 
 #include "Tasker.h"
 #include "SlabAllocator.h"
-#include "ModuleTypes.h"
+#include "ModuleType.h"
 
 class Module
 {

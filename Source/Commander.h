@@ -25,13 +25,17 @@
 
 #include <iostream>
 
-#include "ResourceManager.h"
+#include "IResourceViewer.h"
+#include "IResources.h"
 
 class Commander : public Module
 {
 public:
-    Commander(Tasker& tsk, std::shared_ptr<Module>* modules,
-        SlabAllocator* alloc);
+    Commander(Tasker& tsk,
+        std::shared_ptr<Module>* modules,
+        SlabAllocator* alloc,
+        ResViewer_p viewer,
+        Resources_p editor);
     ~Commander();
 
     /*
@@ -39,18 +43,11 @@ public:
     */
     void launch();
 
-    /*
-    Updates the resource budget for each module. This is for use
-    on each frame.
-    */
-    void updateBudget();
-
-    ResourceManager* getResourceManager();
-
 private:
     BWAPI::Unit m_command;
 
-    std::unique_ptr<ResourceManager> m_resources;
+    ResViewer_p m_resViewer;
+    Resources_p m_resMgr;
 
     int m_virtAccumMinerals;
     int m_virtAccumGas;

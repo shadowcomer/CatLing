@@ -92,9 +92,6 @@
     <ClCompile Include="Source\MicroManager.cpp">
       <Filter>Source Files\AI\MicroManager</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ResourceManager.cpp">
-      <Filter>Source Files\AI\Knowledge</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ResourceRequest.cpp">
       <Filter>Source Files\AI\Knowledge</Filter>
     </ClCompile>
@@ -178,9 +175,6 @@
     <ClInclude Include="Source\MicroManager.h">
       <Filter>Source Files\AI\MicroManager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ResourceManager.h">
-      <Filter>Source Files\AI\Knowledge</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ResourceRequest.h">
       <Filter>Source Files\AI\Knowledge</Filter>
     </ClInclude>
@@ -193,9 +187,6 @@
     <ClInclude Include="Source\IInjector.h">
       <Filter>Source Files\AI\Knowledge</Filter>
     </ClInclude>
-    <ClInclude Include="Source\IResourceEditor.h">
-      <Filter>Source Files\AI\Knowledge</Filter>
-    </ClInclude>
     <ClInclude Include="Source\IResourceViewer.h">
       <Filter>Source Files\AI\Knowledge</Filter>
     </ClInclude>
@@ -203,6 +194,9 @@
       <Filter>Source Files\AI</Filter>
     </ClInclude>
     <ClInclude Include="Source\ResourceCommon.h">
+      <Filter>Source Files\AI\Knowledge</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IResources.h">
       <Filter>Source Files\AI\Knowledge</Filter>
     </ClInclude>
   </ItemGroup>

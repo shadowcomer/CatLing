@@ -5,9 +5,10 @@
 using namespace BWAPI;
 
 Commander::Commander(Tasker& tsk, std::shared_ptr<Module>* modules,
-    SlabAllocator* alloc) :
-Module(tsk, modules, alloc),
-m_resources(std::make_unique<ResourceManager>())
+    SlabAllocator* alloc,
+    ResViewer_p viewer,
+    Resources_p editor) :
+Module(tsk, modules, alloc)
 {
 
 }
@@ -26,10 +27,6 @@ bool Commander::shutdownHelper()
 {
 
     return true;
-}
-
-ResourceManager* Commander::getResourceManager() {
-    return m_resources.get();
 }
 
 std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
@@ -89,10 +86,6 @@ std::unique_ptr<bt::BehaviorTree> Commander::buildGatherMinerals() {
 
     return std::move(
         std::make_unique<bt::BehaviorTree>(std::move(behaviors)));
-}
-
-void Commander::updateBudget() {
-    m_resources->updateResources();
 }
 
 int Commander::availableMinerals() {

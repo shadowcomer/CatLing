@@ -11,7 +11,7 @@
 using namespace BWAPI;
 
 MacroPlanner::MacroPlanner(SlabAllocator* alloc,
-    ResourceManager* resources) :
+    Resources_p resources) :
     m_allocator(alloc) {
     assert(nullptr != resources);
     m_resourceSource = resources;

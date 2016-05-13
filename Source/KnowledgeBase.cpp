@@ -2,6 +2,20 @@
 
 #include "BWAPI.h"
 
+KnowledgeBase::KnowledgeBase():
+    m_resourceLock(tbb::mutex()),
+    m_realMineralsAccum(0),
+    m_realGasAccum(0),
+    m_freeMinerals(m_realMineralsAccum),
+    m_freeGas(m_realGasAccum),
+    m_units(UnitList()) {
+
+}
+
+KnowledgeBase::~KnowledgeBase() {
+
+}
+
 /*
 Overrides
 */
@@ -30,64 +44,13 @@ void KnowledgeBase::updateResources() {
     }
 }
 
-
-/*************************
-IResourceEditor overrides
-**************************/
-
-bool KnowledgeBase::assignUnits(
-    ConstUnitList units, ModuleType newOwner) {
-
-    return false;
-}
-
-bool KnowledgeBase::assignMinerals(
-    unsigned int amount, ModuleType module) {
-        {
-            tbb::mutex::scoped_lock lock(m_resourceLock);
-
-            if (m_freeMinerals < amount) {
-                return false;
-            }
-
-            m_freeMinerals -= amount;
-        }
-        return true;
-}
-
-bool KnowledgeBase::assignGas(
-    unsigned int amount, ModuleType module) {
-        {
-            tbb::mutex::scoped_lock lock(m_resourceLock);
-
-            if (m_freeGas < amount) {
-                return false;
-            }
-
-            m_freeGas -= amount;
-        }
-
-        return true;
-}
-
-ConstUnitList KnowledgeBase::allUnits() {
-    return ConstUnitList{ m_units.begin(), m_units.end() };
-}
-
-unsigned int KnowledgeBase::totalMinerals() {
-    return m_realMineralsAccum;
-}
-
-unsigned int KnowledgeBase::totalGas() {
-    return m_realGasAccum;
-}
-
 /*************************
 IResourceViewer overrides
 *************************/
 
 ConstUnitList KnowledgeBase::availableUnits() {
-    // TODO: This will return every unit at the moment
+    // TODO: This should return the really available units, instead
+    // of every unit.
     return ConstUnitList{ m_units.begin(), m_units.end() };
 }
 
@@ -97,6 +60,55 @@ unsigned int KnowledgeBase::availableMinerals() {
 
 unsigned int KnowledgeBase::availableGas() {
     return m_freeGas;
+}
+
+unsigned int KnowledgeBase::assignedMinerals(ModuleType module) {
+    return 0; // TODO: Implement
+}
+
+unsigned int KnowledgeBase::assignedGas(ModuleType module) {
+    return 0; // TODO: Implement
+}
+
+/*************************
+IResources overrides
+*************************/
+
+ResourceRequestAnswer KnowledgeBase::requestResources(
+    ResourceRequest const res) {
+    ResourceRequestAnswer answer{ res };
+
+    {
+        tbb::mutex::scoped_lock lock(m_resourceLock);
+
+        // Start as always conceded, so we can easily negate it when it
+        // fails in any of the requested resources
+        answer.conceded = true;
+
+        // Concede minerals
+        if (m_freeMinerals < res.minerals) {
+            answer.missingMinerals =
+                res.minerals - m_freeMinerals;
+            answer.conceded = false;
+        }
+
+        // Concede gas
+        if (m_freeGas < res.minerals) {
+            answer.missingGas = res.gas - m_freeGas;
+            answer.conceded = false;
+        }
+
+        // Concede units
+        // Dummy: check nothing, concede everything, accept request.
+
+        // Commit resources
+        if (answer.conceded) {
+            m_freeMinerals -= res.minerals;
+            m_freeGas -= res.gas;
+        }
+    }
+
+    return answer;
 }
 
 /*

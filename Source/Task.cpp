@@ -234,7 +234,7 @@ Task* TSelectBuilder::clone() const {
 
 
 TRequestResources::TRequestResources(
-    ResourceRequest rq, ResourceManager* mgr) :
+    ResourceRequest rq, Resources_p mgr) :
     m_request(rq),
     m_manager(mgr) {
     assert(nullptr != m_manager);
